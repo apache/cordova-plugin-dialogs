@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
+id="org.apache.cordova.core.Notification" version="0.1.0">
+    <name>Notification</name>
+<!--
+    <js-module src="www/notification.js" name="notification">
+        <clobbers target="navigator.notification" />
+    </js-module>
+-->
+    <!-- blackberry10 -->
+    <platform name="blackberry10">
+        <source-file src="src/blackberry10/index.js" target-dir="Notification" />
+        <config-file target="www/config.xml" parent="/widget">
+            <feature name="Notification" value="Notification"/>
+        </config-file>
+    </platform>
+
+</plugin>
