@@ -32,7 +32,6 @@ import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Vibrator;
 import android.widget.EditText;
 
 /**
@@ -61,9 +60,6 @@ public class Notification extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("beep")) {
             this.beep(args.getLong(0));
-        }
-        else if (action.equals("vibrate")) {
-            this.vibrate(args.getLong(0));
         }
         else if (action.equals("alert")) {
             this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
@@ -128,20 +124,6 @@ public class Notification extends CordovaPlugin {
                 }
             }
         }
-    }
-
-    /**
-     * Vibrates the device for the specified amount of time.
-     *
-     * @param time      Time to vibrate in ms.
-     */
-    public void vibrate(long time) {
-        // Start the vibration, 0 defaults to half a second.
-        if (time == 0) {
-            time = 500;
-        }
-        Vibrator vibrator = (Vibrator) this.cordova.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(time);
     }
 
     /**

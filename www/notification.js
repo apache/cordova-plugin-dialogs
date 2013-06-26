@@ -98,15 +98,6 @@ module.exports = {
     },
 
     /**
-     * Causes the device to vibrate.
-     *
-     * @param {Integer} mills       The number of milliseconds to vibrate for.
-     */
-    vibrate: function(mills) {
-        exec(null, null, "Notification", "vibrate", [mills]);
-    },
-
-    /**
      * Causes the device to beep.
      * On Android, the default notification ringtone is played "count" times.
      *
