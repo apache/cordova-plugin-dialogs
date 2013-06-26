@@ -117,15 +117,14 @@
     [self.commandDelegate sendPluginResult:result callbackId:cdvAlertView.callbackId];
 }
 
-- (void)vibrate:(CDVInvokedUrlCommand*)command
-{
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-}
-
 static void playBeep(int count) {
     SystemSoundID completeSound;
     NSURL* audioPath = [[NSBundle mainBundle] URLForResource:@"CDVNotification.bundle/beep" withExtension:@"wav"];
-    AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
+    #if __has_feature(objc_arc)
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
+    #else
+        AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
+    #endif
     AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(count-1));
     AudioServicesPlaySystemSound(completeSound);
 }
