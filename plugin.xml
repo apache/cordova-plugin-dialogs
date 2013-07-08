@@ -57,6 +57,8 @@
         </config-file>
 
         <source-file src="src/wp/Notification.cs" />
+        <source-file src="src/wp/NotificationBox.xaml.cs" />
+        <source-file src="src/wp/NotificationBox.xaml" />
     </platform>
 
     <!-- wp8 -->
@@ -68,6 +70,8 @@
         </config-file>
 
         <source-file src="src/wp/Notification.cs" />
+        <source-file src="src/wp/NotificationBox.xaml.cs" />
+        <source-file src="src/wp/NotificationBox.xaml" />
     </platform>
 
 </plugin>
