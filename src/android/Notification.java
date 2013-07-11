@@ -27,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
