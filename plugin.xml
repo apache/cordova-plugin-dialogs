@@ -59,6 +59,7 @@
         <source-file src="src/wp/Notification.cs" />
         <source-file src="src/wp/NotificationBox.xaml.cs" />
         <source-file src="src/wp/NotificationBox.xaml" />
+        <source-file src="src/wp/notification-beep.wav" />
     </platform>
 
     <!-- wp8 -->
@@ -72,6 +73,7 @@
         <source-file src="src/wp/Notification.cs" />
         <source-file src="src/wp/NotificationBox.xaml.cs" />
         <source-file src="src/wp/NotificationBox.xaml" />
+        <source-file src="src/wp/notification-beep.wav" />
     </platform>
 
 </plugin>
