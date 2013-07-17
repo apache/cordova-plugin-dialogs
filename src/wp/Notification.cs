@@ -27,7 +27,7 @@ using System.Diagnostics;
 
 namespace WPCordovaClassLib.Cordova.Commands
 {
-    public class NotificationDialogs : BaseCommand
+    public class Notification : BaseCommand
     {
         static ProgressBar progressBar = null;
         const int DEFAULT_DURATION = 5;
