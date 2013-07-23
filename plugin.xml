@@ -37,7 +37,7 @@
         <header-file src="src/ios/CDVNotification.h" />
 	    <source-file src="src/ios/CDVNotification.m" />
 	    <resource-file src="src/ios/CDVNotification.bundle" />
-	            
+		<framework src="AudioToolbox.framework" weak="true" />	            
     </platform>
 
     <!-- blackberry10 -->
