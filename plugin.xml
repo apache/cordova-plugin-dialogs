@@ -76,4 +76,11 @@
         <source-file src="src/wp/notification-beep.wav" />
     </platform>
 
+    <!-- windows8 -->
+    <platform name="windows8">
+        <js-module src="src/windows8/NotificationProxy.js" name="NotificationProxy">
+            <merges target="" />
+        </js-module>
+    </platform>
+
 </plugin>
