@@ -4,7 +4,10 @@
            id="org.apache.cordova.core.dialogs"
       version="0.1.0">
 
-    <name>notification</name>
+    <name>Notification</name>
+    <description>Cordova Notification Plugin</description>
+    <license>Apache</license>
+    <keywords>cordova,notification</keywords>
 
     <js-module src="www/notification.js" name="notification">
         <merges target="navigator.notification" />
