@@ -6,7 +6,7 @@
 
     <name>Notification</name>
     <description>Cordova Notification Plugin</description>
-    <license>Apache</license>
+    <license>Apache 2.0</license>
     <keywords>cordova,notification</keywords>
 
     <js-module src="www/notification.js" name="notification">
