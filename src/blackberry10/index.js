@@ -83,9 +83,5 @@ module.exports = {
         } else {
             showDialog(args, "JavaScriptPrompt", result);
         }
-    },
-    beep: function (success, fail, args, env) {
-        var result = new PluginResult(args, env);
-        result.error("Beep not supported");
     }
 };
