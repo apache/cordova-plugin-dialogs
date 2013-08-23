@@ -20,18 +20,18 @@
                 <param name="android-package" value="org.apache.cordova.dialogs.Notification"/>
             </feature>
         </config-file>
-        
+
         <source-file src="src/android/Notification.java" target-dir="src/org/apache/cordova/dialogs" />
 
         <!-- android specific notification apis -->
         <js-module src="www/android/notification.js" name="notification_android">
             <merges target="navigator.notification" />
         </js-module>
-        
+
     </platform>
 
     <!-- ios -->
-    <platform name="ios">    
+    <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="Notification">
                 <param name="ios-package" value="CDVNotification"/>
@@ -40,7 +40,7 @@
         <header-file src="src/ios/CDVNotification.h" />
 	    <source-file src="src/ios/CDVNotification.m" />
 	    <resource-file src="src/ios/CDVNotification.bundle" />
-		<framework src="AudioToolbox.framework" weak="true" />	            
+		<framework src="AudioToolbox.framework" weak="true" />
     </platform>
 
     <!-- blackberry10 -->
@@ -49,6 +49,9 @@
         <config-file target="www/config.xml" parent="/widget">
             <feature name="Notification" value="Notification"/>
         </config-file>
+        <js-module src="www/blackberry10/beep.js" name="beep">
+            <clobbers target="window.navigator.notification.beep" />
+        </js-module>
     </platform>
 
     <!-- wp7 -->
