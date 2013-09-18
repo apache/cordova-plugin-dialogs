@@ -13,6 +13,19 @@
         <merges target="navigator.notification" />
     </js-module>
 
+    <!-- firefoxos -->
+    <platform name="firefoxos">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Dialogs">
+                <param name="firefoxos-package" value="Dialogs" />
+            </feature>
+        </config-file>                                         
+        
+        <js-module src="src/firefoxos/dialogs.js" name="dialogs-impl">
+          <runs />
+        </js-module>
+    </platform>
+
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
