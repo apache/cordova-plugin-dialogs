@@ -16,12 +16,13 @@
     <!-- firefoxos -->
     <platform name="firefoxos">
         <config-file target="config.xml" parent="/*">
-            <feature name="Dialogs">
-                <param name="firefoxos-package" value="Dialogs" />
+            <feature name="Notification">
+                <param name="firefoxos-package" value="Notification" />
             </feature>
         </config-file>                                         
         
-        <js-module src="src/firefoxos/dialogs.js" name="dialogs-impl">
+		<asset src="www/firefoxos/notification.css" target="css/notification.css" />
+        <js-module src="src/firefoxos/notification.js" name="dialogs-impl">
           <runs />
         </js-module>
     </platform>
