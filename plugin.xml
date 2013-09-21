@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-           id="org.apache.cordova.core.dialogs"
-      version="0.2.1-dev">
+           id="org.apache.cordova.dialogs"
+      version="0.2.1">
 
     <name>Notification</name>
     <description>Cordova Notification Plugin</description>
