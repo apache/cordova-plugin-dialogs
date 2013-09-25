@@ -114,4 +114,4 @@ module.exports = {
     }
 };
 
-require("cordova/commandProxy").add("Notification",module.exports);
+require("cordova/windows8/commandProxy").add("Notification",module.exports);
