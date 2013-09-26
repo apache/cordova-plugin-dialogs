@@ -20,4 +20,11 @@
 -->
 # Release Notes
 
-
+### 0.2.2 (Sept 25, 2013)
+* CB-4889 bumping&resetting version
+* [windows8] commandProxy was moved
+* CB-4889 renaming reference in Notification.cs
+* CB-4889 renaming org.apache.cordova.core.dialogs to org.apache.cordova.dialogs
+* Rename CHANGELOG.md -> RELEASENOTES.md
+* [CB-4592] [Blackberry10] Added beep support
+* [CB-4752] Incremented plugin version on dev branch.
