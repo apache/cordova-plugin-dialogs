@@ -83,6 +83,13 @@
         <resource-file src="src/ubuntu/notification.qml" />
     </platform>
 
+    <!-- ubuntu -->
+    <platform name="ubuntu">
+        <header-file src="src/ubuntu/notification.h" />
+        <source-file src="src/ubuntu/notification.cpp" />
+        <resource-file src="src/ubuntu/notification.qml" />
+    </platform>
+
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
