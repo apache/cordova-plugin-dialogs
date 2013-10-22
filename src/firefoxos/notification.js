@@ -4,38 +4,57 @@ var firefoxos = require('cordova/platform');
 function _empty() {}
 
 function modal(message, callback, title, buttonLabels, domObjects) {
+    /*
+      <form role="dialog">
+          <section>
+              <h1>Some Title</h1>
+              <p>Can't find a proper question for that ...</p>
+          </section>
+          <menu>
+              <button>Cancel</button>
+              <button class="danger">Delete</button>
+              <button class="recommend">Recommend</button>
+              <button>Standard</button>
+          </menu>
+      </form>
+     */
     // create a modal window
-    var box = document.createElement('div');
-    box.classList.add('fxos-modal-window');
+    var box = document.createElement('form');
+    box.setAttribute('role', 'dialog');
+    // prepare and append empty section
+    var section = document.createElement('section');
+    box.appendChild(section);
     // add title
-    if (title) {
-        var boxtitle = document.createElement('h3');
-        boxtitle.appendChild(document.createTextNode(title));
-        box.appendChild(boxtitle);
-    }
+    var boxtitle = document.createElement('h1');
+    boxtitle.appendChild(document.createTextNode(title));
+    section.appendChild(boxtitle);
     // add message
     var boxMessage = document.createElement('p');
     boxMessage.appendChild(document.createTextNode(message));
-    box.appendChild(boxMessage);
+    section.appendChild(boxMessage);
     // inject what's needed
     if (domObjects) {
-        box.appendChild(domObjects);
+        section.appendChild(domObjects);
     }
     // add buttons and assign callbackButton on click
+    var menu = document.createElement('menu');
+    box.appendChild(menu);
     for (var index = 0; index < buttonLabels.length; index++) {
-        // TODO: first button is the default one (listens to Enter
-        // key)
         // TODO: last button listens to the cancel key
-        addButton(buttonLabels[index], index);
+        addButton(buttonLabels[index], index, (index === 0));
     }
     document.body.appendChild(box);
 
-    function addButton(label, index) {
+    function addButton(label, index, recommended) {
         var button = document.createElement('button');
         button.appendChild(document.createTextNode(label));
         button.labelIndex = index;
         button.addEventListener('click', callbackButton, false);
-        box.appendChild(button);
+        if (recommended) {
+          // TODO: default one listens to Enter key
+          button.classList.add('recommend');
+        }
+        menu.appendChild(button);
     }
 
     // call callback and destroy modal
