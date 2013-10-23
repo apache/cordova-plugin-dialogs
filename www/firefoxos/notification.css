@@ -1,12 +1,8 @@
-/* ----------------------------------
- * Confirm
- * ---------------------------------- */
-
 /* Main dialog setup */
 form[role="dialog"] {
   background:
-    url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/pattern.png) repeat left top,
-    url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/gradient.png) no-repeat left top / 100% 100%;
+    url(../img/pattern.png) repeat left top,
+    url(../img/gradient.png) no-repeat left top / 100% 100%;
   overflow: hidden;
   position: absolute;
   z-index: 100;
@@ -62,7 +58,7 @@ form[role="dialog"] menu {
   padding: 1.5rem;
   padding-bottom: 0.5rem;
   border-top: solid 0.1rem rgba(255, 255, 255, 0.1);
-  background: #2d2d2d url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/pattern.png) repeat left top;
+  background: #2d2d2d url(../img/pattern.png) repeat left top;
   display: block;
   overflow: hidden;
   position: absolute;
@@ -87,7 +83,7 @@ form[role="dialog"] menu button {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  background: #fafafa url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/default.png) repeat-x left bottom/ auto 100%;
+  background: #fafafa url(../img/default.png) repeat-x left bottom/ auto 100%;
   border: 0.1rem solid #a6a6a6;
   border-radius: 0.3rem;
   font: 500 1.6rem/3.8rem 'MozTT', Sans-serif;
@@ -108,7 +104,7 @@ a.recommend[role="button"]:active  {
 
 /* Recommend */
 form[role="dialog"] menu button.recommend {
-  background-image: url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/recommend.png);
+  background-image: url(../img/recommend.png);
   background-color: #00caf2;
   border-color: #008eab;
 }
@@ -116,7 +112,7 @@ form[role="dialog"] menu button.recommend {
 /* Danger */
 form[role="dialog"] menu button.danger,
 a.danger[role="button"] {
-  background-image: url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/danger.png);
+  background-image: url(../img/danger.png);
   background-color: #b70404;
   color: #fff;
   text-shadow: none;
@@ -125,7 +121,7 @@ a.danger[role="button"] {
 
 /* Danger Press */
 form[role="dialog"] menu button.danger:active {
-  background-image: url(https://raw.github.com/arcturus/firefox-os-notifications/master/style/confirm/images/ui/danger-press.png);
+  background-image: url(../img/danger-press.png);
   background-color: #890707;
 }
 
