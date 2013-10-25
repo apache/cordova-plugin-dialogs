@@ -1,6 +1,3 @@
-
-var firefoxos = require('cordova/platform');
-
 function _empty() {}
 
 function modal(message, callback, title, buttonLabels, domObjects) {
@@ -96,4 +93,5 @@ var Notification = {
     }
 };
 
-firefoxos.registerPlugin('Notification', Notification);
+module.exports = Notification;
+require('cordova/firefoxos/commandProxy').add('Notification', Notification);
