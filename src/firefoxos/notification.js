@@ -65,16 +65,26 @@ var Notification = {
     vibrate: function(milliseconds) {
         navigator.vibrate(milliseconds);
     },
-    alert: function(successCallback, errorCallback, message, title, buttonName) {
+    alert: function(successCallback, errorCallback, args) {
+        var message = args[0];
+        var title = args[1];
+        var _buttonLabels = [args[2]];
         var _callback = (successCallback || _empty);
-        var _buttonLabels = [buttonName];
         modal(message, _callback, title, _buttonLabels);
     },
-    confirm: function(successCallback, errorCallback, message, title, buttonLabels) {
+    confirm: function(successCallback, errorCallback, args) {
+        var message = args[0];
+        var title = args[1];
+        var buttonLabels = args[2];
         var _callback = (successCallback || _empty);
         modal(message, _callback, title, buttonLabels);
     },
-    prompt: function(successCallback, errorCallback, message, title, buttonLabels, defaultText) {
+    prompt: function(successCallback, errorCallback, args) {
+        console.log(args);
+        var message = args[0];
+        var title = args[1];
+        var buttonLabels = args[2];
+        var defaultText = args[3];
         var _tempcallback = (successCallback || _empty);
         function _callback(labelIndex) {
             var content = document.getElementById('prompt-input').value;
