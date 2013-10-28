@@ -28,3 +28,16 @@
 * Rename CHANGELOG.md -> RELEASENOTES.md
 * [CB-4592] [Blackberry10] Added beep support
 * [CB-4752] Incremented plugin version on dev branch.
+
+ ### 0.2.3 (Oct 28, 2013)
+* CB-5128: added repo + issue tag to plugin.xml for dialogs plugin
+* new plugin execute arguments supported
+* new plugin style
+* smaller fonts styling input
+* img files copied inside plugin
+* style added
+* prompt added
+* styling from James
+* fixed "exec" calls addedd css, but not working yet
+* first (blind) try
+* [CB-4915] Incremented plugin version on dev branch.
