@@ -2,16 +2,38 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="org.apache.cordova.dialogs"
-      version="0.2.2">
+      version="0.2.3">
 
     <name>Notification</name>
     <description>Cordova Notification Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,notification</keywords>
+    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git</repo>
+    <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
 
     <js-module src="www/notification.js" name="notification">
         <merges target="navigator.notification" />
     </js-module>
+
+    <!-- firefoxos -->
+    <platform name="firefoxos">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Notification">
+                <param name="firefoxos-package" value="Notification" />
+            </feature>
+        </config-file>                                         
+        
+		<asset src="www/firefoxos/notification.css" target="css/notification.css" />
+		<asset src="www/firefoxos/danger-press.png" target="css/danger-press.png" />
+		<asset src="www/firefoxos/danger.png" target="css/danger.png" />
+		<asset src="www/firefoxos/default.png" target="css/default.png" />
+		<asset src="www/firefoxos/gradient.png" target="css/gradient.png" />
+		<asset src="www/firefoxos/pattern.png" target="css/pattern.png" />
+		<asset src="www/firefoxos/recommend.png" target="css/recommend.png" />
+        <js-module src="src/firefoxos/notification.js" name="dialogs-impl">
+          <runs />
+        </js-module>
+    </platform>
 
     <!-- android -->
     <platform name="android">
