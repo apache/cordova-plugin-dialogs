@@ -252,7 +252,7 @@ namespace WPCordovaClassLib.Cordova.Commands
             string[] args = JSON.JsonHelper.Deserialize<string[]>(options);
             int times = int.Parse(args[0]);
 
-            string resourcePath = BaseCommand.GetBaseURL() + "Plugins/org.apache.cordova.dialogs/notification-beep.wav";
+            string resourcePath = "Plugins/org.apache.cordova.dialogs/notification-beep.wav";
 
             StreamResourceInfo sri = Application.GetResourceStream(new Uri(resourcePath, UriKind.Relative));
 
