@@ -93,24 +93,27 @@ module.exports = {
     },
 
     beep:function(winX, loseX, args) {
-        var count = args[0];
-        /*
-        var src = //filepath//
-        var playTime = 500; // ms
-        var quietTime = 1000; // ms
-        var media = new Media(src, function(){});
-        var hit = 1;
-        var intervalId = window.setInterval( function () {
-            media.play();
-            sleep(playTime);
-            media.stop();
-            media.seekTo(0);
-            if (hit < count) {
-                hit++;
+
+        // set a default args if it is not set
+        args = args && args.length ? args : ["1"];
+
+        var snd = new Audio('ms-winsoundevent:Notification.Default');
+        var count = parseInt(args[0]) || 1;
+        snd.msAudioCategory = "Alerts";
+
+        var onEvent = function () {
+            if (count > 0) {
+                snd.play();
             } else {
-                window.clearInterval(intervalId);
+                snd.removeEventListener("ended", onEvent);
+                snd = null;
+                winX && winX(); // notification.js just sends null, but this is future friendly
             }
-        }, playTime + quietTime); */
+            count--;
+        };
+        snd.addEventListener("ended", onEvent);
+        onEvent();
+
     }
 };
 
