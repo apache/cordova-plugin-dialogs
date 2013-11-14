@@ -51,6 +51,23 @@
         </js-module>
 
     </platform>
+    
+     <!-- amazon-fireos -->
+    <platform name="amazon-fireos">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Notification">
+                <param name="android-package" value="org.apache.cordova.dialogs.Notification"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/Notification.java" target-dir="src/org/apache/cordova/dialogs" />
+
+        <!-- android specific notification apis -->
+        <js-module src="www/android/notification.js" name="notification_android">
+            <merges target="navigator.notification" />
+        </js-module>
+
+    </platform>
 
     <!-- ios -->
     <platform name="ios">
