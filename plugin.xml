@@ -111,4 +111,11 @@
         </js-module>
     </platform>
 
+    <!-- tizen -->
+    <platform name="tizen">
+        <asset src="www/tizen/notification.css" target="css/notification.css" />
+        <js-module src="src/tizen/NotificationProxy.js" name="NotificationProxy">
+            <runs />
+        </js-module>
+    </platform>
 </plugin>
