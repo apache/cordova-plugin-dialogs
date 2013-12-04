@@ -41,3 +41,9 @@
 * fixed "exec" calls addedd css, but not working yet
 * first (blind) try
 * [CB-4915] Incremented plugin version on dev branch.
+
+ 
+### 0.2.4 (Dec 4, 2013)
+* add ubuntu platform
+* 1. Added amazon-fireos platform. 2. Change to use amazon-fireos as a platform if user agent string contains 'cordova-amazon-fireos'.
+* added beep funtionality using ms-winsoundevent:Notfication.Default
