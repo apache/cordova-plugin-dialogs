@@ -87,6 +87,22 @@ namespace WPCordovaClassLib.Cordova.Commands
             public string buttonLabel;
         }
 
+        [DataContract]
+        public class PromptResult
+        {
+            [DataMember]
+            public int buttonIndex;
+
+            [DataMember]
+            public string input1;
+
+            public PromptResult(int index, string text)
+            {
+                this.buttonIndex = index;
+                this.input1 = text;
+            }
+        }
+
         public void alert(string options)
         {
             string[] args = JSON.JsonHelper.Deserialize<string[]>(options);
@@ -117,6 +133,56 @@ namespace WPCordovaClassLib.Cordova.Commands
                         grid.Children.Add(notifyBox);
 
                         if (previous == null)
+                        {
+                            page.BackKeyPress += page_BackKeyPress;
+                        }
+                    }
+                }
+                else
+                {
+                    DispatchCommandResult(new PluginResult(PluginResult.Status.INSTANTIATION_EXCEPTION));
+                }
+            });
+        }
+
+        public void prompt(string options)
+        {
+            string[] args = JSON.JsonHelper.Deserialize<string[]>(options);
+            string message = args[0];
+            string title = args[1];
+            string buttonLabelsArray = args[2];
+            string[] buttonLabels = JSON.JsonHelper.Deserialize<string[]>(buttonLabelsArray);
+            string defaultText = args[3];
+            string aliasCurrentCommandCallbackId = args[4];
+
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                PhoneApplicationPage page = Page;
+                if (page != null)
+                {
+                    Grid grid = page.FindName("LayoutRoot") as Grid;
+                    if (grid != null)
+                    {
+                        var previous = notifyBox;
+                        notifyBox = new NotificationBox();
+                        notifyBox.Tag = new NotifBoxData { previous = previous, callbackId = aliasCurrentCommandCallbackId };
+                        notifyBox.PageTitle.Text = title;
+                        notifyBox.SubTitle.Text = message;
+                        TextBox textBox = new TextBox();
+                        textBox.Text = defaultText;
+                        notifyBox.TitlePanel.Children.Add(textBox);
+
+                        for (int i = 0; i < buttonLabels.Length; ++i)
+                        {
+                            Button button = new Button();
+                            button.Content = buttonLabels[i];
+                            button.Tag = i + 1;
+                            button.Click += promptBoxbutton_Click;
+                            notifyBox.TitlePanel.Children.Add(button);
+                        }
+
+                        grid.Children.Add(notifyBox);
+                        if (previous != null)
                         {
                             page.BackKeyPress += page_BackKeyPress;
                         }
@@ -180,6 +246,53 @@ namespace WPCordovaClassLib.Cordova.Commands
                     DispatchCommandResult(new PluginResult(PluginResult.Status.INSTANTIATION_EXCEPTION));
                 }
             });
+        }
+
+        void promptBoxbutton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            FrameworkElement promptBox = null;
+            int buttonIndex = 0;
+            string callbackId = string.Empty;
+            string text = string.Empty;
+            if (button != null)
+            {
+                buttonIndex = (int)button.Tag;
+                promptBox = button.Parent as FrameworkElement;
+                while ((promptBox = promptBox.Parent as FrameworkElement) != null &&
+                       !(promptBox is NotificationBox)) ;
+            }
+
+            if (promptBox != null)
+            {
+                foreach (UIElement element in (promptBox as NotificationBox).TitlePanel.Children)
+                {
+                    if (element is TextBox)
+                    {
+                        text = (element as TextBox).Text;
+                        break;
+                    }
+                }
+                PhoneApplicationPage page = Page;
+                if (page != null)
+                {
+                    Grid grid = page.FindName("LayoutRoot") as Grid;
+                    if (grid != null)
+                    {
+                        grid.Children.Remove(promptBox);
+                    }
+
+                    NotifBoxData data = promptBox.Tag as NotifBoxData;
+                    promptBox = data.previous as NotificationBox;
+                    callbackId = data.callbackId as string;
+
+                    if (promptBox == null)
+                    {
+                        page.BackKeyPress -= page_BackKeyPress;
+                    }
+                }
+            }
+            DispatchCommandResult(new PluginResult(PluginResult.Status.OK, new PromptResult(buttonIndex, text)), callbackId);
         }
 
         void page_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
