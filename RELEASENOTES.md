@@ -47,3 +47,9 @@
 * add ubuntu platform
 * 1. Added amazon-fireos platform. 2. Change to use amazon-fireos as a platform if user agent string contains 'cordova-amazon-fireos'.
 * added beep funtionality using ms-winsoundevent:Notfication.Default
+
+### 0.2.5 (Jan 02, 2014)
+* CB-4696 Fix compile error for Xcode 4.5.
+* CB-5658 Add doc/index.md for Dialogs plugin
+* CB-3762 Change prompt default to empty string
+* Move images from css to img
