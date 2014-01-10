@@ -27,10 +27,9 @@ This plugin provides access to some native dialog UI elements.
 
 ### Firefox OS Quirks
 
-Edit generated __platforms/firefoxos/www/manifest.webapp__ and add permissions field as 
-described in [Manifest Docs](https://developer.mozilla.org/en-US/Apps/Developing/Manifest#permissions).
-__WARNING__: There is currently a need to repeat this step every time the code 
-is prepared
+Create __www/manifest.webapp__ as described in 
+[Manifest Docs](https://developer.mozilla.org/en-US/Apps/Developing/Manifest).
+Add permisions: 
 
     "permissions": {
         "desktop-notification": {
