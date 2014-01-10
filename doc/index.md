@@ -25,6 +25,23 @@ This plugin provides access to some native dialog UI elements.
 
     cordova plugin add org.apache.cordova.dialogs
 
+### Firefox OS Quirks
+
+Edit generated __platforms/firefoxos/www/manifest.webapp__ and add permissions field as 
+described in [Manifest Docs](https://developer.mozilla.org/en-US/Apps/Developing/Manifest#permissions).
+__WARNING__: There is currently a need to repeat this step every time the code 
+is prepared
+
+    "permissions": {
+        "desktop-notification": {
+			"description": "Describe why you need to enable notifications"
+		}
+	}
+
+Edit __www/index.html__ and add following in `head` section:
+
+	<link rel="stylesheet" type="text/css" href="css/notification.css" />
+
 ## Methods
 
 - `navigator.notification.alert`
@@ -67,6 +84,7 @@ function, which is typically less customizable.
 - Amazon Fire OS
 - Android
 - BlackBerry 10
+- Firefox OS
 - iOS
 - Tizen
 - Windows Phone 7 and 8
@@ -80,6 +98,9 @@ function, which is typically less customizable.
 
 - Both `alert` and `confirm` are non-blocking calls, results of which are only available asynchronously.
 
+### Firefox OS Quirks:
+
+Both native-blocking `window.alert()` and non-blocking `navigator.notification.alert()` are available.
 
 ## navigator.notification.confirm
 
@@ -123,6 +144,7 @@ indexing, so the value is `1`, `2`, `3`, etc.
 - Amazon Fire OS
 - Android
 - BlackBerry 10
+- Firefox OS
 - iOS
 - Tizen
 - Windows Phone 7 and 8
@@ -136,6 +158,9 @@ indexing, so the value is `1`, `2`, `3`, etc.
 
 - Calls to `alert` and `confirm` are non-blocking, so the result is only available asynchronously.
 
+### Firefox OS Quirks:
+
+Both native-blocking `window.confirm()` and non-blocking `navigator.notification.confirm()` are available.
 
 ## navigator.notification.prompt
 
@@ -181,6 +206,7 @@ contains the following properties:
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 
 ### Android Quirks
@@ -188,6 +214,10 @@ contains the following properties:
 - Android supports a maximum of three buttons, and ignores any more than that.
 
 - On Android 3.0 and later, buttons are displayed in reverse order for devices that use the Holo theme.
+
+### Firefox OS Quirks:
+
+Both native-blocking `window.prompt()` and non-blocking `navigator.notification.prompt()` are available.
 
 ## navigator.notification.beep
 
