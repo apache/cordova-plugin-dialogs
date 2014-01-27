@@ -45,7 +45,7 @@ function modal(message, callback, title, buttonLabels, domObjects) {
     function addButton(label, index, recommended) {
         var button = document.createElement('button');
         button.appendChild(document.createTextNode(label));
-        button.labelIndex = index;
+        button.labelIndex = index + 1;
         button.addEventListener('click', callbackButton, false);
         if (recommended) {
           // TODO: default one listens to Enter key
@@ -56,7 +56,17 @@ function modal(message, callback, title, buttonLabels, domObjects) {
 
     // call callback and destroy modal
     function callbackButton() {
-        callback(this.labelIndex);
+        var promptInput = document.getElementById('prompt-input');
+        var promptValue;
+        var response;
+        if (promptInput) {
+            response = {
+                input1: promptInput.value,
+                buttonIndex: this.labelIndex
+            }
+        }
+        response = response || this.labelIndex;
+        callback(response);
         box.parentNode.removeChild(box);
     }
 }
@@ -80,16 +90,15 @@ var Notification = {
         modal(message, _callback, title, buttonLabels);
     },
     prompt: function(successCallback, errorCallback, args) {
-        console.log(args);
         var message = args[0];
         var title = args[1];
         var buttonLabels = args[2];
         var defaultText = args[3];
-        var _tempcallback = (successCallback || _empty);
-        function _callback(labelIndex) {
-            var content = document.getElementById('prompt-input').value;
-            successCallback(labelIndex, content);
-        }
+        var _callback = (successCallback || _empty);
+        // function _callback(labelIndex) {
+        //     console.log(content);
+        //     successCallback(labelIndex, content);
+        // }
         var inputParagraph = document.createElement('p');
         inputParagraph.classList.add('input');
         var inputElement = document.createElement('input');
