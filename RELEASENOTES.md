@@ -53,3 +53,7 @@
 * CB-5658 Add doc/index.md for Dialogs plugin
 * CB-3762 Change prompt default to empty string
 * Move images from css to img
+
+### 0.2.6 (Feb 05, 2014)
+* no need to recreate the manifest.webapp file after each `cordova prepare` for FFOS
+* FFOS description added
