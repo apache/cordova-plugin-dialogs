@@ -27,19 +27,7 @@ This plugin provides access to some native dialog UI elements.
 
 ### Firefox OS Quirks
 
-Create __www/manifest.webapp__ as described in 
-[Manifest Docs](https://developer.mozilla.org/en-US/Apps/Developing/Manifest).
-Add permisions: 
-
-    "permissions": {
-        "desktop-notification": {
-			"description": "Describe why you need to enable notifications"
-		}
-	}
-
-Edit __www/index.html__ and add following in `head` section:
-
-	<link rel="stylesheet" type="text/css" href="css/notification.css" />
+`/css/` and `/img/` directories will be created
 
 ## Methods
 
