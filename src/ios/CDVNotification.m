@@ -49,7 +49,7 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
 
     alertView.callbackId = callbackId;
 
-    int count = [buttons count];
+    NSUInteger count = [buttons count];
 
     for (int n = 0; n < count; n++) {
         [alertView addButtonWithTitle:[buttons objectAtIndex:n]];
@@ -106,7 +106,7 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
     // Determine what gets returned to JS based on the alert view type.
     if (alertView.alertViewStyle == UIAlertViewStyleDefault) {
         // For alert and confirm, return button index as int back to JS.
-        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:buttonIndex + 1];
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)(buttonIndex + 1)];
     } else {
         // For prompt, return button index and input text back to JS.
         NSString* value0 = [[alertView textFieldAtIndex:0] text];
@@ -121,13 +121,14 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
 
 static void playBeep(int count) {
     SystemSoundID completeSound;
+    NSInteger cbDataCount = count;
     NSURL* audioPath = [[NSBundle mainBundle] URLForResource:@"CDVNotification.bundle/beep" withExtension:@"wav"];
     #if __has_feature(objc_arc)
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
     #else
         AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
     #endif
-    AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(count-1));
+    AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(cbDataCount-1));
     AudioServicesPlaySystemSound(completeSound);
 }
 
