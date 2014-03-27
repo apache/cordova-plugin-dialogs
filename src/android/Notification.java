@@ -139,7 +139,7 @@ public class Notification extends CordovaPlugin {
         Runnable runnable = new Runnable() {
             public void run() {
 
-                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
+                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
@@ -181,7 +181,7 @@ public class Notification extends CordovaPlugin {
 
         Runnable runnable = new Runnable() {
             public void run() {
-                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
+                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
@@ -259,7 +259,7 @@ public class Notification extends CordovaPlugin {
        
         Runnable runnable = new Runnable() {
             public void run() {
-                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
+                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
@@ -387,7 +387,7 @@ public class Notification extends CordovaPlugin {
         final CordovaInterface cordova = this.cordova;
         Runnable runnable = new Runnable() {
             public void run() {
-                notification.progressDialog = new ProgressDialog(cordova.getActivity());
+                notification.progressDialog = new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 notification.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 notification.progressDialog.setTitle(title);
                 notification.progressDialog.setMessage(message);
