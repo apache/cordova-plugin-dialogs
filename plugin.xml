@@ -98,6 +98,7 @@
         <js-module src="www/blackberry10/beep.js" name="beep">
             <clobbers target="window.navigator.notification.beep" />
         </js-module>
+        <source-file src="www/blackberry10/notification-beep.wav" />
     </platform>
 
     <!-- wp7 -->
