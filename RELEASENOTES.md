@@ -57,3 +57,11 @@
 ### 0.2.6 (Feb 05, 2014)
 * no need to recreate the manifest.webapp file after each `cordova prepare` for FFOS
 * FFOS description added
+
+### 0.2.7 (Apr 17, 2014)
+* CB-6212: [iOS] fix warnings compiled under arm64 64-bit
+* CB-6411: [BlackBerry10] Work around Audio playback issue
+* CB-6411: [BlackBerry10] Updates to beep
+* CB-6422: [windows8] use cordova/exec/proxy
+* CB-6460: Update license headers
+* Add NOTICE file
