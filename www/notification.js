@@ -63,7 +63,7 @@ module.exports = {
         // Some platforms take an array of button label names.
         // Other platforms take a comma separated list.
         // For compatibility, we convert to the desired type based on the platform.
-        if (platform.id == "android" || platform.id == "ios" || platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu") {
+        if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" || platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu") {
 
             if (typeof _buttonLabels === 'string') {
                 var buttonLabelString = _buttonLabels;

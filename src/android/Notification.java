@@ -260,11 +260,11 @@ public class Notification extends CordovaPlugin {
     public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
   	
         final CordovaInterface cordova = this.cordova;
-        final EditText promptInput =  new EditText(cordova.getActivity());
-        promptInput.setHint(defaultText);
        
         Runnable runnable = new Runnable() {
             public void run() {
+                final EditText promptInput =  new EditText(cordova.getActivity());
+                promptInput.setHint(defaultText);
                 AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
                 dlg.setMessage(message);
                 dlg.setTitle(title);
