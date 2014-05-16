@@ -191,6 +191,7 @@ contains the following properties:
 - Android
 - Firefox OS
 - iOS
+- Windows Phone 7 and 8
 
 ### Android Quirks
 
