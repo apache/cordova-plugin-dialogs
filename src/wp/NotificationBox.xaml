@@ -27,36 +27,53 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="800" d:DesignWidth="480" VerticalAlignment="Stretch">
 
-    <Grid x:Name="LayoutRoot" 
-          Background="{StaticResource PhoneSemitransparentBrush}" VerticalAlignment="Stretch">
-        
+   <!--TitlePanel contains the name of the application and page title-->
+    <Grid x:Name="LayoutRoot"
+          Background="{StaticResource PhoneSemitransparentBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" 
-                    Grid.Row="0" 
-                    Background="{StaticResource PhoneSemitransparentBrush}">
+        <Grid x:Name="TitlePanel" 
+            Grid.Row="0"
+            VerticalAlignment="Top"
+            Background="{StaticResource PhoneSemitransparentBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
             <TextBlock x:Name="PageTitle" 
                        Text="Title" 
                        Margin="10,10" 
+                       Grid.Row="0"
                        Style="{StaticResource PhoneTextTitle2Style}"/>
             
-            <TextBlock x:Name="SubTitle" 
-                       Text="Subtitle" 
-                       TextWrapping="Wrap"
-                       Margin="10,10"
-                       Style="{StaticResource PhoneTextTitle3Style}"/>
-            
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">       
-            <StackPanel x:Name="ButtonPanel"
-                        Margin="10,10"
-                        Orientation="Horizontal"/>
+            <ScrollViewer x:Name="ContentScroller"
+                          Grid.Row="1"
+                          MinHeight="240"
+                          Margin="10,10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="SubTitle" 
+                               Text="Subtitle" 
+                               Width="Auto"
+                               TextWrapping="Wrap"
+                               Style="{StaticResource PhoneTextTitle3Style}"/>
+                    <TextBox x:Name="InputText" 
+                             Visibility="Collapsed"/>
+                </StackPanel>
             </ScrollViewer>
 
-        </StackPanel>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                          Grid.Row="2"
+                          VerticalScrollBarVisibility="Disabled">       
+                <StackPanel x:Name="ButtonPanel"
+                            Margin="10,10"
+                            Orientation="Horizontal"/>
+            </ScrollViewer>
+
     </Grid>
+    </Grid>
+
 </UserControl>
