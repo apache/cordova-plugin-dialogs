@@ -19,24 +19,18 @@
  *
 */
 
-var cssId = 'notification-plugin-css'; 
-if (!document.getElementById(cssId))
-{
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-    link.href = '/css/notification.css';
-    link.media = 'all';
-    head.appendChild(link);
-}
+var modulemapper = require('cordova/modulemapper');
+
+
+var origOpenFunc = modulemapper.getOriginalSymbol(window, 'window.open');
+
 
 function _empty() {}
 
+
 function modal(message, callback, title, buttonLabels, domObjects) {
     var mainWindow = window;
-    var modalWindow = window.open();
+    var modalWindow = origOpenFunc();
     var modalDocument = modalWindow.document;
 
     modalDocument.write(
