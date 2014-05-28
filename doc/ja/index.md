@@ -19,7 +19,7 @@
 
 # org.apache.cordova.dialogs
 
-This plugin provides access to some native dialog UI elements.
+このプラグインはいくつかのネイティブのダイアログの UI 要素へのアクセスを提供します。
 
 ## インストール
 
@@ -35,7 +35,7 @@ This plugin provides access to some native dialog UI elements.
 
 ## navigator.notification.alert
 
-Shows a custom alert or dialog box. Most Cordova implementations use a native dialog box for this feature, but some platforms use the browser's `alert` function, which is typically less customizable.
+カスタムの警告またはダイアログ ボックスが表示されます。 ほとんどコルドバ ネイティブ] ダイアログ ボックスの使用この機能がいくつかのプラットフォームを使用して、ブラウザーの `alert` 関数は、通常より少なくカスタマイズ可能です。
 
     navigator.notification.alert(message, alertCallback, [title], [buttonName])
     
@@ -44,7 +44,7 @@ Shows a custom alert or dialog box. Most Cordova implementations use a native di
 
 *   **alertCallback**: 警告ダイアログが閉じられたときに呼び出すコールバック。*(機能)*
 
-*   **title**: Dialog title. *(String)* (Optional, defaults to `Alert`)
+*   **タイトル**: ダイアログのタイトル。*(文字列)*(省略可能、既定値は`Alert`)
 
 *   **buttonName**: ボタンの名前。*(文字列)*(省略可能、既定値は`OK`)
 
@@ -82,13 +82,13 @@ Shows a custom alert or dialog box. Most Cordova implementations use a native di
 
 *   両方の `alert` と `confirm` は非ブロッキング呼び出し、結果は非同期的にのみ利用できます。
 
-### Firefox OS Quirks:
+### Firefox OS 互換:
 
-Both native-blocking `window.alert()` and non-blocking `navigator.notification.alert()` are available.
+両方のネイティブ ブロック `window.alert()` ノン ブロッキングと `navigator.notification.alert()` は利用できます。
 
 ## navigator.notification.confirm
 
-Displays a customizable confirmation dialog box.
+カスタマイズ可能な確認のダイアログ ボックスが表示されます。
 
     navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
     
@@ -103,9 +103,9 @@ Displays a customizable confirmation dialog box.
 
 ### confirmCallback
 
-The `confirmCallback` executes when the user presses one of the buttons in the confirmation dialog box.
+`confirmCallback`の確認ダイアログ ボックスでボタンを押したときに実行されます。
 
-The callback takes the argument `buttonIndex` *(Number)*, which is the index of the pressed button. Note that the index uses one-based indexing, so the value is `1`, `2`, `3`, etc.
+コールバック引数 `buttonIndex` *（番号）*は、押されたボタンのインデックス。 メモこと、インデックスを使用して 1 ベースのインデックス化、ので、値は `1` 、 `2` 、 `3` 、等。
 
 ### 例
 
@@ -141,20 +141,20 @@ The callback takes the argument `buttonIndex` *(Number)*, which is the index of 
 
 *   呼び出しを `alert` と `confirm` では非ブロッキング、結果は非同期的にのみ使用できます。
 
-### Firefox OS Quirks:
+### Firefox OS 互換:
 
-Both native-blocking `window.confirm()` and non-blocking `navigator.notification.confirm()` are available.
+両方のネイティブ ブロック `window.confirm()` ノン ブロッキングと `navigator.notification.confirm()` は利用できます。
 
 ## navigator.notification.prompt
 
-Displays a native dialog box that is more customizable than the browser's `prompt` function.
+ブラウザーのより詳細にカスタマイズはネイティブのダイアログ ボックスが表示されます `prompt` 関数。
 
     navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
     
 
 *   **メッセージ**: ダイアログ メッセージ。*(文字列)*
 
-*   **promptCallback**： ボタンが押されたときに呼び出すコールバック。*(機能)*
+*   **promptCallback**: インデックス (1、2、または 3) を押されたボタンまたはダイアログ ボックスは、ボタンを押す （0） なしに解雇されたときに呼び出すコールバック。*(機能)*
 
 *   **タイトル**: *(文字列)* (省略可能、既定値のタイトル] ダイアログ`Prompt`)
 
@@ -164,7 +164,7 @@ Displays a native dialog box that is more customizable than the browser's `promp
 
 ### promptCallback
 
-The `promptCallback` executes when the user presses one of the buttons in the prompt dialog box. The `results` object passed to the callback contains the following properties:
+`promptCallback`プロンプト ダイアログ ボックス内のボタンのいずれかを押したときに実行されます。`results`コールバックに渡されるオブジェクトに、次のプロパティが含まれています。
 
 *   **buttonIndex**: 押されたボタンのインデックス。*(数)*メモこと、インデックスを使用して 1 ベースのインデックス化、ので、値は `1` 、 `2` 、 `3` 、等。
 
@@ -191,6 +191,7 @@ The `promptCallback` executes when the user presses one of the buttons in the pr
 *   アンドロイド
 *   Firefox の OS
 *   iOS
+*   Windows Phone 7 と 8
 
 ### Android の癖
 
@@ -198,13 +199,13 @@ The `promptCallback` executes when the user presses one of the buttons in the pr
 
 *   アンドロイド 3.0 と後、ホロのテーマを使用するデバイスを逆の順序でボタンが表示されます。
 
-### Firefox OS Quirks:
+### Firefox OS 互換:
 
-Both native-blocking `window.prompt()` and non-blocking `navigator.notification.prompt()` are available.
+両方のネイティブ ブロック `window.prompt()` ノン ブロッキングと `navigator.notification.prompt()` は利用できます。
 
 ## navigator.notification.beep
 
-The device plays a beep sound.
+デバイス サウンドをビープ音を再生します。
 
     navigator.notification.beep(times);
     
@@ -227,7 +228,7 @@ The device plays a beep sound.
 *   Windows Phone 7 と 8
 *   Windows 8
 
-### Amazon Fire OS Quirks
+### アマゾン火 OS 癖
 
 *   アマゾン火 OS デフォルト**設定/表示 ＆ サウンド**パネルの下に指定した**通知音**を果たしています。
 
