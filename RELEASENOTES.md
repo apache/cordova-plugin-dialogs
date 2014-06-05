@@ -65,3 +65,16 @@
 * CB-6422: [windows8] use cordova/exec/proxy
 * CB-6460: Update license headers
 * Add NOTICE file
+
+### 0.2.8 (Jun 05, 2014)
+* CB-6801 Add license
+* running original windows.open, inAppBrowser is overriding it no need to place CSS in every page anymore
+* CB-5945 [Windows8] do not call success callbacks until dialog is dismissed
+* CB-4616 Returned index 0 was not documented for notification.prompt
+* update docs to state that prompt is supported on windowsphone
+* CB-6528 allow scroll on alert message content
+* [CB-6628][amazon-fireos]dialogs plugin's confirm and prompt methods dont work confirm() method was missing amazon-fireos platform check. added that. prompt() method had bug. It is executed in a worker thread that does not have a message queue(or Looper object) associated with it and hence "can't create a handler" exception is thrown. To fix this issue, we need to create the EditText widget from within the UI thread. This was fixed sometime ago when we added fireos platform but commit got lost somewhere. So fixing it again now.
+* CB-6491 add CONTRIBUTING.md
+* Added check for isFinishing() on the parent activity to prevent crashes when trying to display dialogs when activity is in this phase of it's lifecycle
+* CB-4966 Dialogs are in window now No need to add anything to manifest or index.html
+* Removing FirefoxOS Quirks * no need to add special permission (it's different API with the same name) * notification.css is added automatically
