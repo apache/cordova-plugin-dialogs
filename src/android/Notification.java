@@ -35,6 +35,11 @@ import android.widget.EditText;
 
 /**
  * This class provides access to notifications on the device.
+ *
+ * Be aware that this implementation gets called on 
+ * navigator.notification.{alert|confirm|prompt}, and that there is a separate
+ * implementation in org.apache.cordova.CordovaChromeClient that gets
+ * called on a simple window.{alert|confirm|prompt}.
  */
 public class Notification extends CordovaPlugin {
 
