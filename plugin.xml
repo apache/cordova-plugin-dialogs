@@ -32,6 +32,9 @@
     <js-module src="www/notification.js" name="notification">
         <merges target="navigator.notification" />
     </js-module>
+    
+    <js-module src="test/tests.js" name="tests">
+    </js-module>
 
     <!-- firefoxos -->
     <platform name="firefoxos">
