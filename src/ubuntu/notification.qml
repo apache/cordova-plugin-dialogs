@@ -30,9 +30,9 @@ Dialog {
     property string button3Text
     property bool promptVisible
     property string defaultPromptText
-    TextInput {// FIXME: swith to TextField(TextField should support visible property)
+
+    TextField {
         id: prompt
-        color: "white"
         text: defaultPromptText
         visible: promptVisible
         focus: true
