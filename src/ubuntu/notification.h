@@ -17,6 +17,7 @@
 #define NOTIFICATION_H
 
 #include <QtQuick>
+#include <QMediaPlayer>
 #include <cplugin.h>
 #include <cordova.h>
 
@@ -56,8 +57,8 @@ public slots:
     }
 
 private:
-    QQmlComponent *_component;
     int _alertCallback;
+    QMediaPlayer _player;
 };
 
 #endif
