@@ -133,38 +133,57 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     /******************************************************************************/
 
+    var dialogs_tests = '<div id="beep"></div>' +
+        'Expected result: Device will beep (unless device is on silent). Nothing will get updated in status box.' +
+        '<h2>Dialog Tests</h2>' +
+        '<h3>Dialog boxes will pop up for each of the following tests</h3>' +
+        '<p/> <div id="alert"></div>' +
+        'Expected result: Dialog will say "You pressed alert". Press continue to close dialog. Nothing will get updated in status box.' +
+        '<p/> <div id="confirm_deprecated"></div>' +
+        'Expected result: Dialog will say "You pressed confirm". Press Yes, No, or Maybe to close dialog. Status box will tell you what option you selected.' +
+        '<p/> <div id="confirm"></div>' +
+        'Expected result: Dialog will say "You pressed confirm". Press Yes, No, or Maybe, Not Sure to close dialog. Status box will tell you what option you selected.' +
+        '<p/> <div id="prompt"></div>' +
+        'Expected result: Dialog will say "You pressed prompt". Enter any message and press Yes, No, or Maybe, Not Sure to close dialog. Status box will tell you what option you selected and message you entered.' +
+        '<p/> <div id="built_in_alert"></div>' +
+        'Expected result: Dialog will have title "index.html" and say "You pressed alert" Press OK to close dialog. Nothing will get updated in status box.' +
+        '<p/> <div id="built_in_confirm"></div>' +
+        'Expected result: Dialog will have title "index.html" and say "You selected confirm". Press Cancel or OK to close dialog. Nothing will get updated in status box.' +
+        '<p/> <div id="built_in_prompt"></div>' +
+        'Expected result: Dialog will have title "index.html" and say "This is a prompt". "Default value" will be in text box. Press Cancel or OK to close dialog. Nothing will get updated in status box.';
+
     contentEl.innerHTML = '<div id="info"></div>' +
-        '<div id="actions"></div>';
+        dialogs_tests;
 
     createActionButton('Beep', function () {
         beep();
-    }, 'actions');
+    }, 'beep');
 
     createActionButton('Alert Dialog', function () {
         alertDialog('You pressed alert.', 'Alert Dialog', 'Continue');
-    }, 'actions');
+    }, 'alert');
 
     createActionButton('Confirm Dialog - Deprecated', function () {
         confirmDialogA('You pressed confirm.', 'Confirm Dialog', 'Yes,No,Maybe');
-    }, 'actions');
+    }, 'confirm_deprecated');
 
     createActionButton('Confirm Dialog', function () {
         confirmDialogB('You pressed confirm.', 'Confirm Dialog', ['Yes', 'No', 'Maybe, Not Sure']);
-    }, 'actions');
+    }, 'confirm');
 
     createActionButton('Prompt Dialog', function () {
         promptDialog('You pressed prompt.', 'Prompt Dialog', ['Yes', 'No', 'Maybe, Not Sure']);
-    }, 'actions');
+    }, 'prompt');
 
     createActionButton('Built-in Alert Dialog', function () {
         alert('You pressed alert');
-    }, 'actions');
+    }, 'built_in_alert');
 
     createActionButton('Built-in Confirm Dialog', function () {
         confirm('You selected confirm');
-    }, 'actions');
+    }, 'built_in_confirm');
 
     createActionButton('Built-in Prompt Dialog', function () {
         prompt('This is a prompt', 'Default value');
-    }, 'actions');
+    }, 'built_in_prompt');
 };
