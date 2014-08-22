@@ -447,6 +447,7 @@ public class Notification extends CordovaPlugin {
                 notification.progressDialog.setCancelable(true);
                 notification.progressDialog.setMax(100);
                 notification.progressDialog.setProgress(0);
+                notification.progressDialog.setCanceledOnTouchOutside(false);
                 notification.progressDialog.setOnCancelListener(
                         new DialogInterface.OnCancelListener() {
                             public void onCancel(DialogInterface dialog) {
