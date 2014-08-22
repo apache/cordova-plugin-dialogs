@@ -36,7 +36,7 @@ import android.widget.EditText;
 /**
  * This class provides access to notifications on the device.
  *
- * Be aware that this implementation gets called on 
+ * Be aware that this implementation gets called on
  * navigator.notification.{alert|confirm|prompt}, and that there is a separate
  * implementation in org.apache.cordova.CordovaChromeClient that gets
  * called on a simple window.{alert|confirm|prompt}.
@@ -69,7 +69,7 @@ public class Notification extends CordovaPlugin {
     	 * be returned in the event of an invalid action.
     	 */
     	if(this.cordova.getActivity().isFinishing()) return true;
-    	
+
         if (action.equals("beep")) {
             this.beep(args.getLong(0));
         }
@@ -263,9 +263,9 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context.
      */
     public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
-  	
+
         final CordovaInterface cordova = this.cordova;
-       
+
         Runnable runnable = new Runnable() {
             public void run() {
                 final EditText promptInput =  new EditText(cordova.getActivity());
@@ -274,11 +274,11 @@ public class Notification extends CordovaPlugin {
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
-                
+
                 dlg.setView(promptInput);
-                
+
                 final JSONObject result = new JSONObject();
-                
+
                 // First button
                 if (buttonLabels.length() > 0) {
                     try {
@@ -288,7 +288,7 @@ public class Notification extends CordovaPlugin {
                                     dialog.dismiss();
                                     try {
                                         result.put("buttonIndex",1);
-                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());											
+                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
                                     } catch (JSONException e) { e.printStackTrace(); }
                                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
                                 }
@@ -405,6 +405,7 @@ public class Notification extends CordovaPlugin {
                 notification.progressDialog.setCancelable(true);
                 notification.progressDialog.setMax(100);
                 notification.progressDialog.setProgress(0);
+                notification.progressDialog.setCanceledOnTouchOutside(false);
                 notification.progressDialog.setOnCancelListener(
                         new DialogInterface.OnCancelListener() {
                             public void onCancel(DialogInterface dialog) {
