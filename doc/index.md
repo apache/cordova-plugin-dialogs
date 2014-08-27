@@ -85,6 +85,9 @@ function, which is typically less customizable.
 
 Both native-blocking `window.alert()` and non-blocking `navigator.notification.alert()` are available.
 
+### BlackBerry 10 Quirks
+`navigator.notification.alert('text', callback, 'title', 'text')` callback parameter is passed the number 1.
+
 ## navigator.notification.confirm
 
 Displays a customizable confirmation dialog box.
