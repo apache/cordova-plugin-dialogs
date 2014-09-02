@@ -78,6 +78,7 @@ module.exports = {
         exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels]);
     },
 
+
     /**
      * Open a native prompt dialog, with a customizable title and button text.
      * The following results are returned to the result callback:
@@ -89,13 +90,15 @@ module.exports = {
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
+		* @param {String} inputSyle         Textbox input type: 1:text, 2:numeric + 3:Obscured/Password (default: 1)
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function(message, resultCallback, title, buttonLabels, defaultText, inputSyle) {
         var _message = (message || "Prompt message");
         var _title = (title || "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
         var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
+		var _inputSyle = (inputSyle || 1)
+        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, _inputSyle]);
     },
 
     /**
