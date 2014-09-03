@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -38,29 +38,49 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
  *  callbackId    The commmand callback id.
  *  dialogType    The type of alert view [alert | prompt].
  */
-- (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
+- (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText inputStyle:(NSUInteger*)inputStyle callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
 {
     CDVAlertView* alertView = [[CDVAlertView alloc]
-        initWithTitle:title
-                  message:message
-                 delegate:self
-        cancelButtonTitle:nil
-        otherButtonTitles:nil];
-
+                               initWithTitle:title
+                               message:message
+                               delegate:self
+                               cancelButtonTitle:nil
+                               otherButtonTitles:nil];
+    
     alertView.callbackId = callbackId;
-
+    
     NSUInteger count = [buttons count];
-
+    
     for (int n = 0; n < count; n++) {
         [alertView addButtonWithTitle:[buttons objectAtIndex:n]];
     }
-
+    
     if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
-        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+        
         UITextField* textField = [alertView textFieldAtIndex:0];
+        
+        if (*inputStyle == 2){
+            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            textField.keyboardType = UIKeyboardTypeNumberPad;
+        } else if (*inputStyle == 4){
+            alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+            textField.keyboardType = UIKeyboardTypeAlphabet;
+        } else if (*inputStyle == 5){
+            alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+            textField.keyboardType = UIKeyboardTypeNumberPad;
+        } else{
+            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            textField.keyboardType = UIKeyboardTypeAlphabet;
+        }
+        
+        //        textField.becomeFirstResponder();
         textField.text = defaultText;
     }
-
+    
+    //    [[alertView textFieldAtIndex:0] setDelegate:self];
+    //    [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
+    //    [[alertView textFieldAtIndex:0] becomeFirstResponder];
+    
     [alertView show];
 }
 
@@ -70,8 +90,8 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
     NSString* buttons = [command argumentAtIndex:2];
-
-    [self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
+    
+    [self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil inputStyle:(uint*)1 callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
 
 - (void)confirm:(CDVInvokedUrlCommand*)command
@@ -80,8 +100,8 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
     NSArray* buttons = [command argumentAtIndex:2];
-
-    [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
+    
+    [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil inputStyle:(uint*)1 callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
 
 - (void)prompt:(CDVInvokedUrlCommand*)command
@@ -91,19 +111,19 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
     NSString* title = [command argumentAtIndex:1];
     NSArray* buttons = [command argumentAtIndex:2];
     NSString* defaultText = [command argumentAtIndex:3];
-	NSUInteger* inputSyle = [command argumentAtIndex:4];
-
-    [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
+    NSUInteger* inputSyle = (uint*)[[command argumentAtIndex:4] intValue];
+    
+    [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText inputStyle:inputSyle callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
 }
 
 /**
-  * Callback invoked when an alert dialog's buttons are clicked.
-  */
+ * Callback invoked when an alert dialog's buttons are clicked.
+ */
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     CDVAlertView* cdvAlertView = (CDVAlertView*)alertView;
     CDVPluginResult* result;
-
+    
     // Determine what gets returned to JS based on the alert view type.
     if (alertView.alertViewStyle == UIAlertViewStyleDefault) {
         // For alert and confirm, return button index as int back to JS.
@@ -112,9 +132,9 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
         // For prompt, return button index and input text back to JS.
         NSString* value0 = [[alertView textFieldAtIndex:0] text];
         NSDictionary* info = @{
-            @"buttonIndex":@(buttonIndex + 1),
-            @"input1":(value0 ? value0 : [NSNull null])
-        };
+                               @"buttonIndex":@(buttonIndex + 1),
+                               @"input1":(value0 ? value0 : [NSNull null])
+                               };
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:info];
     }
     [self.commandDelegate sendPluginResult:result callbackId:cdvAlertView.callbackId];
@@ -124,11 +144,11 @@ static void playBeep(int count) {
     SystemSoundID completeSound;
     NSInteger cbDataCount = count;
     NSURL* audioPath = [[NSBundle mainBundle] URLForResource:@"CDVNotification.bundle/beep" withExtension:@"wav"];
-    #if __has_feature(objc_arc)
-        AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
-    #else
-        AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
-    #endif
+#if __has_feature(objc_arc)
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
+#else
+    AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
+#endif
     AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(cbDataCount-1));
     AudioServicesPlaySystemSound(completeSound);
 }
