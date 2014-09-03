@@ -57,29 +57,25 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
     
     if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
         
-        UITextField* textField = [alertView textFieldAtIndex:0];
-        
-        if (*inputStyle == 2){
-            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-            textField.keyboardType = UIKeyboardTypeNumberPad;
-        } else if (*inputStyle == 4){
+        // XXX The view style must be assigned before we access the textfield.
+        if(inputStyle == (uint*)4 || inputStyle == (uint*)5){
             alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-            textField.keyboardType = UIKeyboardTypeAlphabet;
-        } else if (*inputStyle == 5){
-            alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-            textField.keyboardType = UIKeyboardTypeNumberPad;
-        } else{
+        }else{
             alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-            textField.keyboardType = UIKeyboardTypeAlphabet;
         }
         
-        //        textField.becomeFirstResponder();
+        UITextField* textField = [alertView textFieldAtIndex:0];
+        
+        if (inputStyle == (uint*)2 || inputStyle == (uint*)5){
+            textField.keyboardType = UIKeyboardTypeNumberPad;
+        } else{
+            textField.keyboardType = UIKeyboardTypeAlphabet;
+        }
+
+
         textField.text = defaultText;
     }
-    
-    //    [[alertView textFieldAtIndex:0] setDelegate:self];
-    //    [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
-    //    [[alertView textFieldAtIndex:0] becomeFirstResponder];
+
     
     [alertView show];
 }
