@@ -32,6 +32,8 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.widget.EditText;
+import android.widget.TextView;
+
 
 /**
  * This class provides access to notifications on the device.
@@ -171,7 +173,9 @@ public class Notification extends CordovaPlugin {
                 });
 
                 dlg.create();
-                dlg.show();
+                AlertDialog dialog =  dlg.show();
+                TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
+                messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -244,7 +248,9 @@ public class Notification extends CordovaPlugin {
                 });
 
                 dlg.create();
-                dlg.show();
+                AlertDialog dialog =  dlg.show();
+                TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
+                messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -341,8 +347,9 @@ public class Notification extends CordovaPlugin {
                 });
 
                 dlg.create();
-                dlg.show();
-
+                AlertDialog dialog =  dlg.show();
+                TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
+                messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
