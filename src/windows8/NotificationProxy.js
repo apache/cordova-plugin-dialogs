@@ -67,24 +67,35 @@ module.exports = {
 
         isAlertShowing = true;
 
-        var message = args[0];
-        var title = args[1];
-        var buttons = args[2];
+        try {
+            var message = args[0];
+            var _title = args[1];
+            var buttons = args[2];
 
-        var md = new Windows.UI.Popups.MessageDialog(message, title);
+            var md = new Windows.UI.Popups.MessageDialog(message, _title);
 
-        buttons.forEach(function(buttonLabel) {
-            md.commands.append(new Windows.UI.Popups.UICommand(buttonLabel));
-        });
+            buttons.forEach(function(buttonLabel) {
+                md.commands.append(new Windows.UI.Popups.UICommand(buttonLabel));
+            });
 
-        md.showAsync().then(function(res) {
+            md.showAsync().then(function(res) {
+                isAlertShowing = false;
+                var result = res ? buttons.indexOf(res.label) + 1 : 0;
+                win && win(result);
+                if (alertStack.length) {
+                    setTimeout(alertStack.shift(), 0);
+                }
+
+            });
+        } catch (e) {
+            // set isAlertShowing flag back to false in case of exception
             isAlertShowing = false;
-            var result = res ? buttons.indexOf(res.label) + 1 : 0;
-            win && win(result);
             if (alertStack.length) {
                 setTimeout(alertStack.shift(), 0);
             }
-        });
+            // rethrow exception
+            throw e;
+        }
     },
 
     beep:function(winX, loseX, args) {
