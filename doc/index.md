@@ -80,6 +80,7 @@ function, which is typically less customizable.
 - Tizen
 - Windows Phone 7 and 8
 - Windows 8
+- Windows
 
 ### Windows Phone 7 and 8 Quirks
 
@@ -143,6 +144,7 @@ indexing, so the value is `1`, `2`, `3`, etc.
 - Tizen
 - Windows Phone 7 and 8
 - Windows 8
+- Windows
 
 ### Windows Phone 7 and 8 Quirks
 
@@ -151,6 +153,12 @@ indexing, so the value is `1`, `2`, `3`, etc.
         window.confirm = navigator.notification.confirm;
 
 - Calls to `alert` and `confirm` are non-blocking, so the result is only available asynchronously.
+
+### Windows Quirks
+
+- On Windows8/8.1 it is not possible to add more than three buttons to MessageDialog instance.
+
+- On Windows Phone 8.1 it's not possible to show dialog with more than two buttons.
 
 ### Firefox OS Quirks:
 

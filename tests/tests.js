@@ -163,12 +163,17 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         alertDialog('You pressed alert.', 'Alert Dialog', 'Continue');
     }, 'alert');
 
+    // WP8.1 detection is necessary since it doesn't support confirm dialogs with more than 2 buttons
+    var isRunningOnWP81 = cordova.platformId == "windows" && navigator.userAgent.indexOf('Windows Phone') > -1;
+
     createActionButton('Confirm Dialog - Deprecated', function () {
-        confirmDialogA('You pressed confirm.', 'Confirm Dialog', 'Yes,No,Maybe');
+        var buttons = isRunningOnWP81 ? 'Yes,No' : 'Yes,No,Maybe';
+        confirmDialogA('You pressed confirm.', 'Confirm Dialog', buttons);
     }, 'confirm_deprecated');
 
     createActionButton('Confirm Dialog', function () {
-        confirmDialogB('You pressed confirm.', 'Confirm Dialog', ['Yes', 'No', 'Maybe, Not Sure']);
+        var buttons = isRunningOnWP81 ? ['Yes', 'Actually, No'] : ['Yes', 'No', 'Maybe, Not Sure'];
+        confirmDialogB('You pressed confirm.', 'Confirm Dialog', buttons);
     }, 'confirm');
 
     createActionButton('Prompt Dialog', function () {
@@ -176,14 +181,14 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }, 'prompt');
 
     createActionButton('Built-in Alert Dialog', function () {
-        alert('You pressed alert');
+        typeof alert === 'function' && alert('You pressed alert');
     }, 'built_in_alert');
 
     createActionButton('Built-in Confirm Dialog', function () {
-        confirm('You selected confirm');
+        typeof confirm === 'function' && confirm('You selected confirm');
     }, 'built_in_confirm');
 
     createActionButton('Built-in Prompt Dialog', function () {
-        prompt('This is a prompt', 'Default value');
+        typeof prompt === 'function' && prompt('This is a prompt', 'Default value');
     }, 'built_in_prompt');
 };
