@@ -68,30 +68,22 @@ module.exports = {
         isAlertShowing = true;
 
         var message = args[0];
-        var _title = args[1];
-        var _buttonLabels = args[2];
+        var title = args[1];
+        var buttons = args[2];
 
-        var result;
+        var md = new Windows.UI.Popups.MessageDialog(message, title);
 
-        var btnList = [];
-        function commandHandler (command) {
-            result = btnList[command.label];
-        }
+        buttons.forEach(function(buttonLabel) {
+            md.commands.append(new Windows.UI.Popups.UICommand(buttonLabel));
+        });
 
-        var md = new Windows.UI.Popups.MessageDialog(message, _title);
-        var button = _buttonLabels.split(',');
-
-        for (var i = 0; i<button.length; i++) {
-            btnList[button[i]] = i+1;
-            md.commands.append(new Windows.UI.Popups.UICommand(button[i],commandHandler));
-        }
-        md.showAsync().then(function() {
+        md.showAsync().then(function(res) {
             isAlertShowing = false;
+            var result = res ? buttons.indexOf(res.label) + 1 : 0;
             win && win(result);
             if (alertStack.length) {
                 setTimeout(alertStack.shift(), 0);
             }
-
         });
     },
 
