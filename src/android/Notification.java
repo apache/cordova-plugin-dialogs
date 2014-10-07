@@ -372,15 +372,22 @@ public class Notification extends CordovaPlugin {
             this.spinnerDialog.dismiss();
             this.spinnerDialog = null;
         }
+        final Notification notification = this;
         final CordovaInterface cordova = this.cordova;
         Runnable runnable = new Runnable() {
             public void run() {
-                Notification.this.spinnerDialog = ProgressDialog.show(cordova.getActivity(), title, message, true, true,
+                notification.spinnerDialog = new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                notification.spinnerDialog.setTitle(title);
+                notification.spinnerDialog.setMessage(message);
+                notification.spinnerDialog.setCancelable(true);
+                notification.spinnerDialog.setIndeterminate(true);
+                notification.spinnerDialog.setOnCancelListener(
                         new DialogInterface.OnCancelListener() {
                             public void onCancel(DialogInterface dialog) {
-                                Notification.this.spinnerDialog = null;
+                                notification.spinnerDialog = null;
                             }
                         });
+                notification.spinnerDialog.show();
             }
         };
         this.cordova.getActivity().runOnUiThread(runnable);
