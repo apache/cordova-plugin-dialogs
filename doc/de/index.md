@@ -132,7 +132,7 @@ Der Rückruf dauert das Argument `buttonIndex` *(Anzahl)*, die der Index der Sch
 *   Windows Phone 7 und 8
 *   Windows 8
 
-### Windows Phone 7 und 8 Eigenarten
+### Windows Phone 7 und 8 Macken
 
 *   Es gibt keine integrierte Browser-Funktion für `window.confirm` , aber Sie können es binden, indem Sie zuweisen:
     
@@ -193,7 +193,7 @@ Die `promptCallback` wird ausgeführt, wenn der Benutzer eine der Schaltflächen
 *   iOS
 *   Windows Phone 7 und 8
 
-### Android Eigenarten
+### Android Macken
 
 *   Android unterstützt maximal drei Schaltflächen und mehr als das ignoriert.
 
@@ -232,11 +232,11 @@ Das Gerät spielt einen Signalton sound.
 
 *   Amazon Fire OS spielt die Standardeinstellung **Akustische Benachrichtigung** unter **Einstellungen/Display & Sound** Bereich angegeben.
 
-### Android Eigenarten
+### Android Macken
 
 *   Android spielt die Standardeinstellung **Benachrichtigung Klingelton** unter **Einstellungen/Sound & Display** -Panel angegeben.
 
-### Windows Phone 7 und 8 Eigenarten
+### Windows Phone 7 und 8 Macken
 
 *   Stützt sich auf eine generische Piepton-Datei aus der Cordova-Distribution.
 
