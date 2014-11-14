@@ -42,8 +42,8 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
 {
     
     NSUInteger count = [buttons count];
-    
-    if ([UIAlertController class]) {
+#ifdef __IPHONE_8_0
+    if (NSClassFromString(@"UIAlertController")) {
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
@@ -73,7 +73,6 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
                                          [self.commandDelegate sendPluginResult:result callbackId:callbackId];
                                          
                                      }];
-            
             [alertController addAction:action];
             
         }
@@ -85,10 +84,12 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
             }];
         }
         
+        
+        
         [self.viewController presentViewController:alertController animated:YES completion:nil];
         
     } else {
-        
+#endif
         CDVAlertView* alertView = [[CDVAlertView alloc]
                                    initWithTitle:title
                                    message:message
@@ -111,8 +112,9 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
         }
         
         [alertView show];
-        
+#ifdef __IPHONE_8_0
     }
+#endif
     
 }
 
