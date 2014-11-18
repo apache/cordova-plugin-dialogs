@@ -142,9 +142,9 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         '<p/> <div id="confirm_deprecated"></div>' +
         'Expected result: Dialog will say "You pressed confirm". Press Yes, No, or Maybe to close dialog. Status box will tell you what option you selected.' +
         '<p/> <div id="confirm"></div>' +
-        'Expected result: Dialog will say "You pressed confirm". Press Yes, No, or Maybe, Not Sure to close dialog. Status box will tell you what option you selected.' +
+        'Expected result: Dialog will say "You pressed confirm". Press Yes, No, or Maybe, Not Sure to close dialog. Status box will tell you what option you selected, and should use 1-based indexing.' +
         '<p/> <div id="prompt"></div>' +
-        'Expected result: Dialog will say "You pressed prompt". Enter any message and press Yes, No, or Maybe, Not Sure to close dialog. Status box will tell you what option you selected and message you entered.' +
+        'Expected result: Dialog will say "You pressed prompt". Enter any message and press Yes, No, or Maybe, Not Sure to close dialog. Status box will tell you what option you selected and message you entered, and should use 1-based indexing.' +
         '<p/> <div id="built_in_alert"></div>' +
         'Expected result: Dialog will have title "index.html" and say "You pressed alert" Press OK to close dialog. Nothing will get updated in status box.' +
         '<p/> <div id="built_in_confirm"></div>' +
