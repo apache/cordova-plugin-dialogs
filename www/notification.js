@@ -108,5 +108,22 @@ module.exports = {
     beep: function(count) {
         var defaultedCount = count || 1;
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
+    },
+    /**
+     * Start spinner activity in android.
+     * 
+     * @param {String} title
+     * @param {String} message
+     */
+    
+    spinnerStart: function(title, message) {
+        exec(null, null, "Notification", "activityStart", [title, message]);
+    },
+    
+    /**
+     *Stop spinner activity in android. 
+     */
+    spinnerStop: function() {	
+        exec(null, null, "Notification", "activityStop", []);
     }
 };
