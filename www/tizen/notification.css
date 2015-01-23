@@ -1,0 +1,83 @@
+/*
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *
+*/
+
+.ui-popupwindow-screen {
+	background: #000000;
+	opacity: 0.4;
+}
+.ui-popupwindow {
+	background: #828282;
+	padding: 1px 1px;
+	color: white;
+	width: 80%;
+	margin-left: 10%;
+}
+
+.popup-title {
+	background: #018ccc;
+	padding: 5px 5px;
+}
+
+.popup-title p {
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.popup-text {
+	background: #2d2d2d;
+	padding: 5px 5px;
+}
+
+.popup-text p {
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+	vertical-align: middle;
+	line-height:100px;
+}
+
+.popup-button-bg {
+	background: #424242;
+	padding: 5px 5px;
+}
+
+.popup-button-bg ul {
+	list-style-type:none;
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+	padding: 0px;
+}
+
+.popup-button-bg li {
+	display: inline;
+}
+
+.popup-button-bg li input {
+	border-radius:4px 4px 4px 4px;
+	border: 0px;
+	background: #545454;
+	padding:5px 15px;
+	color: white;
+	min-width: 80px;
+	margin: 0px 5px;
+}
