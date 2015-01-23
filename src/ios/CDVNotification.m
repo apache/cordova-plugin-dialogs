@@ -143,7 +143,7 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 
 - (void)beep:(CDVInvokedUrlCommand*)command
 {
-    NSNumber* count = [command.arguments objectAtIndex:0 withDefault:[NSNumber numberWithInt:1]];
+    NSNumber* count = [command argumentAtIndex:0 withDefault:[NSNumber numberWithInt:1]];
     playBeep([count intValue]);
 }
 
