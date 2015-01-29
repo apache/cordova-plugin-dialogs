@@ -213,12 +213,18 @@ contains the following properties:
 - Firefox OS
 - iOS
 - Windows Phone 7 and 8
+- Windows 8
+- Windows
 
 ### Android Quirks
 
 - Android supports a maximum of three buttons, and ignores any more than that.
 
 - On Android 3.0 and later, buttons are displayed in reverse order for devices that use the Holo theme.
+
+### Windows Quirks
+
+- On Windows prompt dialog is html-based due to lack of such native api.
 
 ### Firefox OS Quirks:
 
