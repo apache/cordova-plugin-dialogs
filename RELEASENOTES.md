@@ -110,3 +110,8 @@
 * CB-7414 **BB10** Document callback parameter for `navigator.notification.alert`
 * CB-7700 cordova-plugin-dialogs documentation translation: cordova-plugin-dialogs
 * CB-7571 Bump version of nested plugin to match parent plugin
+
+### 0.3.0 (Feb 04, 2015)
+* Correct way to specify Windows platform in config.xml
+* CB-8351 ios: Use argumentForIndex rather than NSArray extension
+* CB-7955 Add support "browser" platform
