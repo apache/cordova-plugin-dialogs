@@ -105,7 +105,7 @@ Muestra un cuadro de diálogo de confirmación personalizables.
 
 El `confirmCallback` se ejecuta cuando el usuario presiona uno de los botones en el cuadro de diálogo de confirmación.
 
-La devolución de llamada toma el argumento `buttonIndex` *(número)*, que es el índice del botón presionado. Tenga en cuenta que el índice utiliza uno basado en la indexación, así que el valor es `1`, `2`, `3`, etc..
+La devolución de llamada toma el argumento `buttonIndex` *(número)*, que es el índice del botón presionado. Observe que el índice utiliza indexación basada en uno, entonces el valor es `1` , `2` , `3` , etc..
 
 ### Ejemplo
 
@@ -164,7 +164,7 @@ Muestra un cuadro de diálogo nativa que es más personalizable que del navegado
 
 ### promptCallback
 
-El `promptCallback` se ejecuta cuando el usuario presiona uno de los botones en el cuadro de diálogo pronto. El objeto de `resultados` pasado a la devolución de llamada contiene las siguientes propiedades:
+El `promptCallback` se ejecuta cuando el usuario presiona uno de los botones del cuadro de diálogo pronto. El `results` objeto que se pasa a la devolución de llamada contiene las siguientes propiedades:
 
 *   **buttonIndex**: el índice del botón presionado. *(Número)* Tenga en cuenta que el índice utiliza uno basado en la indexación, así que el valor es `1`, `2`, `3`, etc..
 
@@ -205,7 +205,7 @@ Dos nativos de bloqueo `window.prompt()` y no-bloqueo `navigator.notification.pr
 
 ## navigator.notification.beep
 
-El dispositivo reproduce un sonido sonido.
+El aparato reproduce un sonido sonido.
 
     navigator.notification.beep(times);
     

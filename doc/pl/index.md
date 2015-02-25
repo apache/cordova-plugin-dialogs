@@ -193,7 +193,7 @@ Wyświetla okno dialogowe macierzystego, który bardziej niż przeglądarki `pro
 *   iOS
 *   Windows Phone 7 i 8
 
-### Dziwactwa Androida
+### Android dziwactwa
 
 *   Android obsługuje maksymalnie trzy przyciski i więcej niż to ignoruje.
 
@@ -232,7 +232,7 @@ Urządzenie odtwarza sygnał ciągły dźwięk.
 
 *   Amazon ogień OS gra domyślny **Dźwięk powiadomienia** określone w panelu **ekranu/ustawienia i dźwięk** .
 
-### Dziwactwa Androida
+### Android dziwactwa
 
 *   Android gra domyślnie **dzwonek powiadomienia** określone w panelu **ustawień/dźwięk i wyświetlacz** .
 
@@ -240,7 +240,7 @@ Urządzenie odtwarza sygnał ciągły dźwięk.
 
 *   Opiera się na pliku rodzajowego sygnał z rozkładu Cordova.
 
-### Dziwactwa Tizen
+### Osobliwości Tizen
 
 *   Tizen implementuje dźwięków przez odtwarzania pliku audio za pośrednictwem mediów API.
 

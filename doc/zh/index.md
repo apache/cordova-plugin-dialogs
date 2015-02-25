@@ -103,9 +103,9 @@
 
 ### confirmCallback
 
-`confirmCallback`當使用者按下確認對話方塊中的按鈕之一的時候執行。
+`confirmCallback`執行當使用者按下確認對話方塊中的按鈕之一。
 
-回檔將參數 `buttonIndex` *（編號）*，它是按下的按鈕的索引。 請注意索引使用基於 1 的索引，所以值是 `1` ， `2` ， `3` ，等等。
+回檔將參數 `buttonIndex` *（編號）*，即按下的按鈕的索引。 注意索引使用一個基於索引，所以值是 `1` ， `2` ， `3` ，等等。
 
 ### 示例
 
@@ -132,7 +132,7 @@
 *   Windows Phone 7 和 8
 *   Windows 8
 
-### Windows Phone 7 和 8 怪癖
+### Windows Phone 7 和 8 的怪癖
 
 *   有沒有內置的瀏覽器功能的 `window.confirm` ，但你可以將它綁定通過分配：
     
@@ -141,13 +141,13 @@
 
 *   調用到 `alert` 和 `confirm` 的非阻塞，所以結果就是只可用以非同步方式。
 
-### 火狐瀏覽器作業系統怪癖：
+### 火狐瀏覽器作業系統的怪癖：
 
 這兩個本機阻止 `window.confirm()` 和非阻塞 `navigator.notification.confirm()` 可用。
 
 ## navigator.notification.prompt
 
-顯示本機的對話方塊，更可自訂的瀏覽器比 `prompt` 函數。
+顯示本機的對話方塊，是更多比瀏覽器的可定制的 `prompt` 函數。
 
     navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
     
@@ -164,7 +164,7 @@
 
 ### promptCallback
 
-`promptCallback`當使用者按下一個提示對話方塊中的按鈕時執行。`results`物件傳遞給回檔的包含以下屬性：
+`promptCallback`當使用者按下其中一個提示對話方塊中的按鈕時執行。`results`物件傳遞給回檔的包含以下屬性：
 
 *   **buttonIndex**： 按下的按鈕的索引。*（人數）*請注意索引使用基於 1 的索引，所以值是 `1` ， `2` ， `3` ，等等。
 
@@ -199,13 +199,13 @@
 
 *   關於 Android 3.0 及更高版本，使用全息主題的設備按相反的順序顯示按鈕。
 
-### 火狐瀏覽器作業系統怪癖：
+### 火狐瀏覽器作業系統的怪癖：
 
 這兩個本機阻止 `window.prompt()` 和非阻塞 `navigator.notification.prompt()` 可用。
 
 ## navigator.notification.beep
 
-該設備播放提示音聲音。
+該設備播放提示音的聲音。
 
     navigator.notification.beep(times);
     
@@ -236,11 +236,11 @@
 
 *   Android 系統播放的預設**通知鈴聲****設置/聲音和顯示**面板下指定。
 
-### Windows Phone 7 和 8 怪癖
+### Windows Phone 7 和 8 的怪癖
 
 *   依賴泛型蜂鳴音檔從科爾多瓦分佈。
 
-### Tizen 怪癖
+### 泰怪癖
 
 *   Tizen 通過播放音訊檔通過媒體 API 實現會發出蜂鳴聲。
 
