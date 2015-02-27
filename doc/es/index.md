@@ -19,11 +19,17 @@
 
 # org.apache.cordova.dialogs
 
-Este plugin proporciona acceso a algunos elementos de la interfaz nativa de diálogo.
+Este plugin permite acceder a algunos elementos de interfaz de usuario nativa diálogo vía global `navigator.notification` objeto.
+
+Aunque el objeto está unido al ámbito global `navigator` , no estará disponible hasta después de la `deviceready` evento.
+
+    document.addEventListener ("deviceready", onDeviceReady, false);
+    function onDeviceReady() {console.log(navigator.notification)};
+    
 
 ## Instalación
 
-    cordova plugin add org.apache.cordova.dialogs
+    Cordova plugin agregar org.apache.cordova.dialogs
     
 
 ## Métodos
@@ -35,9 +41,9 @@ Este plugin proporciona acceso a algunos elementos de la interfaz nativa de diá
 
 ## navigator.notification.alert
 
-Muestra un cuadro de alerta o diálogo personalizado. La mayoría de las implementaciones de Cordova utilizan un cuadro de diálogo nativa para esta característica, pero algunas plataformas utilizan el navegador `alert` la función, que es típicamente menos personalizable.
+Muestra un cuadro de alerta o cuadro de diálogo personalizado. La mayoría de las implementaciones de Cordova utilizan un cuadro de diálogo nativa para esta característica, pero algunas plataformas utilizan el navegador `alert` la función, que es típicamente menos personalizable.
 
-    navigator.notification.alert(message, alertCallback, [title], [buttonName])
+    Navigator.Notification.alert (mensaje, alertCallback, [title], [buttonName])
     
 
 *   **message**: mensaje de diálogo. *(String)*
@@ -50,16 +56,7 @@ Muestra un cuadro de alerta o diálogo personalizado. La mayoría de las impleme
 
 ### Ejemplo
 
-    function alertDismissed() {
-        // do something
-    }
-    
-    navigator.notification.alert(
-        'You are the winner!',  // message
-        alertDismissed,         // callback
-        'Game Over',            // title
-        'Done'                  // buttonName
-    );
+    function alertDismissed() {/ / hacer algo} navigator.notification.alert ('Tú eres el ganador!', / / mensaje alertDismissed, / / callback 'Game Over', / / título 'hecho' / / buttonName);
     
 
 ### Plataformas soportadas
@@ -72,6 +69,7 @@ Muestra un cuadro de alerta o diálogo personalizado. La mayoría de las impleme
 *   Tizen
 *   Windows Phone 7 y 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 y 8 rarezas
 
@@ -86,11 +84,15 @@ Muestra un cuadro de alerta o diálogo personalizado. La mayoría de las impleme
 
 Dos nativos de bloqueo `window.alert()` y no-bloqueo `navigator.notification.alert()` están disponibles.
 
+### BlackBerry 10 rarezas
+
+`navigator.notification.alert('text', callback, 'title', 'text')`parámetro de devolución de llamada se pasa el número 1.
+
 ## navigator.notification.confirm
 
 Muestra un cuadro de diálogo de confirmación personalizables.
 
-    navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+    Navigator.Notification.CONFIRM (mensaje, confirmCallback, [title], [buttonLabels])
     
 
 *   **message**: mensaje de diálogo. *(String)*
@@ -105,20 +107,13 @@ Muestra un cuadro de diálogo de confirmación personalizables.
 
 El `confirmCallback` se ejecuta cuando el usuario presiona uno de los botones en el cuadro de diálogo de confirmación.
 
-La devolución de llamada toma el argumento `buttonIndex` *(número)*, que es el índice del botón presionado. Tenga en cuenta que el índice utiliza uno basado en la indexación, así que el valor es `1`, `2`, `3`, etc..
+La devolución de llamada toma el argumento `buttonIndex` *(número)*, que es el índice del botón presionado. Observe que el índice utiliza indexación basada en uno, entonces el valor es `1` , `2` , `3` , etc..
 
 ### Ejemplo
 
-    function onConfirm(buttonIndex) {
-        alert('You selected button ' + buttonIndex);
-    }
+    function onConfirm(buttonIndex) {alert ('Tu botón seleccionado' + buttonIndex);}
     
-    navigator.notification.confirm(
-        'You are the winner!', // message
-         onConfirm,            // callback to invoke with index of button pressed
-        'Game Over',           // title
-        ['Restart','Exit']     // buttonLabels
-    );
+    Navigator.Notification.CONFIRM ('Tú eres el ganador!', / / mensaje onConfirm, / callback para invocar con índice del botón pulsado 'Game Over', / / / título ['reiniciar', 'Exit'] / / buttonLabels);
     
 
 ### Plataformas soportadas
@@ -131,6 +126,7 @@ La devolución de llamada toma el argumento `buttonIndex` *(número)*, que es el
 *   Tizen
 *   Windows Phone 7 y 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 y 8 rarezas
 
@@ -141,6 +137,12 @@ La devolución de llamada toma el argumento `buttonIndex` *(número)*, que es el
 
 *   Llamadas de `alert` y `confirm` son non-blocking, así que el resultado sólo está disponible de forma asincrónica.
 
+### Windows rarezas
+
+*   Sobre Windows8/8.1 no es posible agregar más de tres botones a instancia de MessageDialog.
+
+*   En Windows Phone 8.1 no es posible Mostrar cuadro de diálogo con más de dos botones.
+
 ### Firefox OS rarezas:
 
 Dos nativos de bloqueo `window.confirm()` y no-bloqueo `navigator.notification.confirm()` están disponibles.
@@ -149,55 +151,53 @@ Dos nativos de bloqueo `window.confirm()` y no-bloqueo `navigator.notification.c
 
 Muestra un cuadro de diálogo nativa que es más personalizable que del navegador `prompt` función.
 
-    navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+    Navigator.Notification.prompt (mensaje, promptCallback, [title], [buttonLabels], [defaultText])
     
 
-*   **message**: mensaje de diálogo. *(String)*
+*   **mensaje**: mensaje de diálogo. *(String)*
 
 *   **promptCallback**: Callback para invocar con índice del botón pulsado (1, 2 ó 3) o cuando el cuadro de diálogo es despedido sin la presión del botón (0). *(Función)*
 
-*   **title**: título *(String)* (opcional, por defecto `puntual` de diálogo)
+*   **título**: título *(String)* (opcional, por defecto de diálogo`Prompt`)
 
-*   **buttonLabels**: matriz de cadenas especificando el botón etiquetas *(Array)* (opcional, por defecto `["OK", "Cancelar"]`)
+*   **buttonLabels**: matriz de cadenas especificando botón etiquetas *(Array)* (opcional, por defecto`["OK","Cancel"]`)
 
 *   **defaultText**: valor de la entrada predeterminada textbox ( `String` ) (opcional, por defecto: cadena vacía)
 
 ### promptCallback
 
-El `promptCallback` se ejecuta cuando el usuario presiona uno de los botones en el cuadro de diálogo pronto. El objeto de `resultados` pasado a la devolución de llamada contiene las siguientes propiedades:
+El `promptCallback` se ejecuta cuando el usuario presiona uno de los botones del cuadro de diálogo pronto. El `results` objeto que se pasa a la devolución de llamada contiene las siguientes propiedades:
 
-*   **buttonIndex**: el índice del botón presionado. *(Número)* Tenga en cuenta que el índice utiliza uno basado en la indexación, así que el valor es `1`, `2`, `3`, etc..
+*   **buttonIndex**: el índice del botón presionado. *(Número)* Observe que el índice utiliza indexación basada en uno, entonces el valor es `1` , `2` , `3` , etc..
 
-*   **input1**: el texto introducido en el cuadro de diálogo pronto. *(String)*
+*   **INPUT1**: el texto introducido en el cuadro de diálogo pronto. *(String)*
 
 ### Ejemplo
 
-    function onPrompt(results) {
-        alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
-    }
+    function onPrompt(results) {alert ("seleccionaron botón número" + results.buttonIndex + "y entró en" + results.input1);}
     
-    navigator.notification.prompt(
-        'Please enter your name',  // message
-        onPrompt,                  // callback to invoke
-        'Registration',            // title
-        ['Ok','Exit'],             // buttonLabels
-        'Jane Doe'                 // defaultText
-    );
+    Navigator.Notification.prompt ('Por favor introduce tu nombre', / / mensaje onPrompt, / / callback para invocar 'Registro', / / título ['Ok', 'Exit'], / / buttonLabels 'Jane Doe' / / defaultText);
     
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   Firefox OS
 *   iOS
 *   Windows Phone 7 y 8
+*   Windows 8
+*   Windows
 
 ### Rarezas Android
 
 *   Android soporta un máximo de tres botones e ignora nada más.
 
-*   En Android 3.0 y posteriores, los botones se muestran en orden inverso para dispositivos que utilizan el tema de Holo.
+*   En Android 3.0 y posteriores, los botones aparecen en orden inverso para dispositivos que utilizan el tema Holo.
+
+### Windows rarezas
+
+*   En Windows pronto diálogo está basado en html debido a falta de tal api nativa.
 
 ### Firefox OS rarezas:
 
@@ -205,22 +205,22 @@ Dos nativos de bloqueo `window.prompt()` y no-bloqueo `navigator.notification.pr
 
 ## navigator.notification.beep
 
-El dispositivo reproduce un sonido sonido.
+El aparato reproduce un sonido sonido.
 
-    navigator.notification.beep(times);
+    Navigator.Notification.Beep(Times);
     
 
-*   **times**: el número de veces a repetir la señal. *(Número)*
+*   **tiempos**: el número de veces a repetir la señal. *(Número)*
 
 ### Ejemplo
 
-    / / Pitido dos veces! 
-    navigator.notification.beep(2);
+    Dos pitidos.
+    Navigator.Notification.Beep(2);
     
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -234,11 +234,11 @@ El dispositivo reproduce un sonido sonido.
 
 ### Rarezas Android
 
-*   Android juega el **tono de notificación** especificados en el panel **ajustes de sonido y pantalla** por defecto.
+*   Androide reproduce el **tono de notificación** especificados en el panel **ajustes de sonido y visualización** por defecto.
 
 ### Windows Phone 7 y 8 rarezas
 
-*   Se basa en un archivo de sonido genérico de la distribución de Cordova.
+*   Se basa en un archivo de sonido genérico de la distribución de Córdoba.
 
 ### Rarezas Tizen
 

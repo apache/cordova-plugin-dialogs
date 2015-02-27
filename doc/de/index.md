@@ -19,7 +19,15 @@
 
 # org.apache.cordova.dialogs
 
-Dieses Plugin ermöglicht den Zugriff auf einige native Dialog-UI-Elemente.
+Dieses Plugin ermöglicht den Zugriff auf einige native Dialog-UI-Elemente über eine globale `navigator.notification`-Objekt.
+
+Obwohl das Objekt mit der globalen Gültigkeitsbereich `navigator` verbunden ist, steht es nicht bis nach dem `Deviceready`-Ereignis.
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.notification);
+    }
+    
 
 ## Installation
 
@@ -35,9 +43,9 @@ Dieses Plugin ermöglicht den Zugriff auf einige native Dialog-UI-Elemente.
 
 ## navigator.notification.alert
 
-Zeigt eine benutzerdefinierte Warnung oder Dialogfeld Feld. Die meisten Implementierungen von Cordova ein native Dialogfeld für dieses Feature verwenden, aber einige Plattformen des Browsers `alert` Funktion, die in der Regel weniger anpassbar ist.
+Zeigt eine benutzerdefinierte Warnung oder Dialogfeld Feld. Die meisten Implementierungen von Cordova ein native Dialogfeld für dieses Feature verwenden, jedoch einige Plattformen des Browsers-`alert`-Funktion, die in der Regel weniger anpassbar ist.
 
-    Navigator.Notification.Alert (Message, AlertCallback, [Titel], [ButtonName])
+    navigator.notification.alert(message, alertCallback, [title], [buttonName])
     
 
 *   **Nachricht**: Dialogfeld Nachricht. *(String)*
@@ -72,6 +80,7 @@ Zeigt eine benutzerdefinierte Warnung oder Dialogfeld Feld. Die meisten Implemen
 *   Tizen
 *   Windows Phone 7 und 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 und 8 Eigenarten
 
@@ -84,7 +93,11 @@ Zeigt eine benutzerdefinierte Warnung oder Dialogfeld Feld. Die meisten Implemen
 
 ### Firefox OS Macken:
 
-Beide Native blockierenden `window.alert()` und nicht-blockierende `navigator.notification.alert()` stehen zur Verfügung.
+Native blockierenden `window.alert()` und nicht-blockierende `navigator.notification.alert()` zur Verfügung.
+
+### BlackBerry 10 Macken
+
+`navigator.notification.alert ('Text', Rückruf, 'Titel', 'Text')` Callback-Parameter wird die Zahl 1 übergeben.
 
 ## navigator.notification.confirm
 
@@ -105,7 +118,7 @@ Zeigt das Dialogfeld anpassbare Bestätigung.
 
 Die `confirmCallback` wird ausgeführt, wenn der Benutzer eine der Schaltflächen im Dialogfeld zur Bestätigung drückt.
 
-Der Rückruf dauert das Argument `buttonIndex` *(Anzahl)*, die der Index der Schaltfläche gedrückt ist. Beachten Sie, dass der Index 1-basierte Indizierung, verwendet, sodass der Wert ist `1` , `2` , `3` , etc..
+Der Rückruf dauert das Argument `buttonIndex` *(Anzahl)*, die der Index der Schaltfläche gedrückt ist. Beachten Sie, dass der Index 1-basierte Indizierung, sodass der Wert `1`, `2`, `3` usw. ist.
 
 ### Beispiel
 
@@ -131,6 +144,7 @@ Der Rückruf dauert das Argument `buttonIndex` *(Anzahl)*, die der Index der Sch
 *   Tizen
 *   Windows Phone 7 und 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 und 8 Eigenarten
 
@@ -141,34 +155,40 @@ Der Rückruf dauert das Argument `buttonIndex` *(Anzahl)*, die der Index der Sch
 
 *   Aufrufe von `alert` und `confirm` sind nicht blockierend, so dass das Ergebnis nur asynchron zur Verfügung steht.
 
+### Windows-Eigenheiten
+
+*   Auf Windows8/8.1 kann nicht mehr als drei Schaltflächen MessageDialog-Instanz hinzu.
+
+*   Auf Windows Phone 8.1 ist es nicht möglich, Dialog mit mehr als zwei Knöpfen zeigen.
+
 ### Firefox OS Macken:
 
-Beide Native blockierenden `window.confirm()` und nicht-blockierende `navigator.notification.confirm()` stehen zur Verfügung.
+Native blockierenden `window.confirm()` und nicht-blockierende `navigator.notification.confirm()` zur Verfügung.
 
 ## navigator.notification.prompt
 
-Zeigt eine native Dialogfeld, das mehr als des Browsers anpassbar ist `prompt` Funktion.
+Zeigt eine native Dialogfeld, das mehr als `Prompt`-Funktion des Browsers anpassbar ist.
 
     navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
     
 
 *   **Nachricht**: Dialogfeld Nachricht. *(String)*
 
-*   **PromptCallback**: Callback aufgerufen wird, mit Index gedrückt (1, 2 oder 3) oder wenn das Dialogfeld geschlossen wird, ohne einen Tastendruck (0). *(Funktion)*
+*   **promptCallback**: Callback aufgerufen wird, mit Index gedrückt (1, 2 oder 3) oder wenn das Dialogfeld geschlossen wird, ohne einen Tastendruck (0). *(Funktion)*
 
-*   **Titel**: Dialog Title *(String)* (Optional, Standard ist`Prompt`)
+*   **title**: Dialog Title *(String)* (Optional, Standard ist `Prompt`)
 
-*   **ButtonLabels**: Array von Zeichenfolgen angeben Schaltfläche Etiketten *(Array)* (Optional, Standard ist`["OK","Cancel"]`)
+*   **buttonLabels**: Array von Zeichenfolgen angeben Schaltfläche Etiketten *(Array)* (Optional, Standard ist `["OK", "Abbrechen"]`)
 
-*   **DefaultText**: Standard-Textbox Eingabewert ( `String` ) (Optional, Standard: leere Zeichenfolge)
+*   **defaultText**: Standard-Textbox Eingabewert (`String`) (Optional, Standard: leere Zeichenfolge)
 
 ### promptCallback
 
-Die `promptCallback` wird ausgeführt, wenn der Benutzer eine der Schaltflächen im Eingabedialogfeld drückt. Die `results` an den Rückruf übergebene Objekt enthält die folgenden Eigenschaften:
+Die `promptCallback` wird ausgeführt, wenn der Benutzer eine der Schaltflächen im Eingabedialogfeld drückt. `Des Objekts an den Rückruf übergeben` enthält die folgenden Eigenschaften:
 
-*   **ButtonIndex**: der Index der Schaltfläche gedrückt. *(Anzahl)* Beachten Sie, dass der Index 1-basierte Indizierung, verwendet, sodass der Wert ist `1` , `2` , `3` , etc..
+*   **buttonIndex**: der Index der Schaltfläche gedrückt. *(Anzahl)* Beachten Sie, dass der Index 1-basierte Indizierung, sodass der Wert `1`, `2`, `3` usw. ist.
 
-*   **Eingang1**: in Eingabedialogfeld eingegebenen Text. *(String)*
+*   **input1**: in Eingabedialogfeld eingegebenen Text. *(String)*
 
 ### Beispiel
 
@@ -192,6 +212,8 @@ Die `promptCallback` wird ausgeführt, wenn der Benutzer eine der Schaltflächen
 *   Firefox OS
 *   iOS
 *   Windows Phone 7 und 8
+*   Windows 8
+*   Windows
 
 ### Android Eigenarten
 
@@ -199,9 +221,13 @@ Die `promptCallback` wird ausgeführt, wenn der Benutzer eine der Schaltflächen
 
 *   Auf Android 3.0 und höher, werden die Schaltflächen in umgekehrter Reihenfolge für Geräte angezeigt, die das Holo-Design verwenden.
 
+### Windows-Eigenheiten
+
+*   Unter Windows ist Prompt Dialogfeld html-basierten mangels solcher native api.
+
 ### Firefox OS Macken:
 
-Beide Native blockierenden `window.prompt()` und nicht-blockierende `navigator.notification.prompt()` stehen zur Verfügung.
+Native blockierenden `window.prompt()` und nicht-blockierende `navigator.notification.prompt()` zur Verfügung.
 
 ## navigator.notification.beep
 
@@ -210,7 +236,7 @@ Das Gerät spielt einen Signalton sound.
     navigator.notification.beep(times);
     
 
-*   **Zeiten**: die Anzahl der Wiederholungen des Signaltons. *(Anzahl)*
+*   **times**: die Anzahl der Wiederholungen des Signaltons. *(Anzahl)*
 
 ### Beispiel
 
@@ -234,7 +260,7 @@ Das Gerät spielt einen Signalton sound.
 
 ### Android Eigenarten
 
-*   Android spielt die Standardeinstellung **Benachrichtigung Klingelton** unter **Einstellungen/Sound & Display** -Panel angegeben.
+*   Android spielt die Standardeinstellung **Benachrichtigung Klingelton** unter **Einstellungen/Sound & Display**-Panel angegeben.
 
 ### Windows Phone 7 und 8 Eigenarten
 
@@ -244,4 +270,4 @@ Das Gerät spielt einen Signalton sound.
 
 *   Tizen implementiert Signaltöne durch Abspielen einer Audiodatei über die Medien API.
 
-*   Die Beep-Datei muss kurz sein, befinden muss einem `sounds` Unterverzeichnis des Stammverzeichnisses der Anwendung, und muss den Namen`beep.wav`.
+*   Die Beep-Datei muss kurz sein, in einem `sounds`-Unterverzeichnis des Stammverzeichnisses der Anwendung befinden muss und muss den Namen `beep.wav`.

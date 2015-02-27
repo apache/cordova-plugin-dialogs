@@ -19,7 +19,15 @@
 
 # org.apache.cordova.dialogs
 
-Questo plugin consente di accedere ad alcuni elementi di interfaccia utente nativa del dialogo.
+Questo plugin consente di accedere ad alcuni elementi di interfaccia utente nativa dialogo tramite un oggetto globale `navigator.notification`.
+
+Anche se l'oggetto è associato con ambito globale del `navigator`, non è disponibile fino a dopo l'evento `deviceready`.
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.notification);
+    }
+    
 
 ## Installazione
 
@@ -35,18 +43,18 @@ Questo plugin consente di accedere ad alcuni elementi di interfaccia utente nati
 
 ## navigator.notification.alert
 
-Mostra una finestra di avviso o la finestra di dialogo personalizzata. La maggior parte delle implementazioni di Cordova una dialogo nativa per questa caratteristica, ma alcune piattaforme utilizzano il browser `alert` funzione, che è in genere meno personalizzabile.
+Mostra una finestra di avviso o la finestra di dialogo personalizzata. La maggior parte delle implementazioni di Cordova utilizzano una finestra di dialogo nativa per questa caratteristica, ma alcune piattaforme utilizzano la funzione di `alert` del browser, che è in genere meno personalizzabile.
 
     navigator.notification.alert(message, alertCallback, [title], [buttonName])
     
 
-*   **messaggio**: messaggio finestra di dialogo. *(String)*
+*   **message**: messaggio finestra di dialogo. *(String)*
 
 *   **alertCallback**: Callback da richiamare quando viene chiusa la finestra di avviso. *(Funzione)*
 
-*   **titolo**: titolo di dialogo. *(String)* (Opzionale, default è`Alert`)
+*   **title**: titolo di dialogo. *(String)* (Opzionale, default è `Alert`)
 
-*   **buttonName**: nome del pulsante. *(String)* (Opzionale, default è`OK`)
+*   **buttonName**: nome del pulsante. *(String)* (Opzionale, default è `OK`)
 
 ### Esempio
 
@@ -72,6 +80,7 @@ Mostra una finestra di avviso o la finestra di dialogo personalizzata. La maggio
 *   Tizen
 *   Windows Phone 7 e 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 e 8 stranezze
 
@@ -84,7 +93,11 @@ Mostra una finestra di avviso o la finestra di dialogo personalizzata. La maggio
 
 ### Firefox OS Stranezze:
 
-Entrambi nativi di blocco `window.alert()` e non bloccante `navigator.notification.alert()` sono disponibili.
+Nativo di blocco `window.alert()` blocco `navigator.notification.alert()` sono disponibili sia.
+
+### BlackBerry 10 capricci
+
+parametro di callback `navigator.notification.alert ('text' callback, 'title' 'text')` viene passato il numero 1.
 
 ## navigator.notification.confirm
 
@@ -105,7 +118,7 @@ Visualizza una finestra di dialogo conferma personalizzabile.
 
 Il `confirmCallback` viene eseguito quando l'utente preme uno dei pulsanti nella finestra di dialogo conferma.
 
-Il callback accetta l'argomento `buttonIndex` *(numero)*, che è l'indice del pulsante premuto. Nota che l'indice utilizza l'indicizzazione base uno, quindi il valore è `1` , `2` , `3` , ecc.
+Il callback accetta l'argomento `buttonIndex` *(numero)*, che è l'indice del pulsante premuto. Si noti che l'indice utilizza l'indicizzazione base uno, quindi il valore è `1`, `2`, `3`, ecc.
 
 ### Esempio
 
@@ -131,6 +144,7 @@ Il callback accetta l'argomento `buttonIndex` *(numero)*, che è l'indice del pu
 *   Tizen
 *   Windows Phone 7 e 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 e 8 stranezze
 
@@ -141,34 +155,40 @@ Il callback accetta l'argomento `buttonIndex` *(numero)*, che è l'indice del pu
 
 *   Chiama al `alert` e `confirm` sono non bloccante, quindi il risultato è disponibile solo in modo asincrono.
 
+### Stranezze di Windows
+
+*   Su Windows8/8.1 non è possibile aggiungere più di tre pulsanti a MessageDialog istanza.
+
+*   Su Windows Phone 8.1 non è possibile mostrare la finestra di dialogo con più di due pulsanti.
+
 ### Firefox OS Stranezze:
 
-Entrambi nativi di blocco `window.confirm()` e non bloccante `navigator.notification.confirm()` sono disponibili.
+Nativo di blocco `window.confirm()` blocco `navigator.notification.confirm()` sono disponibili sia.
 
 ## navigator.notification.prompt
 
-Visualizza una finestra di dialogo nativa che è più personalizzabile del browser `prompt` funzione.
+Visualizza una finestra di dialogo nativa che è più personalizzabile di funzione `prompt` del browser.
 
     navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
     
 
-*   **messaggio**: messaggio finestra di dialogo. *(String)*
+*   **message**: messaggio finestra di dialogo. *(String)*
 
 *   **promptCallback**: Callback da richiamare con l'indice del pulsante premuto (1, 2 o 3) o quando la finestra di dialogo viene chiusa senza una pressione del pulsante (0). *(Funzione)*
 
-*   **titolo**: dialogo titolo *(String)* (opzionale, default è`Prompt`)
+*   **title**: dialogo titolo *(String)* (opzionale, default è `Prompt`)
 
-*   **buttonLabels**: matrice di stringhe specificando il pulsante etichette *(Array)* (opzionale, default è`["OK","Cancel"]`)
+*   **buttonLabels**: matrice di stringhe specificando il pulsante etichette *(Array)* (opzionale, default è `["OK", "Cancel"]`)
 
-*   **defaultText**: valore di input predefinito textbox ( `String` ) (opzionale, Default: stringa vuota)
+*   **defaultText**: valore (`String`) di input predefinito textbox (opzionale, Default: empty string)
 
 ### promptCallback
 
-Il `promptCallback` viene eseguito quando l'utente preme uno dei pulsanti nella finestra di dialogo richiesta. Il `results` oggetto passato al metodo di callback contiene le seguenti proprietà:
+Il `promptCallback` viene eseguito quando l'utente preme uno dei pulsanti nella finestra di dialogo richiesta. `results` oggetto passato al metodo di callback contiene le seguenti proprietà:
 
-*   **buttonIndex**: l'indice del pulsante premuto. *(Numero)* Nota che l'indice utilizza l'indicizzazione base uno, quindi il valore è `1` , `2` , `3` , ecc.
+*   **buttonIndex**: l'indice del pulsante premuto. *(Numero)* Si noti che l'indice utilizza l'indicizzazione base uno, quindi il valore è `1`, `2`, `3`, ecc.
 
-*   **INPUT1**: il testo immesso nella finestra di dialogo richiesta. *(String)*
+*   **input1**: il testo immesso nella finestra di dialogo richiesta. *(String)*
 
 ### Esempio
 
@@ -192,6 +212,8 @@ Il `promptCallback` viene eseguito quando l'utente preme uno dei pulsanti nella 
 *   Firefox OS
 *   iOS
 *   Windows Phone 7 e 8
+*   Windows 8
+*   Windows
 
 ### Stranezze Android
 
@@ -199,9 +221,13 @@ Il `promptCallback` viene eseguito quando l'utente preme uno dei pulsanti nella 
 
 *   Su Android 3.0 e versioni successive, i pulsanti vengono visualizzati in ordine inverso per dispositivi che utilizzano il tema Holo.
 
+### Stranezze di Windows
+
+*   Su Windows finestra di dialogo richiesta è a causa di mancanza di tali api nativa basata su html.
+
 ### Firefox OS Stranezze:
 
-Entrambi nativi di blocco `window.prompt()` e non bloccante `navigator.notification.prompt()` sono disponibili.
+Nativo di blocco `window.prompt()` blocco `navigator.notification.prompt()` sono disponibili sia.
 
 ## navigator.notification.beep
 
@@ -210,7 +236,7 @@ Il dispositivo riproduce un bip sonoro.
     navigator.notification.beep(times);
     
 
-*   **volte**: il numero di volte per ripetere il segnale acustico. *(Numero)*
+*   **times**: il numero di volte per ripetere il segnale acustico. *(Numero)*
 
 ### Esempio
 
@@ -234,7 +260,7 @@ Il dispositivo riproduce un bip sonoro.
 
 ### Stranezze Android
 
-*   Android giochi default **Notification ringtone** specificato sotto il pannello **impostazioni/audio e Display** .
+*   Android giochi default **Notification ringtone** specificato sotto il pannello **impostazioni/audio e Display**.
 
 ### Windows Phone 7 e 8 stranezze
 
@@ -244,4 +270,4 @@ Il dispositivo riproduce un bip sonoro.
 
 *   Tizen implementa bip di riproduzione di un file audio tramite i media API.
 
-*   Il file beep deve essere breve, deve essere situato un `sounds` sottodirectory della directory radice dell'applicazione e deve essere denominato`beep.wav`.
+*   Il file beep deve essere breve, deve trovarsi in una sottodirectory di `sounds` della directory principale dell'applicazione e deve essere denominato `beep.wav`.

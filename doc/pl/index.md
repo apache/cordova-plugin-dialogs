@@ -19,7 +19,15 @@
 
 # org.apache.cordova.dialogs
 
-Ten plugin umożliwia dostęp do niektórych rodzimych okna dialogowego elementy interfejsu użytkownika.
+Ten plugin umożliwia dostęp do niektórych rodzimych okna dialogowego elementy interfejsu użytkownika za pośrednictwem obiektu globalnego `navigator.notification`.
+
+Mimo, że obiekt jest dołączony do globalnego zakresu `navigator`, to nie dostępne dopiero po zdarzeniu `deviceready`.
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.notification);
+    }
+    
 
 ## Instalacja
 
@@ -35,7 +43,7 @@ Ten plugin umożliwia dostęp do niektórych rodzimych okna dialogowego elementy
 
 ## navigator.notification.alert
 
-Pokazuje niestandardowe wpisu lub okno dialogowe. Większość implementacji Cordova używać rodzimych okno dialogowe dla tej funkcji, ale niektóre platformy używać przeglądarki `alert` funkcja, który jest zazwyczaj mniej konfigurowalny.
+Pokazuje niestandardowe wpisu lub okno dialogowe. Większość implementacji Cordova używać rodzimych okno dialogowe dla tej funkcji, ale niektóre platformy używać przeglądarki `alert` funkcji, która jest zazwyczaj mniej konfigurowalny.
 
     navigator.notification.alert(message, alertCallback, [title], [buttonName])
     
@@ -72,6 +80,7 @@ Pokazuje niestandardowe wpisu lub okno dialogowe. Większość implementacji Cor
 *   Tizen
 *   Windows Phone 7 i 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 i 8 dziwactwa
 
@@ -84,7 +93,11 @@ Pokazuje niestandardowe wpisu lub okno dialogowe. Większość implementacji Cor
 
 ### Firefox OS dziwactwa:
 
-Blokuje zarówno rodzimych `window.alert()` i bez blokowania `navigator.notification.alert()` są dostępne.
+Dostępne są zarówno rodzimych blokuje `window.alert()` i bez blokowania `navigator.notification.alert()`.
+
+### Jeżyna 10 dziwactwa
+
+parametr wywołania zwrotnego `Navigator.Notification.alert ("tekst", wywołanie zwrotne, 'tytuł', 'tekst')` jest przekazywana numer 1.
 
 ## navigator.notification.confirm
 
@@ -103,9 +116,9 @@ Wyświetla okno dialogowe potwierdzenia konfigurowalny.
 
 ### confirmCallback
 
-`confirmCallback`Wykonuje, gdy użytkownik naciśnie klawisz jeden z przycisków w oknie dialogowym potwierdzenia.
+`confirmCallback` wykonuje, gdy użytkownik naciśnie klawisz jeden z przycisków w oknie dialogowym potwierdzenia.
 
-Wywołania zwrotnego przyjmuje argument `buttonIndex` *(numer)*, który jest indeksem wciśnięty przycisk. Uwaga, że indeks używa, na podstawie jednego indeksowania, więc wartość jest `1` , `2` , `3` , itp.
+Wywołanie zwrotne wymaga argumentu `buttonIndex` *(numer)*, który jest indeksem wciśnięty przycisk. Należy zauważyć, że indeks używa, na podstawie jednego indeksowania, więc wartością jest `1`, `2`, `3` itd.
 
 ### Przykład
 
@@ -131,6 +144,7 @@ Wywołania zwrotnego przyjmuje argument `buttonIndex` *(numer)*, który jest ind
 *   Tizen
 *   Windows Phone 7 i 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 i 8 dziwactwa
 
@@ -141,9 +155,15 @@ Wywołania zwrotnego przyjmuje argument `buttonIndex` *(numer)*, który jest ind
 
 *   Wzywa do `alert` i `confirm` są bez blokowania, więc wynik jest tylko dostępnych asynchronicznie.
 
+### Windows dziwactwa
+
+*   Na Windows8/8.1 to nie można dodać więcej niż trzy przyciski do instancji MessageDialog.
+
+*   Na Windows Phone 8.1 nie jest możliwe wyświetlić okno dialogowe z więcej niż dwoma przyciskami.
+
 ### Firefox OS dziwactwa:
 
-Blokuje zarówno rodzimych `window.confirm()` i bez blokowania `navigator.notification.confirm()` są dostępne.
+Dostępne są zarówno rodzimych blokuje `window.confirm()` i bez blokowania `navigator.notification.confirm()`.
 
 ## navigator.notification.prompt
 
@@ -152,21 +172,21 @@ Wyświetla okno dialogowe macierzystego, który bardziej niż przeglądarki `pro
     navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
     
 
-*   **wiadomość**: komunikat okna dialogowego. *(String)*
+*   **message**: komunikat okna dialogowego. *(String)*
 
 *   **promptCallback**: wywołanie zwrotne do wywołania z indeksu z przycisku (1, 2 lub 3), lub gdy okno jest zwolniony bez naciśnij przycisk (0). *(Funkcja)*
 
-*   **tytuł**: okno tytuł *(String)* (opcjonalna, domyślnie`Prompt`)
+*   **title**: okno tytuł *(String)* (opcjonalna, domyślnie `polecenia`)
 
-*   **buttonLabels**: tablica ciągów, określając przycisk etykiety *(tablica)* (opcjonalna, domyślnie`["OK","Cancel"]`)
+*   **buttonLabels**: tablica ciągów, określając przycisk etykiety *(tablica)* (opcjonalna, domyślnie `["OK", "Anuluj"]`)
 
-*   **defaultText**: wartość wejściowa tekstowym domyślnego ( `String` ) (opcjonalna, domyślnie: pusty ciąg)
+*   **defaultText**: domyślnie pole tekstowe wprowadzania wartości (`String`) (opcjonalna, domyślnie: pusty ciąg)
 
 ### promptCallback
 
-`promptCallback`Wykonuje, gdy użytkownik naciśnie klawisz jeden z przycisków w oknie dialogowym polecenia. `results`Obiekt przekazywany do wywołania zwrotnego zawiera następujące właściwości:
+`promptCallback` wykonuje, gdy użytkownik naciśnie klawisz jeden z przycisków w oknie dialogowym polecenia. Obiektu `results` przekazane do wywołania zwrotnego zawiera następujące właściwości:
 
-*   **buttonIndex**: indeks wciśnięty przycisk. *(Liczba)* Uwaga, że indeks używa, na podstawie jednego indeksowania, więc wartość jest `1` , `2` , `3` , itp.
+*   **buttonIndex**: indeks wciśnięty przycisk. *(Liczba)* Należy zauważyć, że indeks używa, na podstawie jednego indeksowania, więc wartością jest `1`, `2`, `3` itd.
 
 *   **input1**: Tekst wprowadzony w oknie polecenia. *(String)*
 
@@ -192,6 +212,8 @@ Wyświetla okno dialogowe macierzystego, który bardziej niż przeglądarki `pro
 *   Firefox OS
 *   iOS
 *   Windows Phone 7 i 8
+*   Windows 8
+*   Windows
 
 ### Dziwactwa Androida
 
@@ -199,9 +221,13 @@ Wyświetla okno dialogowe macierzystego, który bardziej niż przeglądarki `pro
 
 *   Android 3.0 i nowszych przyciski są wyświetlane w kolejności odwrotnej do urządzenia, które używają tematu Holo.
 
+### Windows dziwactwa
+
+*   W systemie Windows wierzyciel okno jest oparte na języku html, ze względu na brak takich natywnego api.
+
 ### Firefox OS dziwactwa:
 
-Blokuje zarówno rodzimych `window.prompt()` i bez blokowania `navigator.notification.prompt()` są dostępne.
+Dostępne są zarówno rodzimych blokuje `window.prompt()` i bez blokowania `navigator.notification.prompt()`.
 
 ## navigator.notification.beep
 
@@ -210,7 +236,7 @@ Urządzenie odtwarza sygnał ciągły dźwięk.
     navigator.notification.beep(times);
     
 
-*   **razy**: liczba powtórzeń po sygnale. *(Liczba)*
+*   **times**: liczba powtórzeń po sygnale. *(Liczba)*
 
 ### Przykład
 
@@ -230,11 +256,11 @@ Urządzenie odtwarza sygnał ciągły dźwięk.
 
 ### Amazon ogień OS dziwactwa
 
-*   Amazon ogień OS gra domyślny **Dźwięk powiadomienia** określone w panelu **ekranu/ustawienia i dźwięk** .
+*   Amazon ogień OS gra domyślny **Dźwięk powiadomienia** określone w panelu **ekranu/ustawienia i dźwięk**.
 
 ### Dziwactwa Androida
 
-*   Android gra domyślnie **dzwonek powiadomienia** określone w panelu **ustawień/dźwięk i wyświetlacz** .
+*   Android gra domyślnie **dzwonek powiadomienia** określone w panelu **ustawień/dźwięk i wyświetlacz**.
 
 ### Windows Phone 7 i 8 dziwactwa
 
@@ -244,4 +270,4 @@ Urządzenie odtwarza sygnał ciągły dźwięk.
 
 *   Tizen implementuje dźwięków przez odtwarzania pliku audio za pośrednictwem mediów API.
 
-*   Plik dźwiękowy muszą być krótkie, musi znajdować się w `sounds` podkatalogu katalogu głównego aplikacji i musi być nazwany`beep.wav`.
+*   Plik dźwiękowy muszą być krótkie, musi znajdować się w podkatalogu `dźwięki` w katalogu głównym aplikacji i musi być o nazwie `beep.wav`.

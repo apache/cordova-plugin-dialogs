@@ -19,11 +19,17 @@
 
 # org.apache.cordova.dialogs
 
-Ce plugin permet d'accéder à certains éléments d'interface utilisateur native de dialogue.
+Ce plugin permet d'accéder à certains éléments d'interface utilisateur native de dialogue via un global `navigator.notification` objet.
+
+Bien que l'objet est attaché à la portée globale `navigator` , il n'est pas disponible jusqu'après la `deviceready` événement.
+
+    document.addEventListener (« deviceready », onDeviceReady, false) ;
+    function onDeviceReady() {console.log(navigator.notification);}
+    
 
 ## Installation
 
-    cordova plugin add org.apache.cordova.dialogs
+    Cordova plugin ajouter org.apache.cordova.dialogs
     
 
 ## Méthodes
@@ -37,7 +43,7 @@ Ce plugin permet d'accéder à certains éléments d'interface utilisateur nativ
 
 Affiche une boîte de dialogue ou d'alerte personnalisé. La plupart des implémentations de Cordova utilisent une boîte de dialogue natives pour cette fonctionnalité, mais certaines plates-formes du navigateur `alert` fonction, qui est généralement moins personnalisable.
 
-    Navigator.notification.Alert (message, alertCallback, [titre], [buttonName])
+    Navigator.notification.Alert (message, alertCallback, [title], [buttonName])
     
 
 *   **message**: message de la boîte de dialogue. *(String)*
@@ -50,16 +56,7 @@ Affiche une boîte de dialogue ou d'alerte personnalisé. La plupart des implém
 
 ### Exemple
 
-    function alertDismissed() {
-        // do something
-    }
-    
-    navigator.notification.alert(
-        'You are the winner!',  // message
-        alertDismissed,         // callback
-        'Game Over',            // title
-        'Done'                  // buttonName
-    );
+    function alertDismissed() {/ / faire quelque chose} navigator.notification.alert ('Vous êtes le gagnant!', / / message alertDismissed, / / rappel « Game Over », / / titre « Done » / / buttonName) ;
     
 
 ### Plates-formes prises en charge
@@ -72,6 +69,7 @@ Affiche une boîte de dialogue ou d'alerte personnalisé. La plupart des implém
 *   Tizen
 *   Windows Phone 7 et 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 et 8 Quirks
 
@@ -86,11 +84,15 @@ Affiche une boîte de dialogue ou d'alerte personnalisé. La plupart des implém
 
 Les deux indigènes bloquant `window.alert()` et non-bloquante `navigator.notification.alert()` sont disponibles.
 
+### BlackBerry 10 Quirks
+
+`navigator.notification.alert('text', callback, 'title', 'text')`paramètre callback est passé numéro 1.
+
 ## navigator.notification.confirm
 
 Affiche une boîte de dialogue de confirmation personnalisable.
 
-    navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+    Navigator.notification.Confirm (message, confirmCallback, [title], [buttonLabels])
     
 
 *   **message**: message de la boîte de dialogue. *(String)*
@@ -109,16 +111,9 @@ Le rappel prend l'argument `buttonIndex` *(nombre)*, qui est l'index du bouton a
 
 ### Exemple
 
-    function onConfirm(buttonIndex) {
-        alert('You selected button ' + buttonIndex);
-    }
+    function onConfirm(buttonIndex) {alert (« Vous bouton sélectionné » + buttonIndex);}
     
-    navigator.notification.confirm(
-        'You are the winner!', // message
-         onConfirm,            // callback to invoke with index of button pressed
-        'Game Over',           // title
-        ['Restart','Exit']     // buttonLabels
-    );
+    Navigator.notification.Confirm ('Vous êtes le gagnant!', / / message onConfirm, / / rappel d'invoquer avec l'index du bouton enfoncé « Game Over », / / title ['redémarrer', « Exit »] / / buttonLabels) ;
     
 
 ### Plates-formes prises en charge
@@ -131,6 +126,7 @@ Le rappel prend l'argument `buttonIndex` *(nombre)*, qui est l'index du bouton a
 *   Paciarelli
 *   Windows Phone 7 et 8
 *   Windows 8
+*   Windows
 
 ### Windows Phone 7 et 8 Quirks
 
@@ -141,6 +137,12 @@ Le rappel prend l'argument `buttonIndex` *(nombre)*, qui est l'index du bouton a
 
 *   Les appels à `alert` et `confirm` sont non-bloquants, donc le résultat est seulement disponible de façon asynchrone.
 
+### Bizarreries de Windows
+
+*   Sur Windows8/8.1, il n'est pas possible d'ajouter plus de trois boutons à MessageDialog instance.
+
+*   Sur Windows Phone 8.1, il n'est pas possible d'établir le dialogue avec plus de deux boutons.
+
 ### Firefox OS Quirks :
 
 Les deux indigènes bloquant `window.confirm()` et non-bloquante `navigator.notification.confirm()` sont disponibles.
@@ -149,40 +151,32 @@ Les deux indigènes bloquant `window.confirm()` et non-bloquante `navigator.noti
 
 Affiche une boîte de dialogue natif qui est plus personnalisable que le navigateur `prompt` fonction.
 
-    navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+    Navigator.notification.prompt (message, promptCallback, [title], [buttonLabels], [defaultText])
     
 
 *   **message**: message de la boîte de dialogue. *(String)*
 
 *   **promptCallback**: rappel d'invoquer avec l'index du bouton pressé (1, 2 ou 3) ou lorsque la boîte de dialogue est fermée sans une presse de bouton (0). *(Fonction)*
 
-*   **titre**: titre de la boîte de dialogue. *(String)* (Facultatif, par défaut`Alert`)
+*   **titre**: titre *(String)* (facultatif, la valeur par défaut de dialogue`Prompt`)
 
-*   **buttonLabels**: tableau de chaînes spécifiant les étiquettes de boutons *(Array)* (facultatif, par défaut, les étiquettes `["OK","Cancel"]`)
+*   **buttonLabels**: tableau de chaînes spécifiant les bouton *(Array)* (facultatif, par défaut, les étiquettes`["OK","Cancel"]`)
 
-*   **defaultText**: texte par défaut de la zone de texte ( `String` ) (en option, par défaut : chaîne vide)
+*   **defaultText**: zone de texte par défaut entrée valeur ( `String` ) (en option, par défaut : chaîne vide)
 
 ### promptCallback
 
 Le `promptCallback` s'exécute lorsque l'utilisateur appuie sur un bouton dans la boîte de dialogue d'invite. Le `results` objet passé au rappel contient les propriétés suivantes :
 
-*   **buttonIndex**: l'index du bouton activé. *(Nombre)* Notez que l'index utilise une indexation de base 1, donc la valeur est `1` , `2` , `3` , etc.
+*   **buttonIndex**: l'index du bouton activé. *(Nombre)* Notez que l'index utilise base d'indexation, la valeur est `1` , `2` , `3` , etc..
 
 *   **entrée 1**: le texte entré dans la boîte de dialogue d'invite. *(String)*
 
 ### Exemple
 
-    function onPrompt(results) {
-        alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
-    }
+    function onPrompt(results) {alert (« Vous avez sélectionné le numéro du bouton » + results.buttonIndex + « et saisi » + results.input1);}
     
-    navigator.notification.prompt(
-        'Please enter your name',  // message
-        onPrompt,                  // callback to invoke
-        'Registration',            // title
-        ['Ok','Exit'],             // buttonLabels
-        'Jane Doe'                 // defaultText
-    );
+    Navigator.notification.prompt ('Veuillez saisir votre nom', / / message onPrompt, / / rappel à appeler « Registration », / / title ['Ok', 'Exit'], / / buttonLabels « Jane Doe » / / defaultText) ;
     
 
 ### Plates-formes prises en charge
@@ -192,12 +186,18 @@ Le `promptCallback` s'exécute lorsque l'utilisateur appuie sur un bouton dans l
 *   Firefox OS
 *   iOS
 *   Windows Phone 7 et 8
+*   Windows 8
+*   Windows
 
 ### Quirks Android
 
 *   Android prend en charge un maximum de trois boutons et ignore plus que cela.
 
 *   Sur Android 3.0 et versions ultérieures, les boutons sont affichés dans l'ordre inverse pour les appareils qui utilisent le thème Holo.
+
+### Bizarreries de Windows
+
+*   Sous Windows, dialogue d'invite est basé sur html en raison de l'absence de ces api native.
 
 ### Firefox OS Quirks :
 
@@ -207,15 +207,15 @@ Les deux indigènes bloquant `window.prompt()` et non-bloquante `navigator.notif
 
 Le dispositif joue un bip sonore.
 
-    navigator.notification.beep(times);
+    Navigator.notification.Beep(Times) ;
     
 
 *   **temps**: le nombre de fois répéter le bip. *(Nombre)*
 
 ### Exemple
 
-    // Beep twice!
-    navigator.notification.beep(2);
+    Deux bips !
+    Navigator.notification.Beep(2) ;
     
 
 ### Plates-formes prises en charge
