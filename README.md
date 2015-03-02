@@ -19,4 +19,7 @@
 
 # org.apache.cordova.dialogs
 
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-dialogs.svg)](https://travis-ci.org/apache/cordova-plugin-dialogs)
+
+
 Plugin documentation: [doc/index.md](doc/index.md)
