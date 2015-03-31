@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.dialogs
+# cordova-plugin-dialogs
 
 이 플러그인 글로벌 `navigator.notification` 개체를 통해 몇 가지 기본 대화 상자 UI 요소에 액세스할 수 있습니다.
 
@@ -31,7 +31,7 @@
 
 ## 설치
 
-    cordova plugin add org.apache.cordova.dialogs
+    cordova plugin add cordova-plugin-dialogs
     
 
 ## 메서드

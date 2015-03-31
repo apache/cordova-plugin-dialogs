@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.dialogs
+# cordova-plugin-dialogs
 
 這個外掛程式提供對一些本機對話方塊使用者介面元素，通過全球 `navigator.notification` 物件的訪問。
 
@@ -31,7 +31,7 @@
 
 ## 安裝
 
-    cordova plugin add org.apache.cordova.dialogs
+    cordova plugin add cordova-plugin-dialogs
     
 
 ## 方法

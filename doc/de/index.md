@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.dialogs
+# cordova-plugin-dialogs
 
 Dieses Plugin ermöglicht den Zugriff auf einige native Dialog-UI-Elemente über eine globale `navigator.notification`-Objekt.
 
@@ -31,7 +31,7 @@ Obwohl das Objekt mit der globalen Gültigkeitsbereich `navigator` verbunden ist
 
 ## Installation
 
-    cordova plugin add org.apache.cordova.dialogs
+    cordova plugin add cordova-plugin-dialogs
     
 
 ## Methoden

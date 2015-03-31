@@ -17,13 +17,13 @@
     under the License.
 -->
 
-# org.apache.cordova.dialogs
+# cordova-plugin-dialogs
 
 Этот плагин обеспечивает доступ к некоторым элементам собственного диалогового окна пользовательского интерфейса.
 
 ## Установка
 
-    cordova plugin add org.apache.cordova.dialogs
+    cordova plugin add cordova-plugin-dialogs
     
 
 ## Методы

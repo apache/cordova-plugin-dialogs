@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.dialogs
+# cordova-plugin-dialogs
 
 Questo plugin consente di accedere ad alcuni elementi di interfaccia utente nativa dialogo tramite un oggetto globale `navigator.notification`.
 
@@ -31,7 +31,7 @@ Anche se l'oggetto è associato con ambito globale del `navigator`, non è dispo
 
 ## Installazione
 
-    cordova plugin add org.apache.cordova.dialogs
+    cordova plugin add cordova-plugin-dialogs
     
 
 ## Metodi

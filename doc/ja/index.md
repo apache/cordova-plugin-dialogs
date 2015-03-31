@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.dialogs
+# cordova-plugin-dialogs
 
 このプラグインは、グローバル `navigator.notification` オブジェクトを介していくつかネイティブ ダイアログの UI 要素へのアクセスを提供します。
 
@@ -31,7 +31,7 @@
 
 ## インストール
 
-    cordova plugin add org.apache.cordova.dialogs
+    cordova plugin add cordova-plugin-dialogs
     
 
 ## メソッド
