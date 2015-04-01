@@ -24,7 +24,7 @@ module.exports = function (quantity) {
         beepObj,
         play = function () { 
             //create new object every time due to strage playback behaviour
-            beepObj = new Audio('local:///chrome/plugin/cordova-plugin-dialogs/notification-beep.wav');
+            beepObj = new Audio('local:///chrome/plugin/org.apache.cordova.dialogs/notification-beep.wav');
             beepObj.addEventListener("ended", callback);
             beepObj.play();
         },
