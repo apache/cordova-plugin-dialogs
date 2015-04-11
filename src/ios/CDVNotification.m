@@ -48,7 +48,20 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.3) {
-            alertController.view.frame = [[UIScreen mainScreen] applicationFrame];
+            
+            CGFloat screenHeight;
+            CGFloat screenWidth;
+            if ([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortraitUpsideDown){
+                screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
+                screenWidth = [UIScreen mainScreen].applicationFrame.size.width;
+            }
+            else{
+                screenHeight = [UIScreen mainScreen].applicationFrame.size.width;
+                screenWidth = [UIScreen mainScreen].applicationFrame.size.height;
+            }
+            CGRect alertFrame = CGRectMake([UIScreen mainScreen].applicationFrame.origin.x, [UIScreen mainScreen].applicationFrame.origin.y, screenWidth, screenHeight);
+            alertController.view.frame = alertFrame;
+            
         }
         
         for (int n = 0; n < count; n++) {
