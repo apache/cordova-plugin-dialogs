@@ -47,7 +47,9 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
-        alertController.view.frame = [[UIScreen mainScreen] applicationFrame];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.3) {
+            alertController.view.frame = [[UIScreen mainScreen] applicationFrame];
+        }
         
         for (int n = 0; n < count; n++) {
             
