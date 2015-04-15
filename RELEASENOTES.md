@@ -115,3 +115,17 @@
 * Correct way to specify Windows platform in config.xml
 * CB-8351 ios: Use argumentForIndex rather than NSArray extension
 * CB-7955 Add support "browser" platform
+
+### 1.0.0 (Apr 15, 2015)
+* CB-8746 gave plugin major version bump
+* CB-8683 updated wp and bb specific references of old id to new id
+* CB-8683 changed plugin-id to pacakge-name
+* CB-8653 properly updated translated docs to use new id
+* CB-8653 updated translated docs to use new id
+* Use TRAVIS_BUILD_DIR, install paramedic by npm
+* CB-8653 Updated Readme
+* CB-8659: ios: 4.0.x Compatibility: Remove use of deprecated headers
+* CB-8565 Integrate TravisCI
+* CB-8438 cordova-plugin-dialogs documentation translation: cordova-plugin-dialogs
+* CB-8538 Added package.json file
+* CB-8367 [org.apache.cordova.dialogs] Add Prompt support on Windows
