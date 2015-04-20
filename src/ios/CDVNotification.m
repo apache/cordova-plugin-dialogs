@@ -49,19 +49,16 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.3) {
             
-            CGFloat screenHeight;
-            CGFloat screenWidth;
-            if ([[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIDeviceOrientationPortraitUpsideDown){
-                screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
-                screenWidth = [UIScreen mainScreen].applicationFrame.size.width;
-            }
-            else{
-                screenHeight = [UIScreen mainScreen].applicationFrame.size.width;
-                screenWidth = [UIScreen mainScreen].applicationFrame.size.height;
-            }
-            CGRect alertFrame = CGRectMake([UIScreen mainScreen].applicationFrame.origin.x, [UIScreen mainScreen].applicationFrame.origin.y, screenWidth, screenHeight);
-            alertController.view.frame = alertFrame;
+            CGRect alertFrame = [UIScreen mainScreen].applicationFrame;
             
+            if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+                // swap the values for the app frame since it is now in landscape
+                CGFloat temp = alertFrame.size.width;
+                alertFrame.size.width = alertFrame.size.height;
+                alertFrame.size.height = temp;
+            }
+            
+            alertController.view.frame =  alertFrame;
         }
         
         for (int n = 0; n < count; n++) {
