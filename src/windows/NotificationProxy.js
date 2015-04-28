@@ -26,6 +26,12 @@ var cordova = require('cordova');
 var isAlertShowing = false;
 var alertStack = [];
 
+// CB-8928: When toStaticHTML is undefined, prompt fails to run
+function _cleanHtml(html) { return html; }
+if (typeof toStaticHTML !== 'undefined') {
+    _cleanHtml = toStaticHTML;
+}
+
 // Windows does not provide native UI for promp dialog so we use some
 // simple html-based implementation until it is available
 function createPromptDialog(title, message, buttons, defaultText, callback) {
@@ -57,7 +63,7 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
     }
 
     // dialog layout template
-    dlg.innerHTML = toStaticHTML("<span id='lbl-title' style='font-size: 24pt'></span><br/>" // title
+    dlg.innerHTML = _cleanHtml("<span id='lbl-title' style='font-size: 24pt'></span><br/>" // title
         + "<span id='lbl-message'></span><br/>" // message
         + "<input id='prompt-input' style='width: 100%'/><br/>"); // input fields
 
