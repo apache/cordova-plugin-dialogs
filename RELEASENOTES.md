@@ -129,3 +129,7 @@
 * CB-8438 cordova-plugin-dialogs documentation translation: cordova-plugin-dialogs
 * CB-8538 Added package.json file
 * CB-8367 [org.apache.cordova.dialogs] Add Prompt support on Windows
+
+### 1.1.0 (May 06, 2015)
+* CB-8928: Removed direct call to `toStaticHTML`, only call it if we are sure it's present. This closes #52
+* CB-7734 - `navigator.notification.alert` or `navigator.notification.confirm` seem have a "many words" issue. (closes #39)
