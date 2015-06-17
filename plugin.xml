@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="cordova-plugin-dialogs"
-      version="1.1.1-dev">
+      version="1.1.1">
 
     <name>Notification</name>
     <description>Cordova Notification Plugin</description>

@@ -133,3 +133,7 @@
 ### 1.1.0 (May 06, 2015)
 * CB-8928: Removed direct call to `toStaticHTML`, only call it if we are sure it's present. This closes #52
 * CB-7734 - `navigator.notification.alert` or `navigator.notification.confirm` seem have a "many words" issue. (closes #39)
+
+### 1.1.1 (Jun 17, 2015)
+* CB-9128 cordova-plugin-dialogs documentation translation: cordova-plugin-dialogs
+* fix npm md
