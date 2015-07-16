@@ -23,6 +23,7 @@
 #define DIALOG_TYPE_PROMPT @"prompt"
 
 static void soundCompletionCallback(SystemSoundID ssid, void* data);
+static NSMutableArray *alertList = nil;
 
 @implementation CDVNotification
 
@@ -94,9 +95,22 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
             }];
         }
         
+        if(!alertList)
+            alertList = [[NSMutableArray alloc] init];
+        [alertList addObject:alertController];
+        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * ([alertList count]-1)/2);
         
-        
-        [self.viewController presentViewController:alertController animated:YES completion:nil];
+        dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+            
+            UIViewController *presentingViewController = self.viewController;
+            while(presentingViewController.presentedViewController != nil)
+            {
+                presentingViewController = presentingViewController.presentedViewController;
+            }
+            [presentingViewController presentViewController:alertController animated:YES completion:^{
+                [alertList removeObject:alertController];
+            }];
+        });
         
     } else {
 #endif
