@@ -98,19 +98,10 @@ static NSMutableArray *alertList = nil;
         if(!alertList)
             alertList = [[NSMutableArray alloc] init];
         [alertList addObject:alertController];
-        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * ([alertList count]-1)/2);
         
-        dispatch_after(delay, dispatch_get_main_queue(), ^(void){
-            
-            UIViewController *presentingViewController = self.viewController;
-            while(presentingViewController.presentedViewController != nil)
-            {
-                presentingViewController = presentingViewController.presentedViewController;
-            }
-            [presentingViewController presentViewController:alertController animated:YES completion:^{
-                [alertList removeObject:alertController];
-            }];
-        });
+        if ([alertList count]==1) {
+            [self presentAlertcontroller];
+        }
         
     } else {
 #endif
@@ -225,6 +216,25 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
     playBeep([count intValue]);
 }
 
+-(UIViewController *)getTopPresentedViewController {
+    UIViewController *presentingViewController = self.viewController;
+    while(presentingViewController.presentedViewController != nil)
+    {
+        presentingViewController = presentingViewController.presentedViewController;
+    }
+    return presentingViewController;
+}
+
+-(void)presentAlertcontroller {
+    
+    [self.getTopPresentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
+        [alertList removeObject:[alertList firstObject]];
+        if ([alertList count]>0) {
+            [self presentAlertcontroller];
+        }
+    }];
+    
+}
 
 @end
 
