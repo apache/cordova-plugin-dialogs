@@ -95,8 +95,16 @@ static void soundCompletionCallback(SystemSoundID ssid, void* data);
         }
         
         
-        
-        [self.viewController presentViewController:alertController animated:YES completion:nil];
+        UIViewController *currentViewController = [[[UIApplication sharedApplication] delegate] window].rootViewController;
+
+        if (currentViewController) {
+            while (currentViewController.presentedViewController){
+                currentViewController = currentViewController.presentedViewController;
+            }
+            [currentViewController presentViewController:alertController animated:YES completion:nil];
+        } else {
+            [self.viewController presentViewController:alertController animated:YES completion:nil];
+        }
         
     } else {
 #endif
