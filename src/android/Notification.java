@@ -281,24 +281,24 @@ public class Notification extends CordovaPlugin {
 
         Runnable runnable = new Runnable() {
             public void run() {
-				final EditText promptInput = new EditText(cordova.getActivity());
-				final LinearLayout promptInputLayout = new LinearLayout(cordova.getActivity());
-				promptInputLayout.setOrientation(LinearLayout.VERTICAL);
+                final EditText promptInput = new EditText(cordova.getActivity());
+                final LinearLayout promptInputLayout = new LinearLayout(cordova.getActivity());
+                promptInputLayout.setOrientation(LinearLayout.VERTICAL);
                 promptInputLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-				promptInputLayout.setPadding(70, 0, 70, 0);
+                promptInputLayout.setPadding(70, 0, 70, 0);
 
                 if (maxLength > 0) {
-				    promptInput.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-				}
-				promptInput.setHint(defaultText);
- 				promptInputLayout.addView(promptInput);
+                    promptInput.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+                }
+                promptInput.setHint(defaultText);
+                promptInputLayout.addView(promptInput);
 
                 AlertDialog.Builder dlg = createDialog(cordova);
-				dlg.setMessage(message);
-				dlg.setTitle(title);
-				dlg.setCancelable(true);
+                dlg.setMessage(message);
+                dlg.setTitle(title);
+                dlg.setCancelable(true);
 
-				dlg.setView(promptInputLayout);
+                dlg.setView(promptInputLayout);
 
                 final JSONObject result = new JSONObject();
 
