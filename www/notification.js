@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec');
 var platform = require('cordova/platform');
@@ -63,9 +63,7 @@ module.exports = {
         // Some platforms take an array of button label names.
         // Other platforms take a comma separated list.
         // For compatibility, we convert to the desired type based on the platform.
-        if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" ||
-            platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu" ||
-            platform.id == "windows8" || platform.id == "windows") {
+        if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" || platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu") {
 
             if (typeof _buttonLabels === 'string') {
                 _buttonLabels = _buttonLabels.split(","); // not crazy about changing the var type here
@@ -79,6 +77,7 @@ module.exports = {
         exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels]);
     },
 
+
     /**
      * Open a native prompt dialog, with a customizable title and button text.
      * The following results are returned to the result callback:
@@ -90,13 +89,17 @@ module.exports = {
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
+     * @param {String} inputSyle            Textbox input type: 1:text, 2:numeric + 3:Obscured/Password (default: 1)
+     * @param {String} maxLength            Textbox max length: 0:unlimited, other:max length size
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function(message, resultCallback, title, buttonLabels, defaultText, inputSyle, maxLength) {
         var _message = (message || "Prompt message");
         var _title = (title || "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
         var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
+        var _inputSyle = (inputSyle || 1);
+        var _maxLength = (maxLength || 0);
+        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, _inputSyle, _maxLength]);
     },
 
     /**
