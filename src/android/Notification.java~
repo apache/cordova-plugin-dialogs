@@ -34,13 +34,8 @@ import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.text.InputType;
-import android.text.InputFilter;
-import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.Gravity;
 
 
 /**
@@ -92,7 +87,7 @@ public class Notification extends CordovaPlugin {
             return true;
         }
         else if (action.equals("prompt")) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getInt(4), args.getInt(5), callbackContext);
+            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
             return true;
         }
         else if (action.equals("activityStart")) {
@@ -273,35 +268,24 @@ public class Notification extends CordovaPlugin {
      * @param title             The title of the dialog
      * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
      * @param callbackContext   The callback context.
-     * @param inputSyle         Textbox input type: 1:text, 2:numeric + 3:Obscured/Password (default: 1).
      */
-    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final int inputSyle, final int maxLength, final CallbackContext callbackContext) {
-
+    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
+  	
         final CordovaInterface cordova = this.cordova;
-
+       
         Runnable runnable = new Runnable() {
             public void run() {
-				final EditText promptInput = new EditText(cordova.getActivity());
-				final LinearLayout promptInputLayout = new LinearLayout(cordova.getActivity());
-				promptInputLayout.setOrientation(LinearLayout.VERTICAL);
-                promptInputLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-				promptInputLayout.setPadding(70, 0, 70, 0);
-
-                if (maxLength > 0) {
-				    promptInput.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-				}
-				promptInput.setHint(defaultText);
- 				promptInputLayout.addView(promptInput);
-
-                AlertDialog.Builder dlg = createDialog(cordova);
-				dlg.setMessage(message);
-				dlg.setTitle(title);
-				dlg.setCancelable(true);
-
-				dlg.setView(promptInputLayout);
-
+                final EditText promptInput =  new EditText(cordova.getActivity());
+                promptInput.setHint(defaultText);
+                AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                dlg.setMessage(message);
+                dlg.setTitle(title);
+                dlg.setCancelable(true);
+                
+                dlg.setView(promptInput);
+                
                 final JSONObject result = new JSONObject();
-
+                
                 // First button
                 if (buttonLabels.length() > 0) {
                     try {
@@ -311,7 +295,7 @@ public class Notification extends CordovaPlugin {
                                     dialog.dismiss();
                                     try {
                                         result.put("buttonIndex",1);
-                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
+                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());											
                                     } catch (JSONException e) { e.printStackTrace(); }
                                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
                                 }
@@ -362,25 +346,6 @@ public class Notification extends CordovaPlugin {
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
                     }
                 });
-
-                switch (inputSyle) {
-                case 2:
-                    promptInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    break;
-                case 4:
-                    promptInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    promptInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    break;
-                case 5:
-                    promptInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                    promptInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    break;
-                case 1:
-                case 3:
-                default:
-                    promptInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                    break;
-				}
 
                 changeTextDirection(dlg);
             };
@@ -516,4 +481,3 @@ public class Notification extends CordovaPlugin {
         }
     }
 }
-
