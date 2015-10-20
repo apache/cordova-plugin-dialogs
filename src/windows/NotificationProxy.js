@@ -44,6 +44,7 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
     dlgWrap.style.height = "100%";
     dlgWrap.style.backgroundColor = "rgba(0,0,0,0.25)";
     dlgWrap.style.zIndex = "100000";
+    dlgWrap.className = "dlgWrap";
 
     var dlg = document.createElement("div");
     dlg.style.width = "100%";
