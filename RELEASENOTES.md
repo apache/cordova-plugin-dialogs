@@ -20,6 +20,13 @@
 -->
 # Release Notes
 
+### 1.2.0 (Nov 18, 2015)
+* CB-10035 Updated `RELEASENOTES` to be newest to oldest
+* CB-8549 Updated source to pass `Fortify` scan.
+* Fixing contribute link.
+* add `CSS class` to prompt `div` for **Windows** platform
+* CB-9347 - fix to allow to stack multiple `UIAlertControllers`
+
 ### 1.1.1 (Jun 17, 2015)
 * CB-9128 cordova-plugin-dialogs documentation translation: cordova-plugin-dialogs
 * fix npm md
