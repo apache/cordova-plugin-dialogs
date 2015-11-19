@@ -60,7 +60,8 @@ function modal(message, callback, title, buttonLabels, domObjects) {
     var menu = modalDocument.createElement('menu');
     box.appendChild(menu);
     for (var index = 0; index < buttonLabels.length; index++) {
-        addButton(buttonLabels[index], index, (index === 0));
+        // TODO: last button listens to the cancel key
+        addButton(buttonLabels[index], (index+1), (index === 0));
     }
     modalDocument.body.appendChild(box);
 

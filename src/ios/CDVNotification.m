@@ -59,31 +59,32 @@ static NSMutableArray *alertList = nil;
             
             alertController.view.frame =  alertFrame;
         }
-        
+
+        __weak CDVNotification* weakNotif = self;
+
         for (int n = 0; n < count; n++) {
             
             UIAlertAction* action = [UIAlertAction actionWithTitle:[buttons objectAtIndex:n] style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
-                                     {
-                                         CDVPluginResult* result;
-                                         
-                                         if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
-                                             
-                                             NSString* value0 = [[alertController.textFields objectAtIndex:0] text];
-                                             NSDictionary* info = @{
-                                                                    @"buttonIndex":@(n + 1),
-                                                                    @"input1":(value0 ? value0 : [NSNull null])
-                                                                    };
-                                             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:info];
-                                             
-                                         } else {
-                                             
-                                             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)(n  + 1)];
-                                             
-                                         }
-                                         
-                                         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
-                                         
-                                     }];
+            {
+                CDVPluginResult* result;
+
+                if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT])
+                {
+                    NSString* value0 = [[alertController.textFields objectAtIndex:0] text];
+                    NSDictionary* info = @{
+                        @"buttonIndex":@(n + 1),
+                        @"input1":(value0 ? value0 : [NSNull null])
+                    };
+                    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:info];
+                }
+                else
+                {
+                    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)(n  + 1)];
+                }
+
+                [weakNotif.commandDelegate sendPluginResult:result callbackId:callbackId];
+
+            }];
             [alertController addAction:action];
             
         }
@@ -103,8 +104,11 @@ static NSMutableArray *alertList = nil;
             [self presentAlertcontroller];
         }
         
-    } else {
+    }
+    else
+    {
 #endif
+
         CDVAlertView* alertView = [[CDVAlertView alloc]
                                    initWithTitle:title
                                    message:message
@@ -227,10 +231,11 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 
 -(void)presentAlertcontroller {
     
+    __weak CDVNotification* weakNotif = self;
     [self.getTopPresentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
         [alertList removeObject:[alertList firstObject]];
         if ([alertList count]>0) {
-            [self presentAlertcontroller];
+            [weakNotif presentAlertcontroller];
         }
     }];
     
