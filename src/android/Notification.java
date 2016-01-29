@@ -50,6 +50,7 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
+    private AlertDialog.Builder dlg;
     
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
@@ -107,6 +108,9 @@ public class Notification extends CordovaPlugin {
         }
         else if (action.equals("progressStop")) {
             this.progressStop();
+        }
+        else if (action.equals("dismiss")) {
+              this.dismissAll(); 
         }
         else {
             return false;
@@ -204,7 +208,7 @@ public class Notification extends CordovaPlugin {
 
         Runnable runnable = new Runnable() {
             public void run() {
-                AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
@@ -470,6 +474,13 @@ public class Notification extends CordovaPlugin {
             this.progressDialog.dismiss();
             this.progressDialog = null;
         }
+    }
+    
+    /**
+     * Dismiss all dialogs.
+     */
+    public void dismissAll() {
+        dlg.dismiss();
     }
     
     @SuppressLint("NewApi")
