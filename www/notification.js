@@ -109,4 +109,8 @@ module.exports = {
         var defaultedCount = count || 1;
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
     }
+    
+    dismiss: function() {
+        exec(null, null, "Notification", "dismiss", []);
+    }
 };
