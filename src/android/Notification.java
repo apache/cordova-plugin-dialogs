@@ -50,11 +50,11 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
-    private Builder dlg = null;
     
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
     public ProgressDialog progressDialog = null;
+    public AlertDialog.Builder dlg = null;
 
     /**
      * Constructor.
@@ -479,7 +479,7 @@ public class Notification extends CordovaPlugin {
     /**
      * Dismiss all dialogs.
      */
-    public void dismissAll() {
+    public synchronized void dismissAll() {
        if (this.dlg != null) {
             this.dlg.dismiss();
             this.dlg = null;
