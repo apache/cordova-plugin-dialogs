@@ -18,6 +18,8 @@
 */
 package org.apache.cordova.dialogs;
 
+import java.util.Vector;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
