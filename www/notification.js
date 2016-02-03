@@ -110,7 +110,7 @@ module.exports = {
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
     },
     
-    dismiss: function() {
-        exec(null, null, "Notification", "dismiss", []);
+    close: function() {
+        exec(null, null, "Notification", "close", []);
     }
 };
