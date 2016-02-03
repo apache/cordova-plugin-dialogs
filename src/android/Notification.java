@@ -208,15 +208,15 @@ public class Notification extends CordovaPlugin {
 
         Runnable runnable = new Runnable() {
             public void run() {
-                dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                dlg.setMessage(message);
-                dlg.setTitle(title);
-                dlg.setCancelable(true);
+                this.dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                this.dlg.setMessage(message);
+                this.dlg.setTitle(title);
+                this.dlg.setCancelable(true);
 
                 // First button
                 if (buttonLabels.length() > 0) {
                     try {
-                        dlg.setNegativeButton(buttonLabels.getString(0),
+                        this.dlg.setNegativeButton(buttonLabels.getString(0),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -231,7 +231,7 @@ public class Notification extends CordovaPlugin {
                 // Second button
                 if (buttonLabels.length() > 1) {
                     try {
-                        dlg.setNeutralButton(buttonLabels.getString(1),
+                        this.dlg.setNeutralButton(buttonLabels.getString(1),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -246,7 +246,7 @@ public class Notification extends CordovaPlugin {
                 // Third button
                 if (buttonLabels.length() > 2) {
                     try {
-                        dlg.setPositiveButton(buttonLabels.getString(2),
+                        this.dlg.setPositiveButton(buttonLabels.getString(2),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                   dialog.dismiss();
@@ -257,7 +257,7 @@ public class Notification extends CordovaPlugin {
                         LOG.d(LOG_TAG,"JSONException on third button.");
                     }
                 }
-                dlg.setOnCancelListener(new AlertDialog.OnCancelListener() {
+                this.dlg.setOnCancelListener(new AlertDialog.OnCancelListener() {
                     public void onCancel(DialogInterface dialog)
                     {
                         dialog.dismiss();
@@ -265,7 +265,7 @@ public class Notification extends CordovaPlugin {
                     }
                 });
 
-                changeTextDirection(dlg);
+                changeTextDirection(this.dlg);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -480,7 +480,7 @@ public class Notification extends CordovaPlugin {
      * Dismiss all dialogs.
      */
     public void dismissAll() {
-        dlg.dismiss();
+        this.dlg.dismiss();
     }
     
     @SuppressLint("NewApi")
