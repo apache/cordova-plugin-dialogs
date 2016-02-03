@@ -50,7 +50,7 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
-    private AlertDialog.Builder dlg;
+    private Builder dlg = null;
     
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
@@ -480,7 +480,10 @@ public class Notification extends CordovaPlugin {
      * Dismiss all dialogs.
      */
     public void dismissAll() {
-        this.dlg.dismiss();
+       if (this.dlg != null) {
+            this.dlg.dismiss();
+            this.dlg = null;
+        }
     }
     
     @SuppressLint("NewApi")
