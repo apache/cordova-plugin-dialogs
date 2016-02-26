@@ -17,6 +17,8 @@
 #         under the License.
 -->
 
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-dialogs.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-dialogs)
+
 # cordova-plugin-dialogs
 
 This plugin provides access to some native dialog UI elements

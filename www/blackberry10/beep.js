@@ -21,20 +21,24 @@
 
 module.exports = function (quantity) {
     var count = 0,
-        beepObj,
-        play = function () { 
-            //create new object every time due to strage playback behaviour
-            beepObj = new Audio('local:///chrome/plugin/cordova-plugin-dialogs/notification-beep.wav');
-            beepObj.addEventListener("ended", callback);
-            beepObj.play();
-        },
-        callback = function () {
-            if (--count > 0) {
-                play();
-            } else {
-                delete beepObj;
-            }
-        };
+    beepObj;
+
+    function callback() {
+        if (--count > 0) {
+            play();
+        } else {
+            beepObj.removeEventListener("ended", callback);
+            beepObj = null;
+        }
+    }
+
+    function play() { 
+        //create new object every time due to strage playback behaviour
+        beepObj = new Audio('local:///chrome/plugin/cordova-plugin-dialogs/notification-beep.wav');
+        beepObj.addEventListener("ended", callback);
+        beepObj.play();
+    }
+
     count += quantity || 1;
     if (count > 0) {
         play();

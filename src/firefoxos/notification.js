@@ -84,12 +84,12 @@ function modal(message, callback, title, buttonLabels, domObjects) {
             result = {
                 input1: '',
                 buttonIndex: 0
-            }
+            };
         }
         mainWindow.setTimeout(function() {
             callback(result);
         }, 10);
-    };
+    }
     modalWindow.addEventListener('unload', onUnload, false);
 
     // call callback and destroy modal
@@ -110,7 +110,7 @@ function modal(message, callback, title, buttonLabels, domObjects) {
           }
           response = response || labelIndex;
           callback(response);
-        }
+        };
     }
 }
 

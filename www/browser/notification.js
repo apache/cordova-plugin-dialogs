@@ -65,6 +65,21 @@ module.exports.prompt = window.navigator.notification.prompt = function(message,
 };
 
 
+var audioContext = (function() {
+    // Determine if the Audio API is supported by this browser
+    var AudioApi = window.AudioContext;
+    if (!AudioApi) {
+        AudioApi = window.webkitAudioContext;
+    }
+
+    if (AudioApi) {
+        // The Audio API is supported, so create a singleton instance of the AudioContext
+        return new AudioApi();
+    }
+
+    return undefined;
+}());
+
 module.exports.beep = window.navigator.notification.beep = function(times) {
     if (times > 0) {
         var BEEP_DURATION = 700;
@@ -98,18 +113,3 @@ module.exports.beep = window.navigator.notification.beep = function(times) {
         }
     }
 };
-
-var audioContext = (function() {
-    // Determine if the Audio API is supported by this browser
-    var AudioApi = window.AudioContext;
-    if (!AudioApi) {
-        AudioApi = window.webkitAudioContext;
-    }
-
-    if (AudioApi) {
-        // The Audio API is supported, so create a singleton instance of the AudioContext
-        return new AudioApi();
-    }
-
-    return undefined;
-}());

@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+/* global qnx, PluginResult */
+
 function showDialog(args, dialogType, result) {
     //Unpack and map the args
     var msg = JSON.parse(decodeURIComponent(args[0])),

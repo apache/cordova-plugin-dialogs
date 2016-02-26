@@ -19,7 +19,7 @@
  *
 */
 
-/*global Windows:true */
+/*global Windows:true, WinJS, toStaticHTML */
 
 var cordova = require('cordova');
 
@@ -27,7 +27,7 @@ var isAlertShowing = false;
 var alertStack = [];
 
 // CB-8928: When toStaticHTML is undefined, prompt fails to run
-function _cleanHtml(html) { return html; }
+var _cleanHtml = function(html) { return html; };
 if (typeof toStaticHTML !== 'undefined') {
     _cleanHtml = toStaticHTML;
 }
@@ -36,7 +36,7 @@ if (typeof toStaticHTML !== 'undefined') {
 // simple html-based implementation until it is available
 function createPromptDialog(title, message, buttons, defaultText, callback) {
 
-    var isPhone = cordova.platformId == "windows" && WinJS.Utilities.isPhone;;
+    var isPhone = cordova.platformId == "windows" && WinJS.Utilities.isPhone;
 
     var dlgWrap = document.createElement("div");
     dlgWrap.style.position = "absolute";
@@ -64,9 +64,9 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
     }
 
     // dialog layout template
-    dlg.innerHTML = _cleanHtml("<span id='lbl-title' style='font-size: 24pt'></span><br/>" // title
-        + "<span id='lbl-message'></span><br/>" // message
-        + "<input id='prompt-input' style='width: 100%'/><br/>"); // input fields
+    dlg.innerHTML = _cleanHtml("<span id='lbl-title' style='font-size: 24pt'></span><br/>" + // title
+        "<span id='lbl-message'></span><br/>" + // message
+        "<input id='prompt-input' style='width: 100%'/><br/>"); // input fields
 
     dlg.querySelector('#lbl-title').appendChild(document.createTextNode(title));
     dlg.querySelector('#lbl-message').appendChild(document.createTextNode(message));
@@ -74,13 +74,13 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
 
     function makeButtonCallback(idx) {
         return function () {
-            var value = promptInput = dlg.querySelector('#prompt-input').value;
+            var value = dlg.querySelector('#prompt-input').value;
             dlgWrap.parentNode.removeChild(dlgWrap);
 
             if (callback) {
                 callback({ input1: value, buttonIndex: idx });
             }
-        }
+        };
     }
 
     function addButton(idx, label) {
@@ -90,7 +90,7 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
         button.style.fontSize = "12pt";
         button.tabIndex = idx;
         button.onclick = makeButtonCallback(idx + 1);
-        if (idx == 0) {
+        if (idx === 0) {
             button.style.color = "white";
             button.style.backgroundColor = "#464646";
         } else {
@@ -135,7 +135,9 @@ module.exports = {
         md.commands.append(new Windows.UI.Popups.UICommand(_buttonLabel));
         md.showAsync().then(function() {
             isAlertShowing = false;
-            win && win();
+            if (win) {
+                win();
+            }
 
             if (alertStack.length) {
                 setTimeout(alertStack.shift(), 0);
@@ -205,7 +207,9 @@ module.exports = {
             md.showAsync().then(function(res) {
                 isAlertShowing = false;
                 var result = res ? buttons.indexOf(res.label) + 1 : 0;
-                win && win(result);
+                if (win) {
+                    win(result);
+                }
                 if (alertStack.length) {
                     setTimeout(alertStack.shift(), 0);
                 }
@@ -237,7 +241,9 @@ module.exports = {
             } else {
                 snd.removeEventListener("ended", onEvent);
                 snd = null;
-                winX && winX(); // notification.js just sends null, but this is future friendly
+                if (winX) {
+                    winX(); // notification.js just sends null, but this is future friendly
+                }
             }
             count--;
         };
