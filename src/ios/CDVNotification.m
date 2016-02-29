@@ -40,7 +40,7 @@ static NSMutableArray *alertList = nil;
 - (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
 {
     
-    NSUInteger count = [buttons count];
+    int count = (int)[buttons count];
 #ifdef __IPHONE_8_0
     if (NSClassFromString(@"UIAlertController")) {
         
@@ -63,8 +63,9 @@ static NSMutableArray *alertList = nil;
         __weak CDVNotification* weakNotif = self;
 
         for (int n = 0; n < count; n++) {
-            
-            UIAlertAction* action = [UIAlertAction actionWithTitle:[buttons objectAtIndex:n] style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)
+            [alertController addAction:[UIAlertAction actionWithTitle:[buttons objectAtIndex:n]
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action)
             {
                 CDVPluginResult* result;
 
@@ -83,10 +84,7 @@ static NSMutableArray *alertList = nil;
                 }
 
                 [weakNotif.commandDelegate sendPluginResult:result callbackId:callbackId];
-
-            }];
-            [alertController addAction:action];
-            
+            }]];
         }
         
         if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
