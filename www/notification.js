@@ -91,12 +91,12 @@ module.exports = {
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText, theme, inputType) {
+    prompt: function(message, resultCallback, title, buttonLabels, defaultText, inputType, theme) {
         var _message = (typeof message === "string" ? message : "Prompt message");
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
         var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, theme || 1, inputType || 1]);
+        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, inputType || 1, theme || 1]);
     },
 
     /**
