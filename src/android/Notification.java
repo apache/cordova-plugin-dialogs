@@ -90,7 +90,7 @@ public class Notification extends CordovaPlugin {
             return true;
         }
         else if (action.equals("prompt")) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getInt(3), callbackContext);
+            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getInt(4), args.getInt(5), callbackContext);
             return true;
         }
         else if (action.equals("activityStart")) {
@@ -279,7 +279,7 @@ public class Notification extends CordovaPlugin {
      * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
      * @param callbackContext   The callback context.
      */
-    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final int theme, final CallbackContext callbackContext) {
+    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final int theme, final int inputType, final CallbackContext callbackContext) {
 
         final CordovaInterface cordova = this.cordova;
 
@@ -287,6 +287,7 @@ public class Notification extends CordovaPlugin {
             public void run() {
                 final EditText promptInput =  new EditText(cordova.getActivity());
                 promptInput.setHint(defaultText);
+                promptInput.setInputType(inputType);
                 AlertDialog.Builder dlg = createDialog(cordova, theme); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);

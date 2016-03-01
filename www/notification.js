@@ -51,7 +51,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Confirm)
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
-    confirm: function(message, resultCallback, title, buttonLabels, theme) {
+    confirm: function(message, resultCallback, title, buttonLabels, theme, inputType) {
         var _title = (typeof title === "string" ? title : "Confirm");
         var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
 
@@ -76,7 +76,7 @@ module.exports = {
                 _buttonLabels = buttonLabelArray.toString();
             }
         }
-        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels, theme || 1]);
+        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels, theme || 1, inputType || 1]);
     },
 
     /**
