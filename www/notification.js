@@ -51,7 +51,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Confirm)
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
-    confirm: function(message, resultCallback, title, buttonLabels, theme, inputType) {
+    confirm: function(message, resultCallback, title, buttonLabels, theme) {
         var _title = (typeof title === "string" ? title : "Confirm");
         var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
 
@@ -76,7 +76,7 @@ module.exports = {
                 _buttonLabels = buttonLabelArray.toString();
             }
         }
-        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels, theme || 1, inputType || 1]);
+        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels, theme || 1]);
     },
 
     /**
@@ -91,12 +91,12 @@ module.exports = {
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText, theme) {
+    prompt: function(message, resultCallback, title, buttonLabels, defaultText, theme, inputType) {
         var _message = (typeof message === "string" ? message : "Prompt message");
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
         var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, theme || 1]);
+        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, theme || 1, inputType || 1]);
     },
 
     /**
