@@ -90,6 +90,10 @@ module.exports = {
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
+     * @param {Number} inputType            Platform-specific value to customize keyboard for the input
+     *
+     * @see http://developer.android.com/reference/android/text/InputType.html
+     * @see https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextInputTraits_Protocol/#//apple_ref/c/tdef/UIKeyboardType
      */
     prompt: function(message, resultCallback, title, buttonLabels, defaultText, inputType, theme) {
         var _message = (typeof message === "string" ? message : "Prompt message");
