@@ -90,7 +90,9 @@ public class Notification extends CordovaPlugin {
             return true;
         }
         else if (action.equals("prompt")) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getInt(4), args.getInt(5), callbackContext);
+            int inputType = args.optInt(4, android.text.InputType.TYPE_CLASS_TEXT);
+
+            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), inputType, args.getInt(5), callbackContext);
             return true;
         }
         else if (action.equals("activityStart")) {

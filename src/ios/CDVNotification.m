@@ -91,7 +91,10 @@ static NSMutableArray *alertList = nil;
 
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.text = defaultText;
-                textField.keyboardType = [inputType intValue];
+
+                if (inputType != nil) {
+                    textField.keyboardType = [inputType intValue];
+                }
             }];
         }
 
