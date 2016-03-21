@@ -108,5 +108,14 @@ module.exports = {
     beep: function(count) {
         var defaultedCount = count || 1;
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
+    },
+    
+    /**
+     * Close any open dialog.
+     */
+    dismiss: function(message, completeCallback, title, buttonLabel) {
+        var _title = (title || "Alert");//Doesnt Matter!
+        var _buttonLabel = (buttonLabel || "OK");//Doesnt Matter!
+        exec(completeCallback, null, "Notification", "dismiss", [message, _title, _buttonLabel]);
     }
 };
