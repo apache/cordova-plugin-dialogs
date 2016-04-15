@@ -20,6 +20,12 @@
 -->
 # Release Notes
 
+### 1.2.1 (Apr 15, 2016)
+* CB-10097 dialog doesn't show on **iOS** when called from a select list `onChange` event
+* Remove `warning` emoji, as it doesn't correctly display in the docs website: http://cordova.apache.org/docs/en/dev/cordova-plugin-dialogs/index.html
+* CB-10727 Dialogs plugin has warnings on **iOS**
+* CB-10636 Add `JSHint` for plugins
+
 ### 1.2.0 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest
 * [CB-8549](https://issues.apache.org/jira/browse/CB-8549) Updated source to pass `Fortify` scan.
