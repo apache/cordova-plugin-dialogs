@@ -83,6 +83,7 @@ function, which is typically less customizable.
 - Amazon Fire OS
 - Android
 - BlackBerry 10
+- Browser
 - Firefox OS
 - iOS
 - Tizen
@@ -147,6 +148,7 @@ indexing, so the value is `1`, `2`, `3`, etc.
 - Amazon Fire OS
 - Android
 - BlackBerry 10
+- Browser
 - Firefox OS
 - iOS
 - Tizen
@@ -218,6 +220,7 @@ contains the following properties:
 
 - Amazon Fire OS
 - Android
+- Browser
 - Firefox OS
 - iOS
 - Windows Phone 7 and 8
@@ -256,6 +259,7 @@ The device plays a beep sound.
 - Amazon Fire OS
 - Android
 - BlackBerry 10
+- Browser
 - iOS
 - Tizen
 - Windows Phone 7 and 8
