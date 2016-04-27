@@ -37,26 +37,26 @@ static NSMutableArray *alertList = nil;
  *  callbackId    The commmand callback id.
  *  dialogType    The type of alert view [alert | prompt].
  */
-- (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
+- (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText isSecureInput:(BOOL)isSecureInput callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
 {
-    
+
     int count = (int)[buttons count];
 #ifdef __IPHONE_8_0
     if (NSClassFromString(@"UIAlertController")) {
-        
+
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-        
+
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.3) {
-            
+
             CGRect alertFrame = [UIScreen mainScreen].applicationFrame;
-            
+
             if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
                 // swap the values for the app frame since it is now in landscape
                 CGFloat temp = alertFrame.size.width;
                 alertFrame.size.width = alertFrame.size.height;
                 alertFrame.size.height = temp;
             }
-            
+
             alertController.view.frame =  alertFrame;
         }
 
@@ -86,22 +86,23 @@ static NSMutableArray *alertList = nil;
                 [weakNotif.commandDelegate sendPluginResult:result callbackId:callbackId];
             }]];
         }
-        
+
         if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
-            
+
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.text = defaultText;
+                textField.secureTextEntry = isSecureInput;
             }];
         }
-        
+
         if(!alertList)
             alertList = [[NSMutableArray alloc] init];
         [alertList addObject:alertController];
-        
+
         if ([alertList count]==1) {
             [self presentAlertcontroller];
         }
-        
+
     }
     else
     {
@@ -113,26 +114,24 @@ static NSMutableArray *alertList = nil;
                                    delegate:self
                                    cancelButtonTitle:nil
                                    otherButtonTitles:nil];
-        
+
         alertView.callbackId = callbackId;
-        
-        
-        
+
         for (int n = 0; n < count; n++) {
             [alertView addButtonWithTitle:[buttons objectAtIndex:n]];
         }
-        
+
         if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
-            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alertView.alertViewStyle = isSecureInput ? UIAlertViewStyleSecureTextInput : UIAlertViewStylePlainTextInput;
             UITextField* textField = [alertView textFieldAtIndex:0];
             textField.text = defaultText;
         }
-        
+
         [alertView show];
 #ifdef __IPHONE_8_0
     }
 #endif
-    
+
 }
 
 - (void)alert:(CDVInvokedUrlCommand*)command
@@ -142,7 +141,7 @@ static NSMutableArray *alertList = nil;
     NSString* title = [command argumentAtIndex:1];
     NSString* buttons = [command argumentAtIndex:2];
 
-    [self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
+    [self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil isSecureInput:NO callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
 
 - (void)confirm:(CDVInvokedUrlCommand*)command
@@ -152,7 +151,7 @@ static NSMutableArray *alertList = nil;
     NSString* title = [command argumentAtIndex:1];
     NSArray* buttons = [command argumentAtIndex:2];
 
-    [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
+    [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil isSecureInput:NO callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
 
 - (void)prompt:(CDVInvokedUrlCommand*)command
@@ -163,7 +162,18 @@ static NSMutableArray *alertList = nil;
     NSArray* buttons = [command argumentAtIndex:2];
     NSString* defaultText = [command argumentAtIndex:3];
 
-    [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
+    [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText isSecureInput:NO callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
+}
+
+- (void)promptPassword:(CDVInvokedUrlCommand*)command
+{
+    NSString* callbackId = command.callbackId;
+    NSString* message = [command argumentAtIndex:0];
+    NSString* title = [command argumentAtIndex:1];
+    NSArray* buttons = [command argumentAtIndex:2];
+    NSString* defaultText = @"";
+
+    [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText isSecureInput:YES callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
 }
 
 /**
@@ -228,7 +238,7 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 }
 
 -(void)presentAlertcontroller {
-    
+
     __weak CDVNotification* weakNotif = self;
     [self.getTopPresentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
         [alertList removeObject:[alertList firstObject]];
@@ -236,7 +246,7 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
             [weakNotif presentAlertcontroller];
         }
     }];
-    
+
 }
 
 @end

@@ -95,8 +95,12 @@ module.exports = {
         var _message = (typeof message === "string" ? message : "Prompt message");
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
-        var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
+        if (defaultText && typeof defaultText === "boolean") {
+            exec(resultCallback, null, "Notification", "promptPassword", [_message, _title, _buttonLabels, ""]);
+        } else {
+        	var _defaultText = (defaultText || "");
+            exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
+        }
     },
 
     /**
