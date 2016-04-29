@@ -36,10 +36,10 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Alert)
      * @param {String} buttonLabel          Label of the close button (default: OK)
      */
-    alert: function(message, completeCallback, title, buttonLabel) {
+    alert: function(message, completeCallback, title, buttonLabel, theme) {
         var _title = (typeof title === "string" ? title : "Alert");
         var _buttonLabel = (buttonLabel || "OK");
-        exec(completeCallback, null, "Notification", "alert", [message, _title, _buttonLabel]);
+        exec(completeCallback, null, "Notification", "alert", [message, _title, _buttonLabel, theme || 1]);
     },
 
     /**
@@ -51,7 +51,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Confirm)
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
-    confirm: function(message, resultCallback, title, buttonLabels) {
+    confirm: function(message, resultCallback, title, buttonLabels, theme) {
         var _title = (typeof title === "string" ? title : "Confirm");
         var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
 
@@ -76,7 +76,7 @@ module.exports = {
                 _buttonLabels = buttonLabelArray.toString();
             }
         }
-        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels]);
+        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels, theme || 1]);
     },
 
     /**
@@ -90,13 +90,17 @@ module.exports = {
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
+     * @param {Number} inputType            Platform-specific value to customize keyboard for the input
+     *
+     * @see http://developer.android.com/reference/android/text/InputType.html
+     * @see https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextInputTraits_Protocol/#//apple_ref/c/tdef/UIKeyboardType
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function(message, resultCallback, title, buttonLabels, defaultText, inputType, theme) {
         var _message = (typeof message === "string" ? message : "Prompt message");
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
         var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
+        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, inputType, theme || 1]);
     },
 
     /**
