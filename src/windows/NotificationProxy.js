@@ -17,14 +17,33 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 /*global Windows:true, WinJS, toStaticHTML */
 
 var cordova = require('cordova');
+var urlutil = require('cordova/urlutil');
 
 var isAlertShowing = false;
 var alertStack = [];
+
+function createCSSElem(fileName) {
+    var elemId = fileName.substr(0, fileName.lastIndexOf(".")) + "-plugin-style";
+    // If the CSS element exists, don't recreate it.
+    if (document.getElementById(elemId)) {
+        return false;
+    }
+
+    // Create CSS and append it to DOM.
+    var $elem = document.createElement('link');
+    $elem.id = elemId;
+    $elem.rel = "stylesheet";
+    $elem.type = "text/css";
+    $elem.href = urlutil.makeAbsolute("/www/css/" + fileName);
+
+    document.head.appendChild($elem);
+    return true;
+}
 
 // CB-8928: When toStaticHTML is undefined, prompt fails to run
 var _cleanHtml = function(html) { return html; };
@@ -36,37 +55,28 @@ if (typeof toStaticHTML !== 'undefined') {
 // simple html-based implementation until it is available
 function createPromptDialog(title, message, buttons, defaultText, callback) {
 
-    var isPhone = cordova.platformId == "windows" && WinJS.Utilities.isPhone;
+    var isPhone = cordova.platformId === "windows" && WinJS.Utilities.isPhone;
+    var isWindows = !!cordova.platformId.match(/windows/);
+
+    createCSSElem("notification.css");
 
     var dlgWrap = document.createElement("div");
-    dlgWrap.style.position = "absolute";
-    dlgWrap.style.width = "100%";
-    dlgWrap.style.height = "100%";
-    dlgWrap.style.backgroundColor = "rgba(0,0,0,0.25)";
-    dlgWrap.style.zIndex = "100000";
     dlgWrap.className = "dlgWrap";
 
     var dlg = document.createElement("div");
-    dlg.style.width = "100%";
-    dlg.style.minHeight = "180px";
-    dlg.style.height = "auto";
-    dlg.style.overflow = "auto";
-    dlg.style.backgroundColor = "white";
-    dlg.style.position = "relative";
-    dlg.style.lineHeight = "2";
+    dlg.className = "dlgContainer";
 
-    if (isPhone) {
-        dlg.style.padding = "0px 5%";
-    } else {
-        dlg.style.top = "50%"; // center vertically
-        dlg.style.transform = "translateY(-50%)";
-        dlg.style.padding = "0px 30%";
+    if (isWindows) {
+        dlg.className += " dlgContainer-windows";
+    } else if (isPhone) {
+        dlg.className += " dlgContainer-phone";
     }
 
+
     // dialog layout template
-    dlg.innerHTML = _cleanHtml("<span id='lbl-title' style='font-size: 24pt'></span><br/>" + // title
+    dlg.innerHTML = _cleanHtml("<span id='lbl-title'></span><br/>" + // title
         "<span id='lbl-message'></span><br/>" + // message
-        "<input id='prompt-input' style='width: 100%'/><br/>"); // input fields
+        "<input id='prompt-input'/><br/>"); // input fields
 
     dlg.querySelector('#lbl-title').appendChild(document.createTextNode(title));
     dlg.querySelector('#lbl-message').appendChild(document.createTextNode(message));
@@ -85,18 +95,12 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
 
     function addButton(idx, label) {
         var button = document.createElement('button');
-        button.style.margin = "8px 0 8px 16px";
-        button.style.float = "right";
-        button.style.fontSize = "12pt";
+        button.className = "dlgButton";
         button.tabIndex = idx;
         button.onclick = makeButtonCallback(idx + 1);
         if (idx === 0) {
-            button.style.color = "white";
-            button.style.backgroundColor = "#464646";
-        } else {
-            button.style.backgroundColor = "#cccccc";
+            button.className += " dlgButtonFirst";
         }
-        button.style.border = "none";
         button.appendChild(document.createTextNode(label));
         dlg.appendChild(button);
     }
