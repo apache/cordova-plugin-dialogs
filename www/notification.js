@@ -60,22 +60,8 @@ module.exports = {
             console.log("Notification.confirm(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).");
         }
 
-        // Some platforms take an array of button label names.
-        // Other platforms take a comma separated list.
-        // For compatibility, we convert to the desired type based on the platform.
-        if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" ||
-            platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu" ||
-            platform.id == "windows8" || platform.id == "windows") {
+        _buttonLabels = convertButtonLabels(_buttonLabels);
 
-            if (typeof _buttonLabels === 'string') {
-                _buttonLabels = _buttonLabels.split(","); // not crazy about changing the var type here
-            }
-        } else {
-            if (Array.isArray(_buttonLabels)) {
-                var buttonLabelArray = _buttonLabels;
-                _buttonLabels = buttonLabelArray.toString();
-            }
-        }
         exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels]);
     },
 
@@ -95,6 +81,14 @@ module.exports = {
         var _message = (typeof message === "string" ? message : "Prompt message");
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
+
+        // Strings are deprecated!
+        if (typeof _buttonLabels === 'string') {
+            console.log("Notification.prompt(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).");
+        }
+
+        _buttonLabels = convertButtonLabels(_buttonLabels);
+
         var _defaultText = (defaultText || "");
         exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
     },
@@ -110,3 +104,25 @@ module.exports = {
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
     }
 };
+
+function convertButtonLabels(buttonLabels) {
+
+    // Some platforms take an array of button label names.
+    // Other platforms take a comma separated list.
+    // For compatibility, we convert to the desired type based on the platform.
+    if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" ||
+        platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu" ||
+        platform.id == "windows8" || platform.id == "windows") {
+
+        if (typeof buttonLabels === 'string') {
+            buttonLabels = buttonLabels.split(","); // not crazy about changing the var type here
+        }
+    } else {
+        if (Array.isArray(buttonLabels)) {
+            var buttonLabelArray = buttonLabels;
+            buttonLabels = buttonLabelArray.toString();
+        }
+    }
+
+    return buttonLabels;
+}
