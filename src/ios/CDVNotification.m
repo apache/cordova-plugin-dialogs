@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -24,6 +24,11 @@
 
 static void soundCompletionCallback(SystemSoundID ssid, void* data);
 static NSMutableArray *alertList = nil;
+
+CDVAlertView* alertView;
+UIAlertController *alertController;
+
+NSMutableArray* alertViews = nil;
 
 @implementation CDVNotification
 
@@ -44,7 +49,7 @@ static NSMutableArray *alertList = nil;
 #ifdef __IPHONE_8_0
     if (NSClassFromString(@"UIAlertController")) {
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.3) {
             
@@ -59,32 +64,32 @@ static NSMutableArray *alertList = nil;
             
             alertController.view.frame =  alertFrame;
         }
-
+        
         __weak CDVNotification* weakNotif = self;
-
+        
         for (int n = 0; n < count; n++) {
             [alertController addAction:[UIAlertAction actionWithTitle:[buttons objectAtIndex:n]
                                                                 style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action)
-            {
-                CDVPluginResult* result;
-
-                if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT])
-                {
-                    NSString* value0 = [[alertController.textFields objectAtIndex:0] text];
-                    NSDictionary* info = @{
-                        @"buttonIndex":@(n + 1),
-                        @"input1":(value0 ? value0 : [NSNull null])
-                    };
-                    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:info];
-                }
-                else
-                {
-                    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)(n  + 1)];
-                }
-
-                [weakNotif.commandDelegate sendPluginResult:result callbackId:callbackId];
-            }]];
+                                        {
+                                            CDVPluginResult* result;
+                                            
+                                            if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT])
+                                            {
+                                                NSString* value0 = [[alertController.textFields objectAtIndex:0] text];
+                                                NSDictionary* info = @{
+                                                                       @"buttonIndex":@(n + 1),
+                                                                       @"input1":(value0 ? value0 : [NSNull null])
+                                                                       };
+                                                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:info];
+                                            }
+                                            else
+                                            {
+                                                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)(n  + 1)];
+                                            }
+                                            
+                                            [weakNotif.commandDelegate sendPluginResult:result callbackId:callbackId];
+                                        }]];
         }
         
         if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
@@ -106,15 +111,20 @@ static NSMutableArray *alertList = nil;
     else
     {
 #endif
-
-        CDVAlertView* alertView = [[CDVAlertView alloc]
-                                   initWithTitle:title
-                                   message:message
-                                   delegate:self
-                                   cancelButtonTitle:nil
-                                   otherButtonTitles:nil];
+        if(alertViews == nil){
+            alertViews = [[NSMutableArray alloc] init];
+        }
+        
+        alertView = [[CDVAlertView alloc]
+                     initWithTitle:title
+                     message:message
+                     delegate:self
+                     cancelButtonTitle:nil
+                     otherButtonTitles:nil];
         
         alertView.callbackId = callbackId;
+        
+        [alertViews addObject:alertView];
         
         
         
@@ -141,7 +151,7 @@ static NSMutableArray *alertList = nil;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
     NSString* buttons = [command argumentAtIndex:2];
-
+    
     [self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
 
@@ -151,7 +161,7 @@ static NSMutableArray *alertList = nil;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
     NSArray* buttons = [command argumentAtIndex:2];
-
+    
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
 
@@ -162,18 +172,50 @@ static NSMutableArray *alertList = nil;
     NSString* title = [command argumentAtIndex:1];
     NSArray* buttons = [command argumentAtIndex:2];
     NSString* defaultText = [command argumentAtIndex:3];
-
+    
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
 }
 
+- (void)dismissPrevious:(CDVInvokedUrlCommand*)command
+{
+    if(alertView != nil){
+        [alertView dismissWithClickedButtonIndex:-1 animated:NO];
+        alertView = nil;
+    }
+    if(alertController != nil){
+        [alertController dismissViewControllerAnimated:NO completion:nil];
+        alertController = nil;
+    }
+}
+
+- (void)dismissAll:(CDVInvokedUrlCommand*)command
+{
+    if(alertViews != nil){
+        for(int i=0; i<[alertViews count]; i++){
+            CDVAlertView* _alertView = [alertViews objectAtIndex:i];
+            [_alertView dismissWithClickedButtonIndex:-1 animated:NO];
+        }
+        [alertViews removeAllObjects];
+    }
+    [self dismissUIAlertControllers];
+}
+
+- (void)dismissUIAlertControllers{
+    if([self.getTopPresentedViewController isKindOfClass:[UIAlertController class]]){
+        [self.getTopPresentedViewController dismissViewControllerAnimated:NO completion:^{
+            [self dismissUIAlertControllers];
+        }];
+    }
+}
+
 /**
-  * Callback invoked when an alert dialog's buttons are clicked.
-  */
+ * Callback invoked when an alert dialog's buttons are clicked.
+ */
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     CDVAlertView* cdvAlertView = (CDVAlertView*)alertView;
     CDVPluginResult* result;
-
+    
     // Determine what gets returned to JS based on the alert view type.
     if (alertView.alertViewStyle == UIAlertViewStyleDefault) {
         // For alert and confirm, return button index as int back to JS.
@@ -182,23 +224,24 @@ static NSMutableArray *alertList = nil;
         // For prompt, return button index and input text back to JS.
         NSString* value0 = [[alertView textFieldAtIndex:0] text];
         NSDictionary* info = @{
-            @"buttonIndex":@(buttonIndex + 1),
-            @"input1":(value0 ? value0 : [NSNull null])
-        };
+                               @"buttonIndex":@(buttonIndex + 1),
+                               @"input1":(value0 ? value0 : [NSNull null])
+                               };
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:info];
     }
     [self.commandDelegate sendPluginResult:result callbackId:cdvAlertView.callbackId];
+    [alertViews removeObject:cdvAlertView];
 }
 
 static void playBeep(int count) {
     SystemSoundID completeSound;
     NSInteger cbDataCount = count;
     NSURL* audioPath = [[NSBundle mainBundle] URLForResource:@"CDVNotification.bundle/beep" withExtension:@"wav"];
-    #if __has_feature(objc_arc)
-        AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
-    #else
-        AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
-    #endif
+#if __has_feature(objc_arc)
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
+#else
+    AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
+#endif
     AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(cbDataCount-1));
     AudioServicesPlaySystemSound(completeSound);
 }
@@ -238,6 +281,8 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
     }];
     
 }
+
+
 
 @end
 

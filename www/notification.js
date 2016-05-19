@@ -111,11 +111,16 @@ module.exports = {
     },
     
     /**
+     * Close previously opened dialog
+     */
+    dismissPrevious: function() {
+        exec(null, null, "Notification", "dismissPrevious", []);
+    },
+
+    /**
      * Close any open dialog.
      */
-    dismiss: function(message, completeCallback, title, buttonLabel) {
-        var _title = (title || "Alert");//Doesnt Matter!
-        var _buttonLabel = (buttonLabel || "OK");//Doesnt Matter!
-        exec(completeCallback, null, "Notification", "dismiss", [message, _title, _buttonLabel]);
+    dismissAll: function() {
+        exec(null, null, "Notification", "dismissAll", []);
     }
 };
