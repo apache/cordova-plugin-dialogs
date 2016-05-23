@@ -434,7 +434,7 @@ public class Notification extends CordovaPlugin {
             public void run() {
                 notification.progressDialog = createProgressDialog(cordova); // new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 notification.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                notification.progressDialog.setTitle(title);
+                notification.progressDialog.setTitle("");
                 notification.progressDialog.setMessage(message);
                 notification.progressDialog.setCancelable(true);
                 //notification.progressDialog.setMax(100);
