@@ -153,7 +153,9 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         '<p/> <div id="built_in_confirm"></div>' +
         'Expected result: Dialog will have title "index.html" and say "You selected confirm". Press Cancel or OK to close dialog. Nothing will get updated in status box.' +
         '<p/> <div id="built_in_prompt"></div>' +
-        'Expected result: Dialog will have title "index.html" and say "This is a prompt". "Default value" will be in text box. Press Cancel or OK to close dialog. Nothing will get updated in status box.';
+        'Expected result: Dialog will have title "index.html" and say "This is a prompt". "Default value" will be in text box. Press Cancel or OK to close dialog. Nothing will get updated in status box.' +
+        '<p/> <h3>CB-8947 Tests</h3><div id="cb8947"></div>' +
+        'Expected results: Dialogs will not crash iOS';
 
     contentEl.innerHTML = '<div id="info"></div>' +
         dialogs_tests;
@@ -200,4 +202,32 @@ exports.defineManualTests = function (contentEl, createActionButton) {
             prompt('This is a prompt', 'Default value');
         }
     }, 'built_in_prompt');
+
+    // CB-8947 - ensure number messages don't crash iOS
+    createActionButton('Alert Dialog with Number', function () {
+        var callback = function() { clearLog(); console.log("Test passed"); };
+        navigator.notification.alert(17, callback);
+    }, 'cb8947');
+
+    // CB-8947 - ensure object messages don't crash iOS
+    createActionButton('Alert Dialog with Object', function () {
+        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947'};
+        var callback = function() { clearLog(); console.log("Test passed"); };
+        navigator.notification.alert(object, callback);
+    }, 'cb8947');
+
+    // CB-8947 - ensure object messages don't crash iOS
+    createActionButton('Confirm Dialog with Object', function () {
+        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947'};
+        var callback = function() { clearLog(); console.log("Test passed"); };
+        navigator.notification.confirm(object, callback);
+    }, 'cb8947');
+
+    // CB-8947 - ensure object messages don't crash iOS
+    createActionButton('Prompt Dialog with Object', function () {
+        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947'};
+        var callback = function() { clearLog(); console.log("Test passed"); };
+        navigator.notification.prompt(object, callback);
+    }, 'cb8947');
+
 };
