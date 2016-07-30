@@ -223,4 +223,11 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         navigator.notification.confirm(object, callback);
     }, 'cb8947');
 
+    // CB-8947 - ensure object messages don't crash iOS
+    createActionButton('Prompt Dialog with Object', function () {
+        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947'};
+        var callback = function() { clearLog(); console.log("Test passed"); };
+        navigator.notification.prompt(object, callback);
+    }, 'cb8947');
+
 };
