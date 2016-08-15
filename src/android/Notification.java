@@ -32,6 +32,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -286,7 +287,14 @@ public class Notification extends CordovaPlugin {
         Runnable runnable = new Runnable() {
             public void run() {
                 final EditText promptInput =  new EditText(cordova.getActivity());
-                promptInput.setHint(defaultText);
+                
+                /* CB-11677 - By default, prompt input text color is set according current theme. 
+                But for some android versions is not visible (for example 5.1.1). 
+                android.R.color.primary_text_light will make text visible on all versions. */
+                Resources resources = cordova.getActivity().getResources();
+                int promptInputTextColor = resources.getColor(android.R.color.primary_text_light);
+                promptInput.setTextColor(promptInputTextColor);
+                promptInput.setText(defaultText);
                 AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
