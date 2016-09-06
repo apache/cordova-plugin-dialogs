@@ -35,6 +35,8 @@ import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.view.View;
+import android.view.WindowManager.LayoutParams;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -70,13 +72,13 @@ public class Notification extends CordovaPlugin {
      * @return                  True when the action was valid, false otherwise.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-    	/*
-    	 * Don't run any of these if the current activity is finishing
-    	 * in order to avoid android.view.WindowManager$BadTokenException
-    	 * crashing the app. Just return true here since false should only
-    	 * be returned in the event of an invalid action.
-    	 */
-    	if(this.cordova.getActivity().isFinishing()) return true;
+        /*
+         * Don't run any of these if the current activity is finishing
+         * in order to avoid android.view.WindowManager$BadTokenException
+         * crashing the app. Just return true here since false should only
+         * be returned in the event of an invalid action.
+         */
+        if(this.cordova.getActivity().isFinishing()) return true;
 
         if (action.equals("beep")) {
             this.beep(args.getLong(0));
@@ -161,7 +163,7 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context
      */
     public synchronized void alert(final String message, final String title, final String buttonLabel, final int theme, final CallbackContext callbackContext) {
-    	final CordovaInterface cordova = this.cordova;
+        final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -185,7 +187,7 @@ public class Notification extends CordovaPlugin {
                     }
                 });
 
-                changeTextDirection(dlg);
+                changeTextDirection(dlg, null);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -202,7 +204,7 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context.
      */
     public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final int theme, final CallbackContext callbackContext) {
-    	final CordovaInterface cordova = this.cordova;
+        final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -263,7 +265,7 @@ public class Notification extends CordovaPlugin {
                     }
                 });
 
-                changeTextDirection(dlg);
+                changeTextDirection(dlg, null);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -273,8 +275,8 @@ public class Notification extends CordovaPlugin {
      * Builds and shows a native Android prompt dialog with given title, message, buttons.
      * This dialog only shows up to 3 buttons.  Any labels after that will be ignored.
      * The following results are returned to the JavaScript callback identified by callbackId:
-     *     buttonIndex			Index number of the button selected
-     *     input1				The text entered in the prompt dialog box
+     *     buttonIndex          Index number of the button selected
+     *     input1               The text entered in the prompt dialog box
      *
      * @param message           The message the dialog should display
      * @param title             The title of the dialog
@@ -294,8 +296,6 @@ public class Notification extends CordovaPlugin {
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
-
-                dlg.setView(promptInput);
 
                 final JSONObject result = new JSONObject();
 
@@ -372,7 +372,7 @@ public class Notification extends CordovaPlugin {
                     }
                 });
 
-                changeTextDirection(dlg);
+                changeTextDirection(dlg, promptInput);
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -496,13 +496,31 @@ public class Notification extends CordovaPlugin {
     }
 
     @SuppressLint("NewApi")
-    private void changeTextDirection(Builder dlg){
+    private void changeTextDirection(Builder dlg, View view){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+
+        if (view != null) {
+            dlg.setView(view);
+        }
+
         dlg.create();
-        AlertDialog dialog =  dlg.show();
+
+        final AlertDialog dialog =  dlg.show();
+
         if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
             TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
             messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
+        }
+
+        if (view != null) {
+            view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        dialog.getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    }
+                }
+            });
         }
     }
 }
