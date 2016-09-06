@@ -496,7 +496,7 @@ public class Notification extends CordovaPlugin {
     }
 
     @SuppressLint("NewApi")
-    private void changeTextDirection(Builder dlg, View view){
+    private void changeTextDirection(Builder dlg, TextView view){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
         if (view != null) {
@@ -506,13 +506,14 @@ public class Notification extends CordovaPlugin {
         dlg.create();
 
         final AlertDialog dialog =  dlg.show();
+        TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
 
         if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
-            messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
+            messageView.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
         }
 
         if (view != null) {
+            view.setTextColor(messageView.getTextColors());
             view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
