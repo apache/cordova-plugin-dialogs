@@ -84,7 +84,7 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
 
     function makeButtonCallback(idx) {
         return function () {
-            var value = dlg.querySelector('#prompt-input').value;
+            var value = dlg.querySelector('#prompt-input').value || defaultText;
             dlgWrap.parentNode.removeChild(dlgWrap);
 
             if (callback) {
