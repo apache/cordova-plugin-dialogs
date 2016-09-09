@@ -120,7 +120,9 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
     var defaultButton = dlg.querySelector(".dlgButtonFirst");
     dlg.addEventListener("keypress",function(e) {
         if (e.keyCode === 13) { // enter key
-            defaultButton && defaultButton.click();
+            if(defaultButton) {
+                defaultButton.click();
+            }
         }
     });
 
