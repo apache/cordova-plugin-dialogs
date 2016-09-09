@@ -81,6 +81,7 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
     dlg.querySelector('#lbl-title').appendChild(document.createTextNode(title));
     dlg.querySelector('#lbl-message').appendChild(document.createTextNode(message));
     dlg.querySelector('#prompt-input').setAttribute('placeholder', defaultText);
+    dlg.querySelector('#prompt-input').setAttribute('value', defaultText);
 
     function makeButtonCallback(idx) {
         return function () {
@@ -114,7 +115,7 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
     document.body.appendChild(dlgWrap);
 
     // make sure input field is under focus
-    dlg.querySelector('#prompt-input').focus();
+    dlg.querySelector('#prompt-input').select();
 
     return dlgWrap;
 }
