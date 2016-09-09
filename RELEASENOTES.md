@@ -20,11 +20,26 @@
 -->
 # Release Notes
 
+### 1.3.0 (Sep 08, 2016)
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) updated missing header file
+* Select the text and put default value in the input directly.
+* [CB-11281](https://issues.apache.org/jira/browse/CB-11281) **windows**: `defaultText` is not taken as input if no input by user fixed
+* Separated `CSS` from `JS` code. Fixed the prompt dialog CSS to look close to native. Fixed the positioning of the prompt dialog for Windows. Fixed minor JSHint issues.
+* [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
+* [CB-8773](https://issues.apache.org/jira/browse/CB-8773) Fix for **iOS 8** keyboard not appearing on prompt
+* [CB-11677](https://issues.apache.org/jira/browse/CB-11677) **Android**: made text, entered to prompt dialog visible
+* CB-8947:(**ios**) Fix crash. Convert non-string messages to strings. Added tests.
+* Add badges for paramedic builds on Jenkins
+* Add pull request template.
+* [CB-11218](https://issues.apache.org/jira/browse/CB-11218) Convert button list to appropriate type
+* Simply add **Browser** to supported platforms
+* [CB-10996](https://issues.apache.org/jira/browse/CB-10996) Adding front matter to README.md
+
 ### 1.2.1 (Apr 15, 2016)
-* CB-10097 dialog doesn't show on **iOS** when called from a select list `onChange` event
+* [CB-10097](https://issues.apache.org/jira/browse/CB-10097) dialog doesn't show on **iOS** when called from a select list `onChange` event
 * Remove `warning` emoji, as it doesn't correctly display in the docs website: http://cordova.apache.org/docs/en/dev/cordova-plugin-dialogs/index.html
-* CB-10727 Dialogs plugin has warnings on **iOS**
-* CB-10636 Add `JSHint` for plugins
+* [CB-10727](https://issues.apache.org/jira/browse/CB-10727) Dialogs plugin has warnings on **iOS**
+* [CB-10636](https://issues.apache.org/jira/browse/CB-10636) Add `JSHint` for plugins
 
 ### 1.2.0 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest
