@@ -39,7 +39,7 @@ module.exports = {
     alert: function(message, completeCallback, title, buttonLabel) {
         var _message = (typeof message === "string" ? message : JSON.stringify(message));
         var _title = (typeof title === "string" ? title : "Alert");
-        var _buttonLabel = (buttonLabel || "OK");
+        var _buttonLabel = (buttonLabel && typeof buttonLabel === "string" ? buttonLabel : "OK");
         exec(completeCallback, null, "Notification", "alert", [_message, _title, _buttonLabel]);
     },
 

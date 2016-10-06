@@ -116,6 +116,15 @@ function createPromptDialog(title, message, buttons, defaultText, callback) {
 
     // make sure input field is under focus
     dlg.querySelector('#prompt-input').select();
+    // add Enter/Return key handling
+    var defaultButton = dlg.querySelector(".dlgButtonFirst");
+    dlg.addEventListener("keypress",function(e) {
+        if (e.keyCode === 13) { // enter key
+            if(defaultButton) {
+                defaultButton.click();
+            }
+        }
+    });
 
     return dlgWrap;
 }
