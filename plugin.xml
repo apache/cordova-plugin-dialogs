@@ -158,14 +158,14 @@
     <!-- windows8 -->
     <platform name="windows8">
         <js-module src="src/windows/NotificationProxy.js" name="NotificationProxy">
-            <merges target="" />
+            <runs />
         </js-module>
     </platform>
 
     <!-- windows -->
     <platform name="windows">
         <js-module src="src/windows/NotificationProxy.js" name="NotificationProxy">
-            <merges target="" />
+            <runs />
         </js-module>
 
         <asset src="www/windows/notification.css" target="css/notification.css" />
