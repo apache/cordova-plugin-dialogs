@@ -1,3 +1,4 @@
+cordova.define("cordova-plugin-dialogs.notification", function(require, exports, module) {
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -47,12 +48,13 @@ module.exports = {
      * Open a native confirm dialog, with a customizable title and button text.
      * The result that the user selects is returned to the result callback.
      *
-     * @param {String} message              Message to print in the body of the alert
-     * @param {Function} resultCallback     The callback that is called when user clicks on a button.
-     * @param {String} title                Title of the alert dialog (default: Confirm)
-     * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
+     * @param {String} message                          Message to print in the body of the alert
+     * @param {Function} resultCallback                 The callback that is called when user clicks on a button.
+     * @param {String} title                            Title of the alert dialog (default: Confirm)
+     * @param {Array} buttonLabels                      Array of the labels of the buttons (default: ['OK', 'Cancel'])
+     * @param {String} addDestructiveButtonWithLabel    Label of destructive button
      */
-    confirm: function(message, resultCallback, title, buttonLabels) {
+    confirm: function(message, resultCallback, title, buttonLabels,addDestructiveButtonWithLabel) {
         var _message = (typeof message === "string" ? message : JSON.stringify(message));
         var _title = (typeof title === "string" ? title : "Confirm");
         var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
@@ -64,7 +66,7 @@ module.exports = {
 
         _buttonLabels = convertButtonLabels(_buttonLabels);
 
-        exec(resultCallback, null, "Notification", "confirm", [_message, _title, _buttonLabels]);
+        exec(resultCallback, null, "Notification", "confirm", [_message, _title, _buttonLabels,addDestructiveButtonWithLabel]);
     },
 
     /**
@@ -128,3 +130,5 @@ function convertButtonLabels(buttonLabels) {
 
     return buttonLabels;
 }
+
+});
