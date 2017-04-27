@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="cordova-plugin-dialogs-tests"
-    version="1.3.2">
+    version="1.3.3">
     <name>Cordova Notification Plugin Tests</name>
     <license>Apache 2.0</license>
 
