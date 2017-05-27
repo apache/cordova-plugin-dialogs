@@ -183,7 +183,7 @@ namespace WPCordovaClassLib.Cordova.Commands
                             button.Content = buttonLabels[i];
                             button.Tag = i + 1;
                             button.Click += promptBoxbutton_Click;
-                            notifyBox.ButtonPanel.Orientation = Orientation.Vertical;
+                            notifyBox.ButtonPanel.Orientation = System.Windows.Controls.Orientation.Vertical;
                             notifyBox.ButtonPanel.Children.Add(button);
                         }
 
