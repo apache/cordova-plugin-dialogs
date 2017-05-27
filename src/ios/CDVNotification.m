@@ -150,7 +150,7 @@ static NSMutableArray *alertList = nil;
     NSString* callbackId = command.callbackId;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
-    NSArray* buttons = [command argumentAtIndex:2];
+    NSArray* buttons = [command argumentAtIndex:2 withDefault:@[[command argumentAtIndex:2]] and Class:NSArray class]];
 
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
@@ -160,7 +160,7 @@ static NSMutableArray *alertList = nil;
     NSString* callbackId = command.callbackId;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
-    NSArray* buttons = [command argumentAtIndex:2];
+    NSArray* buttons = [command argumentAtIndex:2 withDefault:@[[command argumentAtIndex:2]] and Class:NSArray class]];
     NSString* defaultText = [command argumentAtIndex:3];
 
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
