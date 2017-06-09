@@ -21,14 +21,11 @@
 
 var modulemapper = require('cordova/modulemapper');
 
-
 var origOpenFunc = modulemapper.getOriginalSymbol(window, 'window.open');
 
+function _empty () {}
 
-function _empty() {}
-
-
-function modal(message, callback, title, buttonLabels, domObjects) {
+function modal (message, callback, title, buttonLabels, domObjects) {
     var mainWindow = window;
     var modalWindow = origOpenFunc();
     var modalDocument = modalWindow.document;
@@ -61,24 +58,24 @@ function modal(message, callback, title, buttonLabels, domObjects) {
     box.appendChild(menu);
     for (var index = 0; index < buttonLabels.length; index++) {
         // TODO: last button listens to the cancel key
-        addButton(buttonLabels[index], (index+1), (index === 0));
+        addButton(buttonLabels[index], (index + 1), (index === 0));
     }
     modalDocument.body.appendChild(box);
 
-    function addButton(label, index, recommended) {
+    function addButton (label, index, recommended) {
         var thisButtonCallback = makeCallbackButton(index + 1);
         var button = modalDocument.createElement('button');
         button.appendChild(modalDocument.createTextNode(label));
         button.addEventListener('click', thisButtonCallback, false);
         if (recommended) {
           // TODO: default one listens to Enter key
-          button.classList.add('recommend');
+            button.classList.add('recommend');
         }
         menu.appendChild(button);
     }
 
     // TODO: onUnload listens to the cancel key
-    function onUnload() {
+    function onUnload () {
         var result = 0;
         if (modalDocument.getElementById('prompt-input')) {
             result = {
@@ -86,53 +83,53 @@ function modal(message, callback, title, buttonLabels, domObjects) {
                 buttonIndex: 0
             };
         }
-        mainWindow.setTimeout(function() {
+        mainWindow.setTimeout(function () {
             callback(result);
         }, 10);
     }
     modalWindow.addEventListener('unload', onUnload, false);
 
     // call callback and destroy modal
-    function makeCallbackButton(labelIndex) {
-        return function() {
-          if (modalWindow) {
-              modalWindow.removeEventListener('unload', onUnload, false);
-              modalWindow.close();
-          }
+    function makeCallbackButton (labelIndex) {
+        return function () {
+            if (modalWindow) {
+                modalWindow.removeEventListener('unload', onUnload, false);
+                modalWindow.close();
+            }
           // checking if prompt
-          var promptInput = modalDocument.getElementById('prompt-input');
-          var response;
-          if (promptInput) {
-              response = {
-                input1: promptInput.value,
-                buttonIndex: labelIndex
-              };
-          }
-          response = response || labelIndex;
-          callback(response);
+            var promptInput = modalDocument.getElementById('prompt-input');
+            var response;
+            if (promptInput) {
+                response = {
+                    input1: promptInput.value,
+                    buttonIndex: labelIndex
+                };
+            }
+            response = response || labelIndex;
+            callback(response);
         };
     }
 }
 
 var Notification = {
-    vibrate: function(milliseconds) {
+    vibrate: function (milliseconds) {
         navigator.vibrate(milliseconds);
     },
-    alert: function(successCallback, errorCallback, args) {
+    alert: function (successCallback, errorCallback, args) {
         var message = args[0];
         var title = args[1];
         var _buttonLabels = [args[2]];
         var _callback = (successCallback || _empty);
         modal(message, _callback, title, _buttonLabels);
     },
-    confirm: function(successCallback, errorCallback, args) {
+    confirm: function (successCallback, errorCallback, args) {
         var message = args[0];
         var title = args[1];
         var buttonLabels = args[2];
         var _callback = (successCallback || _empty);
         modal(message, _callback, title, buttonLabels);
     },
-    prompt: function(successCallback, errorCallback, args) {
+    prompt: function (successCallback, errorCallback, args) {
         var message = args[0];
         var title = args[1];
         var buttonLabels = args[2];
@@ -149,7 +146,6 @@ var Notification = {
         modal(message, successCallback, title, buttonLabels, inputParagraph);
     }
 };
-
 
 module.exports = Notification;
 require('cordova/exec/proxy').add('Notification', Notification);

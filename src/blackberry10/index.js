@@ -16,41 +16,41 @@
 
 /* global qnx, PluginResult */
 
-function showDialog(args, dialogType, result) {
-    //Unpack and map the args
-    var msg = JSON.parse(decodeURIComponent(args[0])),
-    title = JSON.parse(decodeURIComponent(args[1])),
-    btnLabel = JSON.parse(decodeURIComponent(args[2]));
+function showDialog (args, dialogType, result) {
+    // Unpack and map the args
+    var msg = JSON.parse(decodeURIComponent(args[0]));
+    var title = JSON.parse(decodeURIComponent(args[1]));
+    var btnLabel = JSON.parse(decodeURIComponent(args[2]));
 
     if (!Array.isArray(btnLabel)) {
-        //Converts to array for (string) and (string,string, ...) cases
-        btnLabel = btnLabel.split(",");
+        // Converts to array for (string) and (string,string, ...) cases
+        btnLabel = btnLabel.split(',');
     }
 
-    if (msg && typeof msg === "string") {
-        msg = msg.replace(/^"|"$/g, "").replace(/\\"/g, '"');
+    if (msg && typeof msg === 'string') {
+        msg = msg.replace(/^"|"$/g, '').replace(/\\"/g, '"');
     } else {
-        result.error("message is undefined");
+        result.error('message is undefined');
         return;
     }
 
     var messageObj = {
-        title : title,
-        htmlmessage :  msg,
-        dialogType : dialogType,
-        optionalButtons : btnLabel
+        title: title,
+        htmlmessage: msg,
+        dialogType: dialogType,
+        optionalButtons: btnLabel
     };
 
-    //TODO replace with getOverlayWebview() when available in webplatform
+    // TODO replace with getOverlayWebview() when available in webplatform
     qnx.webplatform.getWebViews()[2].dialog.show(messageObj, function (data) {
-        if (typeof data === "number") {
-            //Confirm dialog call back needs to be called with one-based indexing [1,2,3 etc]
+        if (typeof data === 'number') {
+            // Confirm dialog call back needs to be called with one-based indexing [1,2,3 etc]
             result.callbackOk(++data, false);
         } else {
-            //Prompt dialog callback expects object
+            // Prompt dialog callback expects object
             result.callbackOk({
                 buttonIndex: data.ok ? 1 : 0,
-                input1: (data.oktext) ? decodeURIComponent(data.oktext) : ""
+                input1: (data.oktext) ? decodeURIComponent(data.oktext) : ''
             }, false);
         }
     });
@@ -63,27 +63,27 @@ module.exports = {
         var result = new PluginResult(args, env);
 
         if (Object.keys(args).length < 3) {
-            result.error("Notification action - alert arguments not found.");
+            result.error('Notification action - alert arguments not found.');
         } else {
-            showDialog(args, "CustomAsk", result);
+            showDialog(args, 'CustomAsk', result);
         }
     },
     confirm: function (success, fail, args, env) {
         var result = new PluginResult(args, env);
 
         if (Object.keys(args).length < 3) {
-            result.error("Notification action - confirm arguments not found.");
+            result.error('Notification action - confirm arguments not found.');
         } else {
-            showDialog(args, "CustomAsk", result);
+            showDialog(args, 'CustomAsk', result);
         }
     },
     prompt: function (success, fail, args, env) {
         var result = new PluginResult(args, env);
 
         if (Object.keys(args).length < 3) {
-            result.error("Notification action - prompt arguments not found.");
+            result.error('Notification action - prompt arguments not found.');
         } else {
-            showDialog(args, "JavaScriptPrompt", result);
+            showDialog(args, 'JavaScriptPrompt', result);
         }
     }
 };
