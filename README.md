@@ -158,6 +158,10 @@ indexing, so the value is `1`, `2`, `3`, etc.
 - Windows 8
 - Windows
 
+### Android Quirks
+
+- Android supports a maximum of three buttons, and ignores any more than that.
+
 ### Windows Phone 7 and 8 Quirks
 
 - There is no built-in browser function for `window.confirm`, but you can bind it by assigning:
