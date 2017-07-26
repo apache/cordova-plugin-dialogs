@@ -18,6 +18,8 @@
 */
 package org.apache.cordova.dialogs;
 
+import java.util.Vector;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -51,6 +53,7 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
+    private Vector<AlertDialog> dialogs = new Vector<AlertDialog>();
     
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
@@ -108,6 +111,9 @@ public class Notification extends CordovaPlugin {
         }
         else if (action.equals("progressStop")) {
             this.progressStop();
+        }
+        else if (action.equals("close")) {
+              this.closeDialogs(); 
         }
         else {
             return false;
@@ -480,6 +486,14 @@ public class Notification extends CordovaPlugin {
         }
     }
     
+    /**
+     * Close all dialogs.
+     */
+    public void closeDialogs() {
+       for (AlertDialog dialog : dialogs)
+            if (dialog.isShowing()) dialog.dismiss();
+    }
+    
     @SuppressLint("NewApi")
     private AlertDialog.Builder createDialog(CordovaInterface cordova) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -503,8 +517,9 @@ public class Notification extends CordovaPlugin {
     @SuppressLint("NewApi")
     private void changeTextDirection(Builder dlg){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        dlg.create();
-        AlertDialog dialog =  dlg.show();
+        AlertDialog dialog =  dlg.create();
+        this.dialogs.add(dialog);
+        dialog.show();
         if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
             TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
             messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);

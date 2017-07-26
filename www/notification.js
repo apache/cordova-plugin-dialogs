@@ -104,6 +104,10 @@ module.exports = {
     beep: function(count) {
         var defaultedCount = count || 1;
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
+    },
+    
+    close: function() {
+        exec(null, null, "Notification", "close", []);
     }
 };
 
