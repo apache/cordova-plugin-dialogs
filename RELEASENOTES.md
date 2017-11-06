@@ -20,6 +20,15 @@
 -->
 # Release Notes
 
+### 1.3.4 (Nov 06, 2017)
+* [CB-13473](https://issues.apache.org/jira/browse/CB-13473) (CI) Removed **Browser** builds from AppVeyor
+* [CB-13472](https://issues.apache.org/jira/browse/CB-13472) (CI) Fixed Travis **Android** builds again
+* [CB-12895](https://issues.apache.org/jira/browse/CB-12895) setup `eslint` and removed `jshint`
+* [CB-13028](https://issues.apache.org/jira/browse/CB-13028) (CI) **Browser** builds on Travis and AppVeyor
+* [CB-4615](https://issues.apache.org/jira/browse/CB-4615) document **Android** quirk around maximum number of button labels supported for the `confirm` method.
+* [CB-13000](https://issues.apache.org/jira/browse/CB-13000) (CI) Speed up **Android** builds
+* [CB-12847](https://issues.apache.org/jira/browse/CB-12847) added `bugs` entry to `package.json`.
+
 ### 1.3.3 (Apr 27, 2017)
 * [CB-12622](https://issues.apache.org/jira/browse/CB-12622) Added **Android 6.0** build badge to `README`
 * [CB-12685](https://issues.apache.org/jira/browse/CB-12685) added `package.json` to tests folder
