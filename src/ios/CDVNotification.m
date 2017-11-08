@@ -228,9 +228,19 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 
 -(UIViewController *)getTopPresentedViewController {
     UIViewController *presentingViewController = self.viewController;
-    while(presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed])
-    {
-        presentingViewController = presentingViewController.presentedViewController;
+    if (presentingViewController.view.window == nil){
+        //for uiwebview viewcontroller, if privacyscreen plugin's viewcontroller is presented, the scanner viewcontroller needs
+        //to be presented by the privacyscreen's viewcontroller.
+        while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
+            presentingViewController = presentingViewController.presentedViewController;
+        }
+    }
+    else if (presentingViewController.view.window != [UIApplication sharedApplication].keyWindow){
+        //for wkwebview, the privacy screen plugin is presented from a different window object
+        presentingViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
+            presentingViewController = presentingViewController.presentedViewController;
+        }
     }
     return presentingViewController;
 }
