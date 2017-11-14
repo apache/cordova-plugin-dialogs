@@ -229,7 +229,6 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 -(UIViewController *)getTopPresentedViewController {
     UIViewController *presentingViewController = self.viewController;
     if (presentingViewController.view.window != [UIApplication sharedApplication].keyWindow){
-        //for wkwebview, the privacy screen plugin is presented from a different window object
         presentingViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
     }
 
