@@ -231,16 +231,10 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
     if (presentingViewController.view.window != [UIApplication sharedApplication].keyWindow){
         //for wkwebview, the privacy screen plugin is presented from a different window object
         presentingViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-        while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
-            presentingViewController = presentingViewController.presentedViewController;
-        }
     }
-    else {
-        //for uiwebview viewcontroller, if inappbrowser or privacyscreen viewcontroller is presented,
-        //then they should be used to repsent the new view control.
-        while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
-            presentingViewController = presentingViewController.presentedViewController;
-        }
+
+    while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
+        presentingViewController = presentingViewController.presentedViewController;
     }
     return presentingViewController;
 }
