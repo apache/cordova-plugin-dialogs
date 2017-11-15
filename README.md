@@ -268,6 +268,7 @@ The device plays a beep sound.
 - Browser
 - iOS
 - Tizen
+- Ubuntu
 - Windows Phone 7 and 8
 - Windows 8
 
@@ -288,3 +289,9 @@ The device plays a beep sound.
 - Tizen implements beeps by playing an audio file via the media API.
 
 - The beep file must be short, must be located in a `sounds` subdirectory of the application's root directory, and must be named `beep.wav`.
+
+### Ubuntu Quirks
+
+The Qt 5 multimedia plugins are required for sound playback.
+
+    sudo apt-get install libqt5multimedia5-plugins
