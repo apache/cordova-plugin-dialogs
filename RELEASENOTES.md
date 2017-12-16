@@ -20,6 +20,10 @@
 -->
 # Release Notes
 
+### 2.0.0 (Dec 15, 2017)
+* [CB-13671](https://issues.apache.org/jira/browse/CB-13671) Remove deprecated platforms
+* [CB-13555](https://issues.apache.org/jira/browse/CB-13555) (ios) Present notification view controller by `InAppBrowser` view controller (#98)
+
 ### 1.3.4 (Nov 06, 2017)
 * [CB-13473](https://issues.apache.org/jira/browse/CB-13473) (CI) Removed **Browser** builds from AppVeyor
 * [CB-13472](https://issues.apache.org/jira/browse/CB-13472) (CI) Fixed Travis **Android** builds again
