@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-dialogs",
-  "version": "2.0.1",
+  "version": "2.0.2-dev",
   "description": "Cordova Notification Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
