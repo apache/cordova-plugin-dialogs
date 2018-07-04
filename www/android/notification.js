@@ -20,111 +20,55 @@
 */
 
 var exec = require('cordova/exec');
-var platform = require('cordova/platform');
 
 /**
- * Provides access to notifications on the device.
+ * Provides Android enhanced notification API.
  */
-
 module.exports = {
-
-    /**
-     * Open a native alert dialog, with a customizable title and button text.
-     *
-     * @param {String} message              Message to print in the body of the alert
-     * @param {Function} completeCallback   The callback that is called when user clicks on a button.
-     * @param {String} title                Title of the alert dialog (default: Alert)
-     * @param {String} buttonLabel          Label of the close button (default: OK)
-     */
-    alert: function (message, completeCallback, title, buttonLabel,options) {
-        var _message = (typeof message === 'string' ? message : JSON.stringify(message));
-        var _title = (typeof title === 'string' ? title : 'Alert');
-        var _buttonLabel = (buttonLabel && typeof buttonLabel === 'string' ? buttonLabel : 'OK');
-        exec(completeCallback, null, 'Notification', 'alert', [_message, _title, _buttonLabel,options]);
-    },
-
-    /**
-     * Open a native confirm dialog, with a customizable title and button text.
-     * The result that the user selects is returned to the result callback.
-     *
-     * @param {String} message              Message to print in the body of the alert
-     * @param {Function} resultCallback     The callback that is called when user clicks on a button.
-     * @param {String} title                Title of the alert dialog (default: Confirm)
-     * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
-     */
-    confirm: function (message, resultCallback, title, buttonLabels,options) {
-        var _message = (typeof message === 'string' ? message : JSON.stringify(message));
-        var _title = (typeof title === 'string' ? title : 'Confirm');
-        var _buttonLabels = (buttonLabels || ['OK', 'Cancel']);
-
-        // Strings are deprecated!
-        if (typeof _buttonLabels === 'string') {
-            console.log('Notification.confirm(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).');
+    activityStart: function (title, message) {
+        // If title and message not specified then mimic Android behavior of
+        // using default strings.
+        if (typeof title === 'undefined' && typeof message === 'undefined') {
+            title = 'Busy';
+            message = 'Please wait...';
         }
 
-        _buttonLabels = convertButtonLabels(_buttonLabels);
-
-        exec(resultCallback, null, 'Notification', 'confirm', [_message, _title, _buttonLabels,options]);
+        exec(null, null, 'Notification', 'activityStart', [ title, message ]);
     },
 
     /**
-     * Open a native prompt dialog, with a customizable title and button text.
-     * The following results are returned to the result callback:
-     *  buttonIndex     Index number of the button selected.
-     *  input1          The text entered in the prompt dialog box.
-     *
-     * @param {String} message              Dialog message to display (default: "Prompt message")
-     * @param {Function} resultCallback     The callback that is called when user clicks on a button.
-     * @param {String} title                Title of the dialog (default: "Prompt")
-     * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
-     * @param {String} defaultText          Textbox input value (default: empty string)
+     * Close an activity dialog
      */
-    prompt: function (message, resultCallback, title, buttonLabels, defaultText,options) {
-        var _message = (typeof message === 'string' ? message : JSON.stringify(message));
-        var _title = (typeof title === 'string' ? title : 'Prompt');
-        var _buttonLabels = (buttonLabels || ['OK', 'Cancel']);
-
-        // Strings are deprecated!
-        if (typeof _buttonLabels === 'string') {
-            console.log('Notification.prompt(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).');
-        }
-
-        _buttonLabels = convertButtonLabels(_buttonLabels);
-
-        var _defaultText = (defaultText || '');
-        exec(resultCallback, null, 'Notification', 'prompt', [_message, _title, _buttonLabels, _defaultText,options]);
+    activityStop: function () {
+        exec(null, null, 'Notification', 'activityStop', []);
     },
 
     /**
-     * Causes the device to beep.
-     * On Android, the default notification ringtone is played "count" times.
+     * Display a progress dialog with progress bar that goes from 0 to 100.
      *
-     * @param {Integer} count       The number of beeps.
+     * @param {String}
+     *            title Title of the progress dialog.
+     * @param {String}
+     *            message Message to display in the dialog.
      */
-    beep: function (count) {
-        var defaultedCount = count || 1;
-        exec(null, null, 'Notification', 'beep', [ defaultedCount ]);
+    progressStart: function (title, message) {
+        exec(null, null, 'Notification', 'progressStart', [ title, message ]);
+    },
+
+    /**
+     * Close the progress dialog.
+     */
+    progressStop: function () {
+        exec(null, null, 'Notification', 'progressStop', []);
+    },
+
+    /**
+     * Set the progress dialog value.
+     *
+     * @param {Number}
+     *            value 0-100
+     */
+    progressValue: function (value) {
+        exec(null, null, 'Notification', 'progressValue', [ value ]);
     }
 };
-
-function convertButtonLabels (buttonLabels) {
-
-    // Some platforms take an array of button label names.
-    // Other platforms take a comma separated list.
-    // For compatibility, we convert to the desired type based on the platform.
-    if (platform.id === 'amazon-fireos' || platform.id === 'android' || platform.id === 'ios' ||
-        platform.id === 'windowsphone' || platform.id === 'firefoxos' || platform.id === 'ubuntu' ||
-        platform.id === 'windows8' || platform.id === 'windows') {
-
-        if (typeof buttonLabels === 'string') {
-            buttonLabels = buttonLabels.split(','); // not crazy about changing the var type here
-        }
-    } else {
-        if (Array.isArray(buttonLabels)) {
-            var buttonLabelArray = buttonLabels;
-            buttonLabels = buttonLabelArray.toString();
-        }
-    }
-
-    return buttonLabels;
-}
