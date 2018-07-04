@@ -31,19 +31,31 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
  * This class provides access to notifications on the device.
  *
- * Be aware that this implementation gets called on 
+ * Be aware that this implementation gets called on
  * navigator.notification.{alert|confirm|prompt}, and that there is a separate
  * implementation in org.apache.cordova.CordovaChromeClient that gets
  * called on a simple window.{alert|confirm|prompt}.
@@ -51,7 +63,7 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
-    
+
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
     public ProgressDialog progressDialog = null;
@@ -78,7 +90,7 @@ public class Notification extends CordovaPlugin {
     	 * be returned in the event of an invalid action.
     	 */
     	if(this.cordova.getActivity().isFinishing()) return true;
-    	
+
         if (action.equals("beep")) {
             this.beep(args.getLong(0));
         }
@@ -91,7 +103,7 @@ public class Notification extends CordovaPlugin {
             return true;
         }
         else if (action.equals("prompt")) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
+            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3),args.getJSONObject(4), callbackContext);
             return true;
         }
         else if (action.equals("activityStart")) {
@@ -280,30 +292,95 @@ public class Notification extends CordovaPlugin {
      * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
      * @param callbackContext   The callback context.
      */
-    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
-  	
+    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText,final JSONObject options, final CallbackContext callbackContext) {
+
         final CordovaInterface cordova = this.cordova;
-       
+
         Runnable runnable = new Runnable() {
             public void run() {
                 final EditText promptInput =  new EditText(cordova.getActivity());
-                
-                /* CB-11677 - By default, prompt input text color is set according current theme. 
-                But for some android versions is not visible (for example 5.1.1). 
+                if(options.has("placeholder"))
+                {
+                  try {
+                    promptInput.setHint(options.getString("placeholder"));
+                    if(options.has("placeholderColor")){
+                      promptInput.setHintTextColor(Color.parseColor(options.getString("placeholderColor")));
+                    }
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                }else{
+                  promptInput.setHint("");
+                }
+                 int decimalDigits = 9999;
+                 int intDigits = 9999;
+                if(options.has("decimalDigits"))
+                {
+                  try {
+                    decimalDigits = options.getInt("decimalDigits");
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                }
+              if(options.has("intDigits"))
+              {
+                try {
+                  intDigits = options.getInt("intDigits");
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              }
+              final Pattern pattern =(intDigits != 9999 || decimalDigits != 9999) ?Pattern.compile("^\\d{0,"+intDigits+"}(\\.\\d{0,"+decimalDigits+"})?$"):null;
+              promptInput.addTextChangedListener(new TextWatcher() {
+                  @Override
+                  public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
+                  }
+
+                  @Override
+                  public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                  }
+
+                  @Override
+                  public void afterTextChanged(Editable editable) {
+                    if(pattern != null)
+                    {
+                      int selectionStart = promptInput.getSelectionStart();
+                      int selectionEnd = promptInput.getSelectionEnd();
+                      Matcher matcher = pattern.matcher(promptInput.getText().toString());
+                      if (!matcher.matches()){
+                        //删除多余输入的字（不会显示出来）
+                        editable.delete(selectionStart - 1, selectionEnd);
+                        promptInput.setText(editable);
+                        promptInput.setSelection(selectionStart - 1);
+                      }
+                    }
+                  }
+                });
+                /* CB-11677 - By default, prompt input text color is set according current theme.
+                But for some android versions is not visible (for example 5.1.1).
                 android.R.color.primary_text_light will make text visible on all versions. */
                 Resources resources = cordova.getActivity().getResources();
                 int promptInputTextColor = resources.getColor(android.R.color.primary_text_light);
                 promptInput.setTextColor(promptInputTextColor);
                 promptInput.setText(defaultText);
+                if(options.has("inputType")){
+                  try {
+                    int inputType = options.getInt("inputType");
+                    promptInput.setInputType(inputType);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                }
                 AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
-                
+
                 dlg.setView(promptInput);
-                
+
                 final JSONObject result = new JSONObject();
-                
+
                 // First button
                 if (buttonLabels.length() > 0) {
                     try {
@@ -313,7 +390,7 @@ public class Notification extends CordovaPlugin {
                                     dialog.dismiss();
                                     try {
                                         result.put("buttonIndex",1);
-                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());											
+                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
                                     } catch (JSONException e) {
                                         LOG.d(LOG_TAG,"JSONException on first button.", e);
                                     }
@@ -356,7 +433,7 @@ public class Notification extends CordovaPlugin {
                                     try {
                                         result.put("buttonIndex",3);
                                         result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
-                                    } catch (JSONException e) { 
+                                    } catch (JSONException e) {
                                         LOG.d(LOG_TAG,"JSONException on third button.", e);
                                     }
                                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
@@ -378,6 +455,32 @@ public class Notification extends CordovaPlugin {
                 });
 
                 changeTextDirection(dlg);
+
+                if(options.has("autofocus")){
+                  try {
+                    if(options.getBoolean("autofocus"))
+                    {
+                      Timer timer = new Timer();
+                      timer.schedule(new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            //设置可获得焦点
+                          promptInput.setFocusable(true);
+                          promptInput.setFocusableInTouchMode(true);
+                            //请求获得焦点
+                          promptInput.requestFocus();
+                            //调用系统输入法
+                            InputMethodManager inputManager = (InputMethodManager) promptInput
+                              .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            inputManager.showSoftInput(promptInput, 0);
+                        }
+                      }, 100);
+                    }
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                }
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
@@ -479,7 +582,7 @@ public class Notification extends CordovaPlugin {
             this.progressDialog = null;
         }
     }
-    
+
     @SuppressLint("NewApi")
     private AlertDialog.Builder createDialog(CordovaInterface cordova) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -499,7 +602,7 @@ public class Notification extends CordovaPlugin {
             return new ProgressDialog(cordova.getActivity());
         }
     }
-    
+
     @SuppressLint("NewApi")
     private void changeTextDirection(Builder dlg){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
