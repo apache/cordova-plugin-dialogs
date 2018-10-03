@@ -71,13 +71,13 @@ public class Notification extends CordovaPlugin {
      * @return                  True when the action was valid, false otherwise.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-    	/*
-    	 * Don't run any of these if the current activity is finishing
-    	 * in order to avoid android.view.WindowManager$BadTokenException
-    	 * crashing the app. Just return true here since false should only
-    	 * be returned in the event of an invalid action.
-    	 */
-    	if(this.cordova.getActivity().isFinishing()) return true;
+        /*
+         * Don't run any of these if the current activity is finishing
+         * in order to avoid android.view.WindowManager$BadTokenException
+         * crashing the app. Just return true here since false should only
+         * be returned in the event of an invalid action.
+         */
+        if (this.cordova.getActivity().isFinishing()) return true;
 
         if (action.equals("beep")) {
             this.beep(args.getLong(0));
@@ -160,7 +160,7 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context
      */
     public synchronized void alert(final String message, final String title, final String buttonLabel, final CallbackContext callbackContext) {
-    	final CordovaInterface cordova = this.cordova;
+        final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -201,7 +201,7 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context.
      */
     public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final CallbackContext callbackContext) {
-    	final CordovaInterface cordova = this.cordova;
+        final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -272,8 +272,8 @@ public class Notification extends CordovaPlugin {
      * Builds and shows a native Android prompt dialog with given title, message, buttons.
      * This dialog only shows up to 3 buttons.  Any labels after that will be ignored.
      * The following results are returned to the JavaScript callback identified by callbackId:
-     *     buttonIndex			Index number of the button selected
-     *     input1				The text entered in the prompt dialog box
+     *     buttonIndex          Index number of the button selected
+     *     input1               The text entered in the prompt dialog box
      *
      * @param message           The message the dialog should display
      * @param title             The title of the dialog
