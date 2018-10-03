@@ -39,15 +39,12 @@ static NSMutableArray *alertList = nil;
  */
 - (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
 {
-    
     int count = (int)[buttons count];
 #ifdef __IPHONE_8_0
     if (NSClassFromString(@"UIAlertController")) {
-        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.3) {
-            
             CGRect alertFrame = [UIScreen mainScreen].applicationFrame;
             
             if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
@@ -101,7 +98,6 @@ static NSMutableArray *alertList = nil;
         if ([alertList count]==1) {
             [self presentAlertcontroller];
         }
-        
     }
     else
     {
@@ -115,8 +111,6 @@ static NSMutableArray *alertList = nil;
                                    otherButtonTitles:nil];
         
         alertView.callbackId = callbackId;
-        
-        
         
         for (int n = 0; n < count; n++) {
             [alertView addButtonWithTitle:[buttons objectAtIndex:n]];
@@ -132,7 +126,6 @@ static NSMutableArray *alertList = nil;
 #ifdef __IPHONE_8_0
     }
 #endif
-    
 }
 
 - (void)alert:(CDVInvokedUrlCommand*)command
@@ -239,7 +232,6 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 }
 
 -(void)presentAlertcontroller {
-    
     __weak CDVNotification* weakNotif = self;
     [self.getTopPresentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
         [alertList removeObject:[alertList firstObject]];
@@ -247,7 +239,6 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
             [weakNotif presentAlertcontroller];
         }
     }];
-    
 }
 
 @end
