@@ -281,7 +281,6 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context.
      */
     public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
-  	
         final CordovaInterface cordova = this.cordova;
        
         Runnable runnable = new Runnable() {
