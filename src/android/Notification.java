@@ -43,7 +43,7 @@ import android.widget.TextView;
 /**
  * This class provides access to notifications on the device.
  *
- * Be aware that this implementation gets called on 
+ * Be aware that this implementation gets called on
  * navigator.notification.{alert|confirm|prompt}, and that there is a separate
  * implementation in org.apache.cordova.CordovaChromeClient that gets
  * called on a simple window.{alert|confirm|prompt}.
@@ -51,7 +51,7 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
-    
+
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
     public ProgressDialog progressDialog = null;
@@ -71,14 +71,14 @@ public class Notification extends CordovaPlugin {
      * @return                  True when the action was valid, false otherwise.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-    	/*
-    	 * Don't run any of these if the current activity is finishing
-    	 * in order to avoid android.view.WindowManager$BadTokenException
-    	 * crashing the app. Just return true here since false should only
-    	 * be returned in the event of an invalid action.
-    	 */
-    	if(this.cordova.getActivity().isFinishing()) return true;
-    	
+        /*
+         * Don't run any of these if the current activity is finishing
+         * in order to avoid android.view.WindowManager$BadTokenException
+         * crashing the app. Just return true here since false should only
+         * be returned in the event of an invalid action.
+         */
+        if (this.cordova.getActivity().isFinishing()) return true;
+
         if (action.equals("beep")) {
             this.beep(args.getLong(0));
         }
@@ -160,7 +160,7 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context
      */
     public synchronized void alert(final String message, final String title, final String buttonLabel, final CallbackContext callbackContext) {
-    	final CordovaInterface cordova = this.cordova;
+        final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -201,7 +201,7 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context.
      */
     public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final CallbackContext callbackContext) {
-    	final CordovaInterface cordova = this.cordova;
+        final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -272,8 +272,8 @@ public class Notification extends CordovaPlugin {
      * Builds and shows a native Android prompt dialog with given title, message, buttons.
      * This dialog only shows up to 3 buttons.  Any labels after that will be ignored.
      * The following results are returned to the JavaScript callback identified by callbackId:
-     *     buttonIndex			Index number of the button selected
-     *     input1				The text entered in the prompt dialog box
+     *     buttonIndex          Index number of the button selected
+     *     input1               The text entered in the prompt dialog box
      *
      * @param message           The message the dialog should display
      * @param title             The title of the dialog
@@ -281,15 +281,14 @@ public class Notification extends CordovaPlugin {
      * @param callbackContext   The callback context.
      */
     public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
-  	
         final CordovaInterface cordova = this.cordova;
-       
+
         Runnable runnable = new Runnable() {
             public void run() {
                 final EditText promptInput =  new EditText(cordova.getActivity());
-                
-                /* CB-11677 - By default, prompt input text color is set according current theme. 
-                But for some android versions is not visible (for example 5.1.1). 
+
+                /* CB-11677 - By default, prompt input text color is set according current theme.
+                But for some android versions is not visible (for example 5.1.1).
                 android.R.color.primary_text_light will make text visible on all versions. */
                 Resources resources = cordova.getActivity().getResources();
                 int promptInputTextColor = resources.getColor(android.R.color.primary_text_light);
@@ -299,11 +298,11 @@ public class Notification extends CordovaPlugin {
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
-                
+
                 dlg.setView(promptInput);
-                
+
                 final JSONObject result = new JSONObject();
-                
+
                 // First button
                 if (buttonLabels.length() > 0) {
                     try {
@@ -313,7 +312,7 @@ public class Notification extends CordovaPlugin {
                                     dialog.dismiss();
                                     try {
                                         result.put("buttonIndex",1);
-                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());											
+                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
                                     } catch (JSONException e) {
                                         LOG.d(LOG_TAG,"JSONException on first button.", e);
                                     }
@@ -356,7 +355,7 @@ public class Notification extends CordovaPlugin {
                                     try {
                                         result.put("buttonIndex",3);
                                         result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
-                                    } catch (JSONException e) { 
+                                    } catch (JSONException e) {
                                         LOG.d(LOG_TAG,"JSONException on third button.", e);
                                     }
                                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
@@ -479,7 +478,7 @@ public class Notification extends CordovaPlugin {
             this.progressDialog = null;
         }
     }
-    
+
     @SuppressLint("NewApi")
     private AlertDialog.Builder createDialog(CordovaInterface cordova) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -499,7 +498,7 @@ public class Notification extends CordovaPlugin {
             return new ProgressDialog(cordova.getActivity());
         }
     }
-    
+
     @SuppressLint("NewApi")
     private void changeTextDirection(Builder dlg){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
