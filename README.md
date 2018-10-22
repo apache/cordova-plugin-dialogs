@@ -43,10 +43,62 @@ Although the object is attached to the global scoped `navigator`, it is not avai
 
 ## Methods
 
+- `navigator.notification.setAndroidStyleName`
 - `navigator.notification.alert`
 - `navigator.notification.confirm`
 - `navigator.notification.prompt`
 - `navigator.notification.beep`
+
+## navigator.notification.setAndroidStyleName
+
+For Android platforms, allows specifying a custom style name to use with the dialogs.
+The style name can be defined within a `styles.xml` file. The `stles.xml` file
+is referenced in your config.xml file as a `<resource-file>`.
+
+    navigator.notification.setAndroidStyleName(styleName)
+
+- __styleName__: Name of Android style. _(String)_
+
+
+### Example
+
+1. Create a `style.xml` with a custom dialog style (notice we give the style a name of `AlertDialogCustom` which will be used in our code later)(this file can go anywhere in your project, this example places it in the root):
+
+
+    <!-- styles.xml file -->
+    <color name="blue">#0000ff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for button colors -->
+        <item name="android:colorAccent">@color/blue</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Used for the background -->
+        <item name="android:background">@color/white</item>
+
+        <!-- More styles could be added... -->
+    </style>
+
+2. Reference your `styles.xml` file in your `config.xml` file so it gets copied to the correct location (since we placed `styles.xml` in our root, we just put the filename with no path, otherwise `src` is relative to your `config.xml` directory)
+
+    <!-- config.xml file -->
+    <widget>
+        <platform name="android">
+            <resource-file src="styles.xml" target="app/src/main/res/values/styles.xml" />
+        </platform>
+    </widget>
+
+3. In your code, set the dialog style name to the one you used in `styles.xml`:
+
+
+    navigator.notification.setAndroidStyleName(
+        'AlertDialogCustom'  // styleName
+    );
+
+### Supported Platforms
+
+- Android
 
 ## navigator.notification.alert
 
