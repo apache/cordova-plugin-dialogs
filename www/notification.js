@@ -78,11 +78,16 @@ module.exports = {
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
+     * @param {String} inputType            Textbox input type (default: empty string)
      */
-    prompt: function (message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function (message, resultCallback, title, buttonLabels, defaultText, inputType) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Prompt');
         var _buttonLabels = (buttonLabels || ['OK', 'Cancel']);
+        var _inputType = (inputType || 'text');
+
+        var _allowedInputType = ['text', 'password', 'number'];
+        if (_allowedInputType.includes(_inputType) == false) _inputType = 'text';
 
         // Strings are deprecated!
         if (typeof _buttonLabels === 'string') {
@@ -92,7 +97,7 @@ module.exports = {
         _buttonLabels = convertButtonLabels(_buttonLabels);
 
         var _defaultText = (defaultText || '');
-        exec(resultCallback, null, 'Notification', 'prompt', [_message, _title, _buttonLabels, _defaultText]);
+        exec(resultCallback, null, 'Notification', 'prompt', [_message, _title, _buttonLabels, _defaultText, _inputType]);
     },
 
     /**

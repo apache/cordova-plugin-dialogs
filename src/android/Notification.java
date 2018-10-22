@@ -91,7 +91,7 @@ public class Notification extends CordovaPlugin {
             return true;
         }
         else if (action.equals("prompt")) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
+            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getString(4), callbackContext);
             return true;
         }
         else if (action.equals("activityStart")) {
@@ -278,9 +278,10 @@ public class Notification extends CordovaPlugin {
      * @param message           The message the dialog should display
      * @param title             The title of the dialog
      * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
+     * @param inputType         The type of prompt input.
      * @param callbackContext   The callback context.
      */
-    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
+    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final String inputType, final CallbackContext callbackContext) {
   	
         final CordovaInterface cordova = this.cordova;
        
@@ -295,6 +296,12 @@ public class Notification extends CordovaPlugin {
                 int promptInputTextColor = resources.getColor(android.R.color.primary_text_light);
                 promptInput.setTextColor(promptInputTextColor);
                 promptInput.setText(defaultText);
+
+                if (inputType.equals("password")) promptInput.setInputType(0x00000081);
+                else if (inputType.equals("number")) promptInput.setInputType(0x00000002);
+
+                promptInput.setSelection(promptInput.getText().length()); // Moves the focus to the end of the text.
+
                 AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
