@@ -181,7 +181,7 @@ contains the following properties:
         'Registration',            // title
         ['Ok','Exit'],             // buttonLabels
         'Jane Doe',                // defaultText
-        'text'                 // inputType
+        'text'                     // inputType
     );
 
 ### Supported Platforms
