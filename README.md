@@ -155,6 +155,8 @@ Displays a native dialog box that is more customizable than the browser's `promp
 
 - __defaultText__: Default textbox input value (`String`) (Optional, Default: empty string)
 
+- __inputType__: Textbox input type (`String`) (Optional, Default: 'text'. Valid values : 'text', 'password', 'number')
+
 ### promptCallback
 
 The `promptCallback` executes when the user presses one of the buttons
@@ -178,7 +180,8 @@ contains the following properties:
         onPrompt,                  // callback to invoke
         'Registration',            // title
         ['Ok','Exit'],             // buttonLabels
-        'Jane Doe'                 // defaultText
+        'Jane Doe',                // defaultText
+        'text'                     // inputType
     );
 
 ### Supported Platforms

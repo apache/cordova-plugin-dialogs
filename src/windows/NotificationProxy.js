@@ -53,7 +53,7 @@ if (typeof toStaticHTML !== 'undefined') {
 
 // Windows does not provide native UI for promp dialog so we use some
 // simple html-based implementation until it is available
-function createPromptDialog (title, message, buttons, defaultText, callback) {
+function createPromptDialog (title, message, buttons, defaultText, inputType, callback) {
 
     var isPhone = cordova.platformId === 'windows' && WinJS.Utilities.isPhone;
     var isWindows = !!cordova.platformId.match(/windows/);
@@ -81,6 +81,7 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
     dlg.querySelector('#lbl-message').appendChild(document.createTextNode(message));
     dlg.querySelector('#prompt-input').setAttribute('placeholder', defaultText);
     dlg.querySelector('#prompt-input').setAttribute('value', defaultText);
+    dlg.querySelector('#prompt-input').setAttribute('type', inputType);
 
     function makeButtonCallback (idx) {
         return function () {
@@ -174,9 +175,10 @@ module.exports = {
         var title = args[1];
         var buttons = args[2];
         var defaultText = args[3];
+        var inputType = args[4];
 
         try {
-            createPromptDialog(title, message, buttons, defaultText, function (evt) {
+            createPromptDialog(title, message, buttons, defaultText, inputType, function (evt) {
                 isAlertShowing = false;
                 if (win) {
                     win(evt);
