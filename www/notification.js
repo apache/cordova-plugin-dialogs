@@ -87,7 +87,7 @@ module.exports = {
         var _inputType = (inputType || 'text');
 
         var _allowedInputType = ['text', 'password', 'number'];
-        if (_allowedInputType.includes(_inputType) == false) _inputType = 'text';
+        if (_allowedInputType.includes(_inputType) === false) _inputType = 'text';
 
         // Strings are deprecated!
         if (typeof _buttonLabels === 'string') {
