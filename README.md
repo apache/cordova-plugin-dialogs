@@ -133,6 +133,8 @@ indexing, so the value is `1`, `2`, `3`, etc.
 
 - Android supports a maximum of three buttons, and ignores any more than that.
 
+- Android dialog title cannot exceed 2 lines of content, it will ignore any more than this.
+
 ### Windows Quirks
 
 - On Windows8/8.1 it is not possible to add more than three buttons to MessageDialog instance.
