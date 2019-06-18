@@ -20,6 +20,21 @@
 -->
 # Release Notes
 
+### 2.0.2 (Jun 18, 2019)
+
+-   build: add .npmignore to remove unneeded files from npm package ([`91513f1`](https://github.com/apache/cordova-plugin-dialogs/commit/91513f1))
+-   build: add .gitattributes to force LF (instead of possible CRLF on Windows) ([`d4e8607`](https://github.com/apache/cordova-plugin-dialogs/commit/d4e8607))
+-   docs(android): mention 2 lines content limit ([#125](https://github.com/apache/cordova-plugin-dialogs/issues/125)) ([`292e13a`](https://github.com/apache/cordova-plugin-dialogs/commit/292e13a))
+-   ci(travis): Update Travis CI configuration for new paramedic ([#127](https://github.com/apache/cordova-plugin-dialogs/issues/127)) ([`f6e4165`](https://github.com/apache/cordova-plugin-dialogs/commit/f6e4165))
+-   refactor(android): Cleanup Dialog plugin code ([#123](https://github.com/apache/cordova-plugin-dialogs/issues/123)) ([`419a838`](https://github.com/apache/cordova-plugin-dialogs/commit/419a838))
+-   chore(github) Add or update GitHub pull request and issue template ([`d5f09ce`](https://github.com/apache/cordova-plugin-dialogs/commit/d5f09ce))
+-   refactor: Cleanup: remove trailing whitespace ([#120](https://github.com/apache/cordova-plugin-dialogs/issues/120)) ([`ed0e465`](https://github.com/apache/cordova-plugin-dialogs/commit/ed0e465))
+-   docs: remove JIRA link ([`0057715`](https://github.com/apache/cordova-plugin-dialogs/commit/0057715))
+-   docs: Remove docs translations ([#107](https://github.com/apache/cordova-plugin-dialogs/issues/107)) ([`b87526e`](https://github.com/apache/cordova-plugin-dialogs/commit/b87526e))
+-   ci(travis): also accept terms for android sdk `android-27` ([#102](https://github.com/apache/cordova-plugin-dialogs/issues/102)) ([`6d88a8c`](https://github.com/apache/cordova-plugin-dialogs/commit/6d88a8c), [`2bc54cf`](https://github.com/apache/cordova-plugin-dialogs/commit/2bc54cf))
+-   ci(travis): CB-13756: Add build-tools-26.0.2 to travis ([`ef89d9f`](https://github.com/apache/cordova-plugin-dialogs/commit/ef89d9f))
+-   chore(release): Fix release notes ([#101](https://github.com/apache/cordova-plugin-dialogs/issues/101)) ([`c24c733`](https://github.com/apache/cordova-plugin-dialogs/commit/c24c733))
+
 ### 2.0.1 (Dec 27, 2017)
 * [CB-13703](https://issues.apache.org/jira/browse/CB-13703) Fix to allow 2.0.0 version install
 
