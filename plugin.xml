@@ -26,8 +26,8 @@
     <description>Cordova Notification Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,notification</keywords>
-    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git</repo>
-    <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
+    <repo>https://github.com/apache/cordova-plugin-dialogs</repo>
+    <issue>https://github.com/apache/cordova-plugin-dialogs/issues</issue>
 
     <js-module src="www/notification.js" name="notification">
         <merges target="navigator.notification" />
