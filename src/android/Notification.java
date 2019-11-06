@@ -391,6 +391,8 @@ public class Notification extends CordovaPlugin {
                 });
 
                 changeTextDirection(dlg);
+
+                promptInput.requestFocus();
             };
         };
         this.cordova.getActivity().runOnUiThread(runnable);
