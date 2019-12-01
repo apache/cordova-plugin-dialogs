@@ -222,8 +222,10 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 
 - (void)beep:(CDVInvokedUrlCommand*)command
 {
-    NSNumber* count = [command argumentAtIndex:0 withDefault:[NSNumber numberWithInt:1]];
-    playBeep([count intValue]);
+    [self.commandDelegate runInBackground:^{
+        NSNumber* count = [command argumentAtIndex:0 withDefault:[NSNumber numberWithInt:1]];
+        playBeep([count intValue]);
+    }];
 }
 
 -(UIViewController *)getTopPresentedViewController {
