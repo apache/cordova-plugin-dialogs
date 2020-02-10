@@ -76,7 +76,7 @@ module.exports = {
      * Set whether the user can cancel the dialog
      * @param {Boolean} enable Enable/Disable cancellable dialog
      */
-    setCancelable:  function(enable) {
+    setCancelable: function (enable) {
         exec(null, null, 'Notification', 'setCancelable', [ enable ]);
     }
 };

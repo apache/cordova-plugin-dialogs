@@ -61,7 +61,7 @@ public class Notification extends CordovaPlugin {
     private static final String ACTION_PROGRESS_START = "progressStart";
     private static final String ACTION_PROGRESS_VALUE = "progressValue";
     private static final String ACTION_PROGRESS_STOP  = "progressStop";
-    private static final String ACTION_SET_CANCELABLE  = "setCancelable";
+    private static final String ACTION_SET_CANCELABLE = "setCancelable";
 
     private static final long BEEP_TIMEOUT   = 5000;
     private static final long BEEP_WAIT_TINE = 100;
