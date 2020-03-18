@@ -180,6 +180,7 @@ public class Notification extends CordovaPlugin {
      */
     public synchronized void alert(final String message, final String title, final String buttonLabel, final CallbackContext callbackContext) {
     	final CordovaInterface cordova = this.cordova;
+    	final boolean isCancelable = this.isCancelable;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -221,6 +222,7 @@ public class Notification extends CordovaPlugin {
      */
     public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final CallbackContext callbackContext) {
     	final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -302,6 +304,7 @@ public class Notification extends CordovaPlugin {
     public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
 
         final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -415,6 +418,7 @@ public class Notification extends CordovaPlugin {
         }
         final Notification notification = this;
         final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
         Runnable runnable = new Runnable() {
             public void run() {
                 notification.spinnerDialog = createProgressDialog(cordova); // new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
@@ -457,6 +461,7 @@ public class Notification extends CordovaPlugin {
         }
         final Notification notification = this;
         final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
         Runnable runnable = new Runnable() {
             public void run() {
                 notification.progressDialog = createProgressDialog(cordova); // new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
