@@ -96,15 +96,15 @@ public class Notification extends CordovaPlugin {
             this.beep(args.getLong(0));
         }
         else if (action.equals(ACTION_ALERT)) {
-            this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
+            this.alert(args.getString(0), args.getString(1), args.getString(2), args.getInt(3), callbackContext);
             return true;
         }
         else if (action.equals(ACTION_CONFIRM)) {
-            this.confirm(args.getString(0), args.getString(1), args.getJSONArray(2), callbackContext);
+            this.confirm(args.getString(0), args.getString(1), args.getJSONArray(2), args.getInt(3), callbackContext);
             return true;
         }
         else if (action.equals(ACTION_PROMPT)) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
+            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), args.getInt(4), callbackContext);
             return true;
         }
         else if (action.equals(ACTION_ACTIVITY_START)) {
@@ -172,13 +172,13 @@ public class Notification extends CordovaPlugin {
      * @param buttonLabel       The label of the button
      * @param callbackContext   The callback context
      */
-    public synchronized void alert(final String message, final String title, final String buttonLabel, final CallbackContext callbackContext) {
+    public synchronized void alert(final String message, final String title, final String buttonLabel, final int theme, final CallbackContext callbackContext) {
     	final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
 
-                Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                Builder dlg = new AlertDialog.Builder(cordova.getActivity(), theme);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
@@ -213,12 +213,12 @@ public class Notification extends CordovaPlugin {
      * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
      * @param callbackContext   The callback context.
      */
-    public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final CallbackContext callbackContext) {
+    public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final int theme, final CallbackContext callbackContext) {
     	final CordovaInterface cordova = this.cordova;
 
         Runnable runnable = new Runnable() {
             public void run() {
-                Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                Builder dlg = new AlertDialog.Builder(cordova.getActivity(), theme);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
@@ -293,7 +293,7 @@ public class Notification extends CordovaPlugin {
      * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
      * @param callbackContext   The callback context.
      */
-    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
+    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final int theme, final CallbackContext callbackContext) {
 
         final CordovaInterface cordova = this.cordova;
 
@@ -308,7 +308,7 @@ public class Notification extends CordovaPlugin {
                 int promptInputTextColor = resources.getColor(android.R.color.primary_text_light);
                 promptInput.setTextColor(promptInputTextColor);
                 promptInput.setText(defaultText);
-                Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                Builder dlg = new AlertDialog.Builder(cordova.getActivity(), theme);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);

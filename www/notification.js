@@ -36,11 +36,12 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Alert)
      * @param {String} buttonLabel          Label of the close button (default: OK)
      */
-    alert: function (message, completeCallback, title, buttonLabel) {
+    alert: function (message, completeCallback, title, buttonLabel, theme) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Alert');
         var _buttonLabel = (buttonLabel && typeof buttonLabel === 'string' ? buttonLabel : 'OK');
-        exec(completeCallback, null, 'Notification', 'alert', [_message, _title, _buttonLabel]);
+        var _theme = theme || 5;
+        exec(completeCallback, null, 'Notification', 'alert', [_message, _title, _buttonLabel, _theme]);
     },
 
     /**
@@ -52,9 +53,10 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Confirm)
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
-    confirm: function (message, resultCallback, title, buttonLabels) {
+    confirm: function (message, resultCallback, title, buttonLabels, theme) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Confirm');
+        var _theme = theme || 5;
         var _buttonLabels = (buttonLabels || ['OK', 'Cancel']);
 
         // Strings are deprecated!
@@ -64,7 +66,7 @@ module.exports = {
 
         _buttonLabels = convertButtonLabels(_buttonLabels);
 
-        exec(resultCallback, null, 'Notification', 'confirm', [_message, _title, _buttonLabels]);
+        exec(resultCallback, null, 'Notification', 'confirm', [_message, _title, _buttonLabels, _theme]);
     },
 
     /**
@@ -79,9 +81,10 @@ module.exports = {
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
      */
-    prompt: function (message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function (message, resultCallback, title, buttonLabels, defaultText, theme) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Prompt');
+        var _theme = theme || 5;
         var _buttonLabels = (buttonLabels || ['OK', 'Cancel']);
 
         // Strings are deprecated!
@@ -92,7 +95,7 @@ module.exports = {
         _buttonLabels = convertButtonLabels(_buttonLabels);
 
         var _defaultText = (defaultText || '');
-        exec(resultCallback, null, 'Notification', 'prompt', [_message, _title, _buttonLabels, _defaultText]);
+        exec(resultCallback, null, 'Notification', 'prompt', [_message, _title, _buttonLabels, _defaultText, _theme]);
     },
 
     /**
