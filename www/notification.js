@@ -53,7 +53,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Confirm)
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
-    confirm: function (message, resultCallback, title, buttonLabels, theme) {
+    confirm: function (theme, message, resultCallback, title, buttonLabels) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Confirm');
         var _theme = theme || 5;
