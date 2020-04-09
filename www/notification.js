@@ -36,7 +36,7 @@ module.exports = {
      * @param {String} title                Title of the alert dialog (default: Alert)
      * @param {String} buttonLabel          Label of the close button (default: OK)
      */
-    alert: function (message, completeCallback, title, buttonLabel, theme) {
+    alert: function (theme, message, completeCallback, title, buttonLabel) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Alert');
         var _buttonLabel = (buttonLabel && typeof buttonLabel === 'string' ? buttonLabel : 'OK');
@@ -81,7 +81,7 @@ module.exports = {
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
      */
-    prompt: function (message, resultCallback, title, buttonLabels, defaultText, theme) {
+    prompt: function (theme, message, resultCallback, title, buttonLabels, defaultText) {
         var _message = (typeof message === 'string' ? message : JSON.stringify(message));
         var _title = (typeof title === 'string' ? title : 'Prompt');
         var _theme = theme || 5;
