@@ -30,8 +30,3 @@
 - (void)beep:(CDVInvokedUrlCommand*)command;
 
 @end
-
-@interface CDVAlertView : UIAlertView {}
-@property (nonatomic, copy) NSString* callbackId;
-
-@end
