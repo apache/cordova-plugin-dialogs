@@ -79,7 +79,7 @@ static NSMutableArray *alertList = nil;
         alertList = [[NSMutableArray alloc] init];
     [alertList addObject:alertController];
 
-    if ([alertList count]==1) {
+    if ([alertList count] == 1) {
         [self presentAlertcontroller];
     }
 }
