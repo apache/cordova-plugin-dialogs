@@ -75,8 +75,9 @@ static NSMutableArray *alertList = nil;
             textField.text = defaultText;
         }];
     }
-    if(!alertList)
+    if (!alertList) {
         alertList = [[NSMutableArray alloc] init];
+    }
     [alertList addObject:alertController];
 
     if ([alertList count] == 1) {
