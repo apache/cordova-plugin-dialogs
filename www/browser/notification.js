@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 // Platform: browser
 window.navigator.notification = window.navigator.notification || {};
@@ -34,13 +34,14 @@ module.exports.alert = window.navigator.notification.alert = function (message, 
 
 module.exports.confirm = window.navigator.notification.confirm = function (message, callback) {
     // `notification.confirm` executes asynchronously
-    /* eslint-disable standard/no-callback-literal */
     setTimeout(function () {
         var result = window.confirm(message);
         if (callback) {
             if (result) {
+                // eslint-disable-next-line standard/no-callback-literal
                 callback(1); // OK
             } else {
+                // eslint-disable-next-line standard/no-callback-literal
                 callback(2); // Cancel
             }
         }
@@ -53,14 +54,16 @@ module.exports.prompt = window.navigator.notification.prompt = function (message
         var result = window.prompt(message, defaultText || '');
         if (callback) {
             if (result === null) {
+                // eslint-disable-next-line standard/no-callback-literal
                 callback({ buttonIndex: 2, input1: '' }); // Cancel
             } else {
+                // eslint-disable-next-line standard/no-callback-literal
                 callback({ buttonIndex: 1, input1: result }); // OK
             }
         }
     }, 0);
 };
-/* eslint-enable standard/no-callback-literal */
+
 var audioContext = (function () {
     // Determine if the Audio API is supported by this browser
     var AudioApi = window.AudioContext;
@@ -74,7 +77,7 @@ var audioContext = (function () {
     }
 
     return undefined;
-}());
+})();
 
 module.exports.beep = window.navigator.notification.beep = function (times) {
     if (times > 0) {
@@ -98,9 +101,8 @@ module.exports.beep = window.navigator.notification.beep = function (times) {
                         navigator.notification.beep(times);
                     }, BEEP_INTERVAL);
                 }
-
             }, BEEP_DURATION);
-        } else if (typeof (console) !== 'undefined' && typeof (console.log) === 'function') {
+        } else if (typeof console !== 'undefined' && typeof console.log === 'function') {
             // Audio API isn't supported, so just write `beep` to the console
             for (var i = 0; i < times; i++) {
                 console.log('Beep!');

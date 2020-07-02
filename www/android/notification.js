@@ -17,7 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec');
 
@@ -33,7 +33,7 @@ module.exports = {
             message = 'Please wait...';
         }
 
-        exec(null, null, 'Notification', 'activityStart', [ title, message ]);
+        exec(null, null, 'Notification', 'activityStart', [title, message]);
     },
 
     /**
@@ -52,7 +52,7 @@ module.exports = {
      *            message Message to display in the dialog.
      */
     progressStart: function (title, message) {
-        exec(null, null, 'Notification', 'progressStart', [ title, message ]);
+        exec(null, null, 'Notification', 'progressStart', [title, message]);
     },
 
     /**
@@ -69,6 +69,6 @@ module.exports = {
      *            value 0-100
      */
     progressValue: function (value) {
-        exec(null, null, 'Notification', 'progressValue', [ value ]);
+        exec(null, null, 'Notification', 'progressValue', [value]);
     }
 };
