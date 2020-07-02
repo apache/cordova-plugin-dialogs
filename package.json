@@ -12,13 +12,8 @@
       "windows"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/apache/cordova-plugin-dialogs"
-  },
-  "bugs": {
-    "url": "https://github.com/apache/cordova-plugin-dialogs/issues"
-  },
+  "repository": "github:apache/cordova-plugin-dialogs",
+  "bugs": "https://github.com/apache/cordova-plugin-dialogs/issues",
   "keywords": [
     "cordova",
     "notification",
