@@ -61,6 +61,7 @@ public class Notification extends CordovaPlugin {
     private static final String ACTION_PROGRESS_START = "progressStart";
     private static final String ACTION_PROGRESS_VALUE = "progressValue";
     private static final String ACTION_PROGRESS_STOP  = "progressStop";
+    private static final String ACTION_SET_CANCELABLE = "setCancelable";
 
     private static final long BEEP_TIMEOUT   = 5000;
     private static final long BEEP_WAIT_TINE = 100;
@@ -68,6 +69,8 @@ public class Notification extends CordovaPlugin {
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
     public ProgressDialog progressDialog = null;
+
+    private boolean isCancelable = true;
 
     /**
      * Constructor.
@@ -122,6 +125,9 @@ public class Notification extends CordovaPlugin {
         else if (action.equals(ACTION_PROGRESS_STOP)) {
             this.progressStop();
         }
+        else if (action.equals(ACTION_SET_CANCELABLE)) {
+            this.setCancelable(args.optBoolean(0, true));
+        }
         else {
             return false;
         }
@@ -174,6 +180,7 @@ public class Notification extends CordovaPlugin {
      */
     public synchronized void alert(final String message, final String title, final String buttonLabel, final CallbackContext callbackContext) {
     	final CordovaInterface cordova = this.cordova;
+    	final boolean isCancelable = this.isCancelable;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -181,7 +188,7 @@ public class Notification extends CordovaPlugin {
                 Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
-                dlg.setCancelable(true);
+                dlg.setCancelable(isCancelable);
                 dlg.setPositiveButton(buttonLabel,
                         new AlertDialog.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -215,13 +222,14 @@ public class Notification extends CordovaPlugin {
      */
     public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final CallbackContext callbackContext) {
     	final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
 
         Runnable runnable = new Runnable() {
             public void run() {
                 Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
-                dlg.setCancelable(true);
+                dlg.setCancelable(isCancelable);
 
                 // First button
                 if (buttonLabels.length() > 0) {
@@ -296,6 +304,7 @@ public class Notification extends CordovaPlugin {
     public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
 
         final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
 
         Runnable runnable = new Runnable() {
             public void run() {
@@ -311,7 +320,7 @@ public class Notification extends CordovaPlugin {
                 Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 dlg.setMessage(message);
                 dlg.setTitle(title);
-                dlg.setCancelable(true);
+                dlg.setCancelable(isCancelable);
 
                 dlg.setView(promptInput);
 
@@ -409,12 +418,13 @@ public class Notification extends CordovaPlugin {
         }
         final Notification notification = this;
         final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
         Runnable runnable = new Runnable() {
             public void run() {
                 notification.spinnerDialog = createProgressDialog(cordova); // new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 notification.spinnerDialog.setTitle(title);
                 notification.spinnerDialog.setMessage(message);
-                notification.spinnerDialog.setCancelable(true);
+                notification.spinnerDialog.setCancelable(isCancelable);
                 notification.spinnerDialog.setIndeterminate(true);
                 notification.spinnerDialog.setOnCancelListener(
                         new DialogInterface.OnCancelListener() {
@@ -451,13 +461,14 @@ public class Notification extends CordovaPlugin {
         }
         final Notification notification = this;
         final CordovaInterface cordova = this.cordova;
+        final boolean isCancelable = this.isCancelable;
         Runnable runnable = new Runnable() {
             public void run() {
                 notification.progressDialog = createProgressDialog(cordova); // new ProgressDialog(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 notification.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 notification.progressDialog.setTitle(title);
                 notification.progressDialog.setMessage(message);
-                notification.progressDialog.setCancelable(true);
+                notification.progressDialog.setCancelable(isCancelable);
                 notification.progressDialog.setMax(100);
                 notification.progressDialog.setProgress(0);
                 notification.progressDialog.setOnCancelListener(
@@ -491,6 +502,10 @@ public class Notification extends CordovaPlugin {
             this.progressDialog.dismiss();
             this.progressDialog = null;
         }
+    }
+
+    public void setCancelable(boolean enable) {
+        this.isCancelable = enable;
     }
 
     @SuppressLint("NewApi")

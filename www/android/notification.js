@@ -70,5 +70,13 @@ module.exports = {
      */
     progressValue: function (value) {
         exec(null, null, 'Notification', 'progressValue', [ value ]);
+    },
+
+    /**
+     * Set whether the user can cancel the dialog
+     * @param {Boolean} enable Enable/Disable cancellable dialog
+     */
+    setCancelable: function (enable) {
+        exec(null, null, 'Notification', 'setCancelable', [ enable ]);
     }
 };
