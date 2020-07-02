@@ -17,9 +17,8 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
-/* eslint-env jasmine */
 /* global cordova */
 
 exports.defineAutoTests = function () {
@@ -74,33 +73,39 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     var alertDialog = function (message, title, button) {
         console.log('alertDialog()');
-        navigator.notification.alert(message,
+        navigator.notification.alert(
+            message,
             function () {
                 console.log('Alert dismissed.');
             },
-            title, button);
+            title,
+            button
+        );
         console.log('After alert');
     };
 
     var confirmDialogA = function (message, title, buttons) {
         clearLog();
-        navigator.notification.confirm(message,
+        navigator.notification.confirm(
+            message,
             function (r) {
                 if (r === 0) {
                     logMessage('Dismissed dialog without making a selection.');
                     console.log('Dismissed dialog without making a selection.');
                 } else {
                     console.log('You selected ' + r);
-                    logMessage('You selected ' + (buttons.split(','))[r - 1]);
+                    logMessage('You selected ' + buttons.split(',')[r - 1]);
                 }
             },
             title,
-            buttons);
+            buttons
+        );
     };
 
     var confirmDialogB = function (message, title, buttons) {
         clearLog();
-        navigator.notification.confirm(message,
+        navigator.notification.confirm(
+            message,
             function (r) {
                 if (r === 0) {
                     logMessage('Dismissed dialog without making a selection.');
@@ -111,12 +116,14 @@ exports.defineManualTests = function (contentEl, createActionButton) {
                 }
             },
             title,
-            buttons);
+            buttons
+        );
     };
 
     var promptDialog = function (message, title, buttons, defaultText) {
         clearLog();
-        navigator.notification.prompt(message,
+        navigator.notification.prompt(
+            message,
             function (r) {
                 if (r && r.buttonIndex === 0) {
                     var msg = 'Dismissed dialog';
@@ -131,12 +138,15 @@ exports.defineManualTests = function (contentEl, createActionButton) {
                 }
             },
             title,
-            buttons, defaultText);
+            buttons,
+            defaultText
+        );
     };
 
     /******************************************************************************/
 
-    var dialogs_tests = '<div id="beep"></div>' +
+    var dialogs_tests =
+        '<div id="beep"></div>' +
         'Expected result: Device will beep (unless device is on silent). Nothing will get updated in status box.' +
         '<h2>Dialog Tests</h2>' +
         '<h3>Dialog boxes will pop up for each of the following tests</h3>' +
@@ -157,81 +167,143 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         '<p/> <h3>CB-8947 Tests</h3><div id="cb8947"></div>' +
         'Expected results: Dialogs will not crash iOS';
 
-    contentEl.innerHTML = '<div id="info"></div>' +
-        dialogs_tests;
+    contentEl.innerHTML = '<div id="info"></div>' + dialogs_tests;
 
-    createActionButton('Beep', function () {
-        beep();
-    }, 'beep');
+    createActionButton(
+        'Beep',
+        function () {
+            beep();
+        },
+        'beep'
+    );
 
-    createActionButton('Alert Dialog', function () {
-        alertDialog('You pressed alert.', 'Alert Dialog', 'Continue');
-    }, 'alert');
+    createActionButton(
+        'Alert Dialog',
+        function () {
+            alertDialog('You pressed alert.', 'Alert Dialog', 'Continue');
+        },
+        'alert'
+    );
 
     // WP8.1 detection is necessary since it doesn't support confirm dialogs with more than 2 buttons
     var isRunningOnWP81 = cordova.platformId === 'windows' && navigator.userAgent.indexOf('Windows Phone') > -1;
 
-    createActionButton('Confirm Dialog - Deprecated', function () {
-        var buttons = isRunningOnWP81 ? 'Yes,No' : 'Yes,No,Maybe';
-        confirmDialogA('You pressed confirm.', 'Confirm Dialog', buttons);
-    }, 'confirm_deprecated');
+    createActionButton(
+        'Confirm Dialog - Deprecated',
+        function () {
+            var buttons = isRunningOnWP81 ? 'Yes,No' : 'Yes,No,Maybe';
+            confirmDialogA('You pressed confirm.', 'Confirm Dialog', buttons);
+        },
+        'confirm_deprecated'
+    );
 
-    createActionButton('Confirm Dialog', function () {
-        var buttons = isRunningOnWP81 ? ['Yes', 'Actually, No'] : ['Yes', 'No', 'Maybe, Not Sure'];
-        confirmDialogB('You pressed confirm.', 'Confirm Dialog', buttons);
-    }, 'confirm');
+    createActionButton(
+        'Confirm Dialog',
+        function () {
+            var buttons = isRunningOnWP81 ? ['Yes', 'Actually, No'] : ['Yes', 'No', 'Maybe, Not Sure'];
+            confirmDialogB('You pressed confirm.', 'Confirm Dialog', buttons);
+        },
+        'confirm'
+    );
 
-    createActionButton('Prompt Dialog', function () {
-        promptDialog('You pressed prompt.', 'Prompt Dialog', ['Yes', 'No', 'Maybe, Not Sure'], 'Default Text');
-    }, 'prompt');
+    createActionButton(
+        'Prompt Dialog',
+        function () {
+            promptDialog('You pressed prompt.', 'Prompt Dialog', ['Yes', 'No', 'Maybe, Not Sure'], 'Default Text');
+        },
+        'prompt'
+    );
 
-    createActionButton('Prompt Dialog - no default', function () {
-        promptDialog('You pressed prompt.', 'Prompt Dialog', ['Yes', 'No']);
-    }, 'prompt');
+    createActionButton(
+        'Prompt Dialog - no default',
+        function () {
+            promptDialog('You pressed prompt.', 'Prompt Dialog', ['Yes', 'No']);
+        },
+        'prompt'
+    );
 
-    createActionButton('Built-in Alert Dialog', function () {
-        if (typeof alert === 'function') {
-            alert('You pressed alert'); // eslint-disable-line no-undef
-        }
-    }, 'built_in_alert');
+    createActionButton(
+        'Built-in Alert Dialog',
+        function () {
+            if (typeof alert === 'function') {
+                alert('You pressed alert');
+            }
+        },
+        'built_in_alert'
+    );
 
-    createActionButton('Built-in Confirm Dialog', function () {
-        if (typeof confirm === 'function') {
-            confirm('You selected confirm'); // eslint-disable-line no-undef
-        }
-    }, 'built_in_confirm');
+    createActionButton(
+        'Built-in Confirm Dialog',
+        function () {
+            if (typeof confirm === 'function') {
+                confirm('You selected confirm');
+            }
+        },
+        'built_in_confirm'
+    );
 
-    createActionButton('Built-in Prompt Dialog', function () {
-        if (typeof prompt === 'function') {
-            prompt('This is a prompt', 'Default value'); // eslint-disable-line no-undef
-        }
-    }, 'built_in_prompt');
+    createActionButton(
+        'Built-in Prompt Dialog',
+        function () {
+            if (typeof prompt === 'function') {
+                prompt('This is a prompt', 'Default value');
+            }
+        },
+        'built_in_prompt'
+    );
 
     // CB-8947 - ensure number messages don't crash iOS
-    createActionButton('Alert Dialog with Number', function () {
-        var callback = function () { clearLog(); console.log('Test passed'); };
-        navigator.notification.alert(17, callback);
-    }, 'cb8947');
+    createActionButton(
+        'Alert Dialog with Number',
+        function () {
+            var callback = function () {
+                clearLog();
+                console.log('Test passed');
+            };
+            navigator.notification.alert(17, callback);
+        },
+        'cb8947'
+    );
 
     // CB-8947 - ensure object messages don't crash iOS
-    createActionButton('Alert Dialog with Object', function () {
-        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
-        var callback = function () { clearLog(); console.log('Test passed'); };
-        navigator.notification.alert(object, callback);
-    }, 'cb8947');
+    createActionButton(
+        'Alert Dialog with Object',
+        function () {
+            var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
+            var callback = function () {
+                clearLog();
+                console.log('Test passed');
+            };
+            navigator.notification.alert(object, callback);
+        },
+        'cb8947'
+    );
 
     // CB-8947 - ensure object messages don't crash iOS
-    createActionButton('Confirm Dialog with Object', function () {
-        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
-        var callback = function () { clearLog(); console.log('Test passed'); };
-        navigator.notification.confirm(object, callback);
-    }, 'cb8947');
+    createActionButton(
+        'Confirm Dialog with Object',
+        function () {
+            var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
+            var callback = function () {
+                clearLog();
+                console.log('Test passed');
+            };
+            navigator.notification.confirm(object, callback);
+        },
+        'cb8947'
+    );
 
     // CB-8947 - ensure object messages don't crash iOS
-    createActionButton('Prompt Dialog with Object', function () {
-        var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
-        var callback = function () { clearLog(); console.log('Test passed'); };
-        navigator.notification.prompt(object, callback);
-    }, 'cb8947');
-
+    createActionButton(
+        'Prompt Dialog with Object',
+        function () {
+            var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
+            var callback = function () {
+                clearLog();
+                console.log('Test passed');
+            };
+            navigator.notification.prompt(object, callback);
+        },
+        'cb8947'
+    );
 };

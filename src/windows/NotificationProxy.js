@@ -19,7 +19,7 @@
  *
  */
 
-/* global Windows:true, WinJS, toStaticHTML */
+/* global Windows, WinJS, toStaticHTML */
 
 var cordova = require('cordova');
 var urlutil = require('cordova/urlutil');
@@ -46,7 +46,9 @@ function createCSSElem (fileName) {
 }
 
 // CB-8928: When toStaticHTML is undefined, prompt fails to run
-var _cleanHtml = function (html) { return html; };
+var _cleanHtml = function (html) {
+    return html;
+};
 if (typeof toStaticHTML !== 'undefined') {
     _cleanHtml = toStaticHTML;
 }
@@ -54,7 +56,6 @@ if (typeof toStaticHTML !== 'undefined') {
 // Windows does not provide native UI for promp dialog so we use some
 // simple html-based implementation until it is available
 function createPromptDialog (title, message, buttons, defaultText, callback) {
-
     var isPhone = cordova.platformId === 'windows' && WinJS.Utilities.isPhone;
     var isWindows = !!cordova.platformId.match(/windows/);
 
@@ -73,9 +74,11 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
     }
 
     // dialog layout template
-    dlg.innerHTML = _cleanHtml("<span id='lbl-title'></span><br/>" + // title
+    dlg.innerHTML = _cleanHtml(
+        "<span id='lbl-title'></span><br/>" + // title
         "<span id='lbl-message'></span><br/>" + // message
-        "<input id='prompt-input'/><br/>"); // input fields
+            "<input id='prompt-input'/><br/>"
+    ); // input fields
 
     dlg.querySelector('#lbl-title').appendChild(document.createTextNode(title));
     dlg.querySelector('#lbl-message').appendChild(document.createTextNode(message));
@@ -88,7 +91,8 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
             dlgWrap.parentNode.removeChild(dlgWrap);
 
             if (callback) {
-                callback({ input1: value, buttonIndex: idx }); // eslint-disable-line standard/no-callback-literal
+                // eslint-disable-next-line standard/no-callback-literal
+                callback({ input1: value, buttonIndex: idx });
             }
         };
     }
@@ -118,7 +122,8 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
     // add Enter/Return key handling
     var defaultButton = dlg.querySelector('.dlgButtonFirst');
     dlg.addEventListener('keypress', function (e) {
-        if (e.keyCode === 13) { // enter key
+        if (e.keyCode === 13) {
+            // enter key
             if (defaultButton) {
                 defaultButton.click();
             }
@@ -130,7 +135,6 @@ function createPromptDialog (title, message, buttons, defaultText, callback) {
 
 module.exports = {
     alert: function (win, loseX, args) {
-
         if (isAlertShowing) {
             var later = function () {
                 module.exports.alert(win, loseX, args);
@@ -155,7 +159,6 @@ module.exports = {
             if (alertStack.length) {
                 setTimeout(alertStack.shift(), 0);
             }
-
         });
     },
 
@@ -182,7 +185,6 @@ module.exports = {
                     win(evt);
                 }
             });
-
         } catch (e) {
             // set isAlertShowing flag back to false in case of exception
             isAlertShowing = false;
@@ -195,7 +197,6 @@ module.exports = {
     },
 
     confirm: function (win, loseX, args) {
-
         if (isAlertShowing) {
             var later = function () {
                 module.exports.confirm(win, loseX, args);
@@ -226,7 +227,6 @@ module.exports = {
                 if (alertStack.length) {
                     setTimeout(alertStack.shift(), 0);
                 }
-
             });
         } catch (e) {
             // set isAlertShowing flag back to false in case of exception
@@ -240,11 +240,10 @@ module.exports = {
     },
 
     beep: function (winX, loseX, args) {
-
         // set a default args if it is not set
         args = args && args.length ? args : ['1'];
 
-        var snd = new Audio('ms-winsoundevent:Notification.Default'); // eslint-disable-line no-undef
+        var snd = new Audio('ms-winsoundevent:Notification.Default');
         var count = parseInt(args[0]) || 1;
         snd.msAudioCategory = 'Alerts';
 
@@ -262,7 +261,6 @@ module.exports = {
         };
         snd.addEventListener('ended', onEvent);
         onEvent();
-
     }
 };
 
