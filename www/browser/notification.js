@@ -110,3 +110,11 @@ module.exports.beep = window.navigator.notification.beep = function (times) {
         }
     }
 };
+
+module.exports.dismissPrevious = window.navigator.notification.dismissPrevious = function () {
+    console.warn('dismissPrevious() is not available on browser platform');
+};
+
+module.exports.dismissAll = window.navigator.notification.dismissAll = function () {
+    console.warn('dismissAll() is not available on browser platform');
+};

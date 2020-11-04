@@ -107,6 +107,26 @@ module.exports = {
     beep: function (count) {
         var defaultedCount = count || 1;
         exec(null, null, 'Notification', 'beep', [defaultedCount]);
+    },
+
+    /**
+     * Close previously opened dialog
+     *
+     * @param {Function} successCallback   The callback that is called when previously opened dialog has been dismissed.
+     * @param {Function} errorCallback   The callback that is called on failure to dismiss previously opened dialog.
+     */
+    dismissPrevious: function (successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'Notification', 'dismissPrevious', []);
+    },
+
+    /**
+     * Close any open dialog.
+     *
+     * @param {Function} successCallback   The callback that is called when all previously opened dialogs have been dismissed.
+     * @param {Function} errorCallback   The callback that is called on failure to dismiss all previously opened dialogs.
+     */
+    dismissAll: function (successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'Notification', 'dismissAll', []);
     }
 };
 

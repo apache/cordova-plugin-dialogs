@@ -38,6 +38,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.ArrayList;
 
 
 /**
@@ -61,9 +62,13 @@ public class Notification extends CordovaPlugin {
     private static final String ACTION_PROGRESS_START = "progressStart";
     private static final String ACTION_PROGRESS_VALUE = "progressValue";
     private static final String ACTION_PROGRESS_STOP  = "progressStop";
+    private static final String ACTION_DISMISS_PREVIOUS  = "dismissPrevious";
+    private static final String ACTION_DISMISS_ALL  = "dismissAll";
 
     private static final long BEEP_TIMEOUT   = 5000;
     private static final long BEEP_WAIT_TINE = 100;
+
+    private ArrayList<AlertDialog> dialogs = new ArrayList<AlertDialog>();
 
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
@@ -121,6 +126,12 @@ public class Notification extends CordovaPlugin {
         }
         else if (action.equals(ACTION_PROGRESS_STOP)) {
             this.progressStop();
+        }
+        else if (action.equals(ACTION_DISMISS_PREVIOUS)) {
+            this.dismissPrevious(callbackContext);
+        }
+        else if (action.equals(ACTION_DISMISS_ALL)) {
+            this.dismissAll(callbackContext);
         }
         else {
             return false;
@@ -397,6 +408,33 @@ public class Notification extends CordovaPlugin {
     }
 
     /**
+     * Close previously opened dialog
+     */
+    public synchronized void dismissPrevious(final CallbackContext callbackContext){
+        if(!dialogs.isEmpty()){
+            dialogs.remove(dialogs.size()-1).dismiss();
+            callbackContext.success();
+        }else{
+            callbackContext.error("No previously opened dialog to dismiss");
+        }
+    }
+
+    /**
+     * Close any open dialog.
+     */
+    public synchronized void dismissAll(final CallbackContext callbackContext){
+        if(!dialogs.isEmpty()){
+            for(AlertDialog dialog: dialogs){
+                dialog.dismiss();
+            }
+            dialogs = new ArrayList<AlertDialog>();
+            callbackContext.success();
+        }else{
+            callbackContext.error("No previously opened dialogs to dismiss");
+        }
+    }
+
+    /**
      * Show the spinner.
      *
      * @param title     Title of the dialog
@@ -517,7 +555,8 @@ public class Notification extends CordovaPlugin {
     private void changeTextDirection(Builder dlg){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         dlg.create();
-        AlertDialog dialog =  dlg.show();
+        AlertDialog dialog = dlg.show();
+        dialogs.add(dialog);
         if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
             TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
             messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
