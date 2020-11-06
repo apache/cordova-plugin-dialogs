@@ -46,6 +46,16 @@ exports.defineAutoTests = function () {
             expect(typeof navigator.notification.prompt).toBeDefined();
             expect(typeof navigator.notification.prompt).toBe('function');
         });
+
+        it('should contain a dismissPrevious function', function () {
+            expect(typeof navigator.notification.dismissPrevious).toBeDefined();
+            expect(typeof navigator.notification.dismissPrevious).toBe('function');
+        });
+
+        it('should contain a dismissAll function', function () {
+            expect(typeof navigator.notification.dismissAll).toBeDefined();
+            expect(typeof navigator.notification.dismissAll).toBe('function');
+        });
     });
 };
 
@@ -143,7 +153,19 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         );
     };
 
+    var dismissPrevious = function (successCallback, errorCallback) {
+        console.log('dismissPrevious()');
+        navigator.notification.dismissPrevious(successCallback, errorCallback);
+    };
+
+    var dismissAll = function (successCallback, errorCallback) {
+        console.log('dismissAll()');
+        navigator.notification.dismissAll(successCallback, errorCallback);
+    };
+
     /******************************************************************************/
+    var isRunningOnAndroid = cordova.platformId === 'android';
+    var isRunningOniOS = cordova.platformId === 'ios';
 
     var dialogs_tests =
         '<div id="beep"></div>' +
@@ -166,6 +188,14 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         'Expected result: Dialog will have title "index.html" and say "This is a prompt". "Default value" will be in text box. Press Cancel or OK to close dialog. Nothing will get updated in status box.' +
         '<p/> <h3>CB-8947 Tests</h3><div id="cb8947"></div>' +
         'Expected results: Dialogs will not crash iOS';
+
+    if (isRunningOnAndroid || isRunningOniOS) {
+        dialogs_tests += '<h3>Dismissable dialogs</h3>' +
+            '<p/> <div id="dismiss_previous"></div>' +
+            'Expected results: 2 dialogs will open; one will automatically dismiss after 5 seconds' +
+            '<p/> <div id="dismiss_all"></div>' +
+            'Expected results: 2 dialogs will open; both will automatically dismiss after 5 seconds';
+    }
 
     contentEl.innerHTML = '<div id="info"></div>' + dialogs_tests;
 
@@ -306,4 +336,46 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         },
         'cb8947'
     );
+
+    // Dismissable dialogs (supported on Android & iOS only)
+    if (isRunningOnAndroid || isRunningOniOS) {
+        var open2Dialogs = function () {
+            var openDialogs = function () {
+                alertDialog('Alert Dialog 1 pressed', 'Alert Dialog 1', 'Continue');
+                alertDialog('Alert Dialog 2 pressed', 'Alert Dialog 2', 'Continue');
+            };
+            // dismiss any currently open dialogs first
+            dismissAll(openDialogs, openDialogs);
+        };
+
+        createActionButton(
+            'Dismiss Previous',
+            function () {
+                open2Dialogs();
+                setTimeout(function () {
+                    dismissPrevious(function () {
+                        console.log('Successfully dismissed previous dialog');
+                    }, function (error) {
+                        console.error('Failed to dismiss previous dialog: ' + error);
+                    });
+                }, 5000);
+            },
+            'dismiss_previous'
+        );
+
+        createActionButton(
+            'Dismiss All',
+            function () {
+                open2Dialogs();
+                setTimeout(function () {
+                    dismissAll(function () {
+                        console.log('Successfully dismissed all open dialogs');
+                    }, function (error) {
+                        console.error('Failed to dismiss all open dialogs: ' + error);
+                    });
+                }, 5000);
+            },
+            'dismiss_all'
+        );
+    }
 };

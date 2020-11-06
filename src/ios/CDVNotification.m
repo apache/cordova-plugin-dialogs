@@ -24,6 +24,7 @@
 
 static void soundCompletionCallback(SystemSoundID ssid, void* data);
 static NSMutableArray *alertList = nil;
+static NSMutableArray *openAlertList = nil;
 
 @implementation CDVNotification
 
@@ -67,10 +68,11 @@ static NSMutableArray *alertList = nil;
             }
 
             [weakNotif.commandDelegate sendPluginResult:result callbackId:callbackId];
+            [openAlertList removeObject:alertController];
         }]];
     }
     if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT]) {
-        
+
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
             textField.text = defaultText;
         }];
@@ -159,15 +161,60 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 }
 
 -(void)presentAlertcontroller {
-    
+
     __weak CDVNotification* weakNotif = self;
-    [self.getTopPresentedViewController presentViewController:[alertList firstObject] animated:YES completion:^{
-        [alertList removeObject:[alertList firstObject]];
+    UIAlertController* alertController = [alertList firstObject];
+    [self.getTopPresentedViewController presentViewController:alertController animated:YES completion:^{
+        [alertList removeObject:alertController];
+        if (!openAlertList) {
+            openAlertList = [[NSMutableArray alloc] init];
+        }
+        [openAlertList addObject:alertController];
         if ([alertList count]>0) {
             [weakNotif presentAlertcontroller];
         }
     }];
-    
+
 }
+
+
+- (void)dismissPrevious:(CDVInvokedUrlCommand*)command
+{
+    if(openAlertList != nil && [openAlertList count]>0){
+        __weak CDVNotification* weakNotif = self;
+        UIAlertController* alertController = [openAlertList lastObject];
+        [alertController dismissViewControllerAnimated:NO completion:^{
+            [openAlertList removeObject:alertController];
+            [weakNotif.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+        }];
+    }else{
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No previously opened dialog to dismiss"] callbackId:command.callbackId];
+    }
+}
+
+- (void)dismissAll:(CDVInvokedUrlCommand*)command
+{
+    if(openAlertList != nil && [openAlertList count]>0){
+        __weak CDVNotification* weakNotif = self;
+        [self dismissUIAlertControllers:^{
+            openAlertList = [[NSMutableArray alloc] init];
+            [weakNotif.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+        }];
+    }else{
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No previously opened dialogs to dismiss"] callbackId:command.callbackId];
+    }
+}
+
+- (void)dismissUIAlertControllers:(void (^)(void))completeBlock{
+    if([self.getTopPresentedViewController isKindOfClass:[UIAlertController class]]){
+        __weak CDVNotification* weakNotif = self;
+        [self.getTopPresentedViewController dismissViewControllerAnimated:NO completion:^{
+            [weakNotif dismissUIAlertControllers:completeBlock];
+        }];
+    }else{
+        completeBlock();
+    }
+}
+
 
 @end

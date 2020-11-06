@@ -47,6 +47,8 @@ Although the object is attached to the global scoped `navigator`, it is not avai
 - `navigator.notification.confirm`
 - `navigator.notification.prompt`
 - `navigator.notification.beep`
+- `navigator.notification.dismissPrevious`
+- `navigator.notification.dismissAll`
 
 ## navigator.notification.alert
 
@@ -223,3 +225,63 @@ The device plays a beep sound.
 ### Android Quirks
 
 - Android plays the default __Notification ringtone__ specified under the __Settings/Sound & Display__ panel.
+
+## navigator.notification.dismissPrevious
+
+Dismisses the previously opened dialog box.
+If no dialog box is currently open, the `errorCallback` will be called.
+
+    navigator.notification.dismissPrevious([successCallback], [errorCallback])
+
+- __successCallback__: Callback to invoke when previously opened dialog has been dismissed. _(Function)_ (Optional)
+- __errorCallback__: Callback to invoke on failure to dismiss previously opened dialog. Will be passed the error message. _(Function)_ (Optional)
+
+### Example
+
+    function successCallback() {
+        console.log("Successfully dismissed previously opened dialog.");
+    }
+    
+    function errorCallback(error) {
+        console.log("Failed to dismiss previously opened dialog: " + error);
+    }
+
+    navigator.notification.dismissPrevious(
+        successCallback,
+        errorCallback
+    );
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## navigator.notification.dismissAll
+
+Dismisses all previously opened dialog boxes.
+If no dialog box is currently open, the `errorCallback` will be called.
+
+    navigator.notification.dismissAll([successCallback], [errorCallback])
+
+- __successCallback__: Callback to invoke when all previously opened dialogs have been dismissed. _(Function)_ (Optional)
+- __errorCallback__: Callback to invoke on failure to dismiss all previously opened dialogs. Will be passed the error message. _(Function)_ (Optional)
+
+### Example
+
+    function successCallback() {
+        console.log("Successfully dismissed all previously opened dialogs.");
+    }
+    
+    function errorCallback(error) {
+        console.log("Failed to dismiss all previously opened dialogs: " + error);
+    }
+
+    navigator.notification.dismissAll(
+        successCallback,
+        errorCallback
+    );
+
+### Supported Platforms
+
+- Android
+- iOS

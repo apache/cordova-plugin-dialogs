@@ -261,6 +261,14 @@ module.exports = {
         };
         snd.addEventListener('ended', onEvent);
         onEvent();
+    },
+
+    dismissPrevious: function () {
+        console.warn('dismissPrevious() is not available on browser platform');
+    },
+
+    dismissAll: function () {
+        console.warn('dismissAll() is not available on browser platform');
     }
 };
 
