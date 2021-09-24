@@ -23,6 +23,8 @@ description: Use native dialog UI elements
 
 # cordova-plugin-dialogs
 
+[![Android Testsuite](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/android.yml/badge.svg)](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/android.yml) [![Chrome Testsuite](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/chrome.yml/badge.svg)](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/chrome.yml) [![iOS Testsuite](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/ios.yml/badge.svg)](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/ios.yml) [![Lint Test](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/lint.yml/badge.svg)](https://github.com/apache/cordova-plugin-dialogs/actions/workflows/lint.yml)
+
 This plugin provides access to some native dialog UI elements
 via a global `navigator.notification` object.
 
