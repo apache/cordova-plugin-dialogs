@@ -47,9 +47,14 @@ static NSMutableArray *openAlertList = nil;
     __weak CDVNotification* weakNotif = self;
 
     for (int n = 0; n < count; n++) {
-        [alertController addAction:[UIAlertAction actionWithTitle:[buttons objectAtIndex:n]
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action)
+        NSString* btnLabel=[buttons objectAtIndex:n];
+		int btnStyle=UIAlertActionStyleDefault;
+		if([btnLabel isEqualToString:@"Cancel"] || [btnLabel isEqualToString:@"No"]){
+			btnStyle=UIAlertActionStyleDestructive;
+		}
+		[alertController addAction:[UIAlertAction actionWithTitle:btnLabel
+															style:btnStyle
+														  handler:^(UIAlertAction * action)
         {
             CDVPluginResult* result;
 
@@ -92,7 +97,7 @@ static NSMutableArray *openAlertList = nil;
     NSString* callbackId = command.callbackId;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
-    NSString* buttons = [command argumentAtIndex:2];
+    NSArray* buttons = [[command argumentAtIndex:2] componentsSeparatedByString:@","];
 
     [self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
@@ -102,7 +107,7 @@ static NSMutableArray *openAlertList = nil;
     NSString* callbackId = command.callbackId;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
-    NSArray* buttons = [command argumentAtIndex:2];
+    NSArray* buttons = [[command argumentAtIndex:2] componentsSeparatedByString:@","];
 
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 }
@@ -112,7 +117,7 @@ static NSMutableArray *openAlertList = nil;
     NSString* callbackId = command.callbackId;
     NSString* message = [command argumentAtIndex:0];
     NSString* title = [command argumentAtIndex:1];
-    NSArray* buttons = [command argumentAtIndex:2];
+    NSArray* buttons = [[command argumentAtIndex:2] componentsSeparatedByString:@","];
     NSString* defaultText = [command argumentAtIndex:3];
 
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
