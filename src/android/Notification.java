@@ -170,6 +170,7 @@ public class Notification extends CordovaPlugin {
                                 Thread.currentThread().interrupt();
                             }
                         }
+                        notification.stop();
                     }
                 }
             }
