@@ -51,6 +51,7 @@ import android.widget.TextView;
 public class Notification extends CordovaPlugin {
 
     private static final String LOG_TAG = "Notification";
+	private AlertDialog alertbox;
     
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
@@ -108,6 +109,9 @@ public class Notification extends CordovaPlugin {
         }
         else if (action.equals("progressStop")) {
             this.progressStop();
+        }
+		else if (action.equals("dismiss")) {
+            this.dismiss();
         }
         else {
             return false;
@@ -459,6 +463,13 @@ public class Notification extends CordovaPlugin {
         this.cordova.getActivity().runOnUiThread(runnable);
     }
 
+	/**
+     * Close any open dialog.
+     */
+    public synchronized void dismiss(){
+        alertbox.dismiss();
+    }
+
     /**
      * Set value of progress bar.
      *
@@ -503,10 +514,11 @@ public class Notification extends CordovaPlugin {
     @SuppressLint("NewApi")
     private void changeTextDirection(Builder dlg){
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        dlg.create();
+		alertbox = dlg.create();
+        alertbox.show();
         AlertDialog dialog =  dlg.show();
         if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
+            TextView messageview = (TextView)alertbox.findViewById(android.R.id.message);
             messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
         }
     }
