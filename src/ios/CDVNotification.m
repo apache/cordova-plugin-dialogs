@@ -121,18 +121,25 @@ static NSMutableArray *openAlertList = nil;
 static void playBeep(int count) {
     SystemSoundID completeSound;
     NSInteger cbDataCount = count;
+    NSNumber *cbDataCountNumber = @(cbDataCount-1);
     NSURL* audioPath = [[NSBundle mainBundle] URLForResource:@"CDVNotification.bundle/beep" withExtension:@"wav"];
     #if __has_feature(objc_arc)
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)audioPath, &completeSound);
+        AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (__bridge_retained void*) cbDataCountNumber);
     #else
         AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
+        AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)([cbDataCountNumber retain]));
     #endif
-    AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(cbDataCount-1));
     AudioServicesPlaySystemSound(completeSound);
 }
 
 static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
-    int count = (int)data;
+    #if __has_feature(objc_arc)
+    NSNumber *cbDataCountNumber = (__bridge_transfer NSNumber *)data;
+    #else
+    NSNumber *cbDataCountNumber = [(NSNumber *)data release];
+    #endif
+    int count = [cbDataCountNumber intValue];
     AudioServicesRemoveSystemSoundCompletion (ssid);
     AudioServicesDisposeSystemSoundID(ssid);
     if (count > 0) {
