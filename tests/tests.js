@@ -64,24 +64,24 @@ exports.defineAutoTests = function () {
 /******************************************************************************/
 
 exports.defineManualTests = function (contentEl, createActionButton) {
-    var logMessage = function (message) {
-        var log = document.getElementById('info');
-        var logLine = document.createElement('div');
+    const logMessage = function (message) {
+        const log = document.getElementById('info');
+        const logLine = document.createElement('div');
         logLine.innerHTML = message;
         log.appendChild(logLine);
     };
 
-    var clearLog = function () {
-        var log = document.getElementById('info');
+    const clearLog = function () {
+        const log = document.getElementById('info');
         log.innerHTML = '';
     };
 
-    var beep = function () {
+    const beep = function () {
         console.log('beep()');
         navigator.notification.beep(3);
     };
 
-    var alertDialog = function (message, title, button) {
+    const alertDialog = function (message, title, button) {
         console.log('alertDialog()');
         navigator.notification.alert(
             message,
@@ -94,7 +94,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         console.log('After alert');
     };
 
-    var confirmDialogA = function (message, title, buttons) {
+    const confirmDialogA = function (message, title, buttons) {
         clearLog();
         navigator.notification.confirm(
             message,
@@ -112,7 +112,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         );
     };
 
-    var confirmDialogB = function (message, title, buttons) {
+    const confirmDialogB = function (message, title, buttons) {
         clearLog();
         navigator.notification.confirm(
             message,
@@ -130,13 +130,13 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         );
     };
 
-    var promptDialog = function (message, title, buttons, defaultText) {
+    const promptDialog = function (message, title, buttons, defaultText) {
         clearLog();
         navigator.notification.prompt(
             message,
             function (r) {
                 if (r && r.buttonIndex === 0) {
-                    var msg = 'Dismissed dialog';
+                    let msg = 'Dismissed dialog';
                     if (r.input1) {
                         msg += ' with input: ' + r.input1;
                     }
@@ -153,21 +153,21 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         );
     };
 
-    var dismissPrevious = function (successCallback, errorCallback) {
+    const dismissPrevious = function (successCallback, errorCallback) {
         console.log('dismissPrevious()');
         navigator.notification.dismissPrevious(successCallback, errorCallback);
     };
 
-    var dismissAll = function (successCallback, errorCallback) {
+    const dismissAll = function (successCallback, errorCallback) {
         console.log('dismissAll()');
         navigator.notification.dismissAll(successCallback, errorCallback);
     };
 
     /******************************************************************************/
-    var isRunningOnAndroid = cordova.platformId === 'android';
-    var isRunningOniOS = cordova.platformId === 'ios';
+    const isRunningOnAndroid = cordova.platformId === 'android';
+    const isRunningOniOS = cordova.platformId === 'ios';
 
-    var dialogs_tests =
+    let dialogs_tests =
         '<div id="beep"></div>' +
         'Expected result: Device will beep (unless device is on silent). Nothing will get updated in status box.' +
         '<h2>Dialog Tests</h2>' +
@@ -218,7 +218,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Confirm Dialog - Deprecated',
         function () {
-            var buttons = 'Yes,No,Maybe';
+            const buttons = 'Yes,No,Maybe';
             confirmDialogA('You pressed confirm.', 'Confirm Dialog', buttons);
         },
         'confirm_deprecated'
@@ -227,7 +227,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Confirm Dialog',
         function () {
-            var buttons = ['Yes', 'No', 'Maybe, Not Sure'];
+            const buttons = ['Yes', 'No', 'Maybe, Not Sure'];
             confirmDialogB('You pressed confirm.', 'Confirm Dialog', buttons);
         },
         'confirm'
@@ -283,7 +283,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Alert Dialog with Number',
         function () {
-            var callback = function () {
+            const callback = function () {
                 clearLog();
                 console.log('Test passed');
             };
@@ -296,8 +296,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Alert Dialog with Object',
         function () {
-            var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
-            var callback = function () {
+            const object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
+            const callback = function () {
                 clearLog();
                 console.log('Test passed');
             };
@@ -310,8 +310,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Confirm Dialog with Object',
         function () {
-            var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
-            var callback = function () {
+            const object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
+            const callback = function () {
                 clearLog();
                 console.log('Test passed');
             };
@@ -324,8 +324,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Prompt Dialog with Object',
         function () {
-            var object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
-            var callback = function () {
+            const object = { number: 42, message: "Make sure an object doesn't crash iOS", issue: 'CB-8947' };
+            const callback = function () {
                 clearLog();
                 console.log('Test passed');
             };
@@ -336,8 +336,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     // Dismissable dialogs (supported on Android & iOS only)
     if (isRunningOnAndroid || isRunningOniOS) {
-        var open2Dialogs = function () {
-            var openDialogs = function () {
+        const open2Dialogs = function () {
+            const openDialogs = function () {
                 alertDialog('Alert Dialog 1 pressed', 'Alert Dialog 1', 'Continue');
                 alertDialog('Alert Dialog 2 pressed', 'Alert Dialog 2', 'Continue');
             };

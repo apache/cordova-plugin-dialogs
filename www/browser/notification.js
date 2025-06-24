@@ -38,10 +38,10 @@ module.exports.confirm = window.navigator.notification.confirm = function (messa
         var result = window.confirm(message);
         if (callback) {
             if (result) {
-                // eslint-disable-next-line standard/no-callback-literal
+                // eslint-disable-next-line n/no-callback-literal
                 callback(1); // OK
             } else {
-                // eslint-disable-next-line standard/no-callback-literal
+                // eslint-disable-next-line n/no-callback-literal
                 callback(2); // Cancel
             }
         }
@@ -54,10 +54,10 @@ module.exports.prompt = window.navigator.notification.prompt = function (message
         var result = window.prompt(message, defaultText || '');
         if (callback) {
             if (result === null) {
-                // eslint-disable-next-line standard/no-callback-literal
+                // eslint-disable-next-line n/no-callback-literal
                 callback({ buttonIndex: 2, input1: '' }); // Cancel
             } else {
-                // eslint-disable-next-line standard/no-callback-literal
+                // eslint-disable-next-line n/no-callback-literal
                 callback({ buttonIndex: 1, input1: result }); // OK
             }
         }
