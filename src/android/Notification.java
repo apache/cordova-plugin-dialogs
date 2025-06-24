@@ -43,7 +43,7 @@ import java.util.ArrayList;
 
 /**
  * This class provides access to notifications on the device.
- *
+ * <p>
  * Be aware that this implementation gets called on
  * navigator.notification.{alert|confirm|prompt}, and that there is a separate
  * implementation in org.apache.cordova.CordovaChromeClient that gets
