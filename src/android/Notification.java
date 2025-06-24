@@ -97,44 +97,42 @@ public class Notification extends CordovaPlugin {
          */
         if (this.cordova.getActivity().isFinishing()) return true;
 
-        if (action.equals(ACTION_BEEP)) {
-            this.beep(args.getLong(0));
-        }
-        else if (action.equals(ACTION_ALERT)) {
-            this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
-            return true;
-        }
-        else if (action.equals(ACTION_CONFIRM)) {
-            this.confirm(args.getString(0), args.getString(1), args.getJSONArray(2), callbackContext);
-            return true;
-        }
-        else if (action.equals(ACTION_PROMPT)) {
-            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
-            return true;
-        }
-        else if (action.equals(ACTION_ACTIVITY_START)) {
-            this.activityStart(args.getString(0), args.getString(1));
-        }
-        else if (action.equals(ACTION_ACTIVITY_STOP)) {
-            this.activityStop();
-        }
-        else if (action.equals(ACTION_PROGRESS_START)) {
-            this.progressStart(args.getString(0), args.getString(1));
-        }
-        else if (action.equals(ACTION_PROGRESS_VALUE)) {
-            this.progressValue(args.getInt(0));
-        }
-        else if (action.equals(ACTION_PROGRESS_STOP)) {
-            this.progressStop();
-        }
-        else if (action.equals(ACTION_DISMISS_PREVIOUS)) {
-            this.dismissPrevious(callbackContext);
-        }
-        else if (action.equals(ACTION_DISMISS_ALL)) {
-            this.dismissAll(callbackContext);
-        }
-        else {
-            return false;
+        switch (action) {
+            case ACTION_BEEP:
+                this.beep(args.getLong(0));
+                break;
+            case ACTION_ALERT:
+                this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
+                return true;
+            case ACTION_CONFIRM:
+                this.confirm(args.getString(0), args.getString(1), args.getJSONArray(2), callbackContext);
+                return true;
+            case ACTION_PROMPT:
+                this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
+                return true;
+            case ACTION_ACTIVITY_START:
+                this.activityStart(args.getString(0), args.getString(1));
+                break;
+            case ACTION_ACTIVITY_STOP:
+                this.activityStop();
+                break;
+            case ACTION_PROGRESS_START:
+                this.progressStart(args.getString(0), args.getString(1));
+                break;
+            case ACTION_PROGRESS_VALUE:
+                this.progressValue(args.getInt(0));
+                break;
+            case ACTION_PROGRESS_STOP:
+                this.progressStop();
+                break;
+            case ACTION_DISMISS_PREVIOUS:
+                this.dismissPrevious(callbackContext);
+                break;
+            case ACTION_DISMISS_ALL:
+                this.dismissAll(callbackContext);
+                break;
+            default:
+                return false;
         }
 
         // Only alert and confirm are async.
