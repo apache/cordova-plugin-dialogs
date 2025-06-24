@@ -313,7 +313,7 @@ public class Notification extends CordovaPlugin {
                                 dialog.dismiss();
                                 try {
                                     result.put("buttonIndex",1);
-                                    result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
+                                    result.put("input1", promptInput.getText().toString().trim().isEmpty() ? defaultText : promptInput.getText());
                                 } catch (JSONException e) {
                                     LOG.d(LOG_TAG,"JSONException on first button.", e);
                                 }
@@ -332,7 +332,7 @@ public class Notification extends CordovaPlugin {
                                 dialog.dismiss();
                                 try {
                                     result.put("buttonIndex",2);
-                                    result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
+                                    result.put("input1", promptInput.getText().toString().trim().isEmpty() ? defaultText : promptInput.getText());
                                 } catch (JSONException e) {
                                     LOG.d(LOG_TAG,"JSONException on second button.", e);
                                 }
@@ -351,7 +351,7 @@ public class Notification extends CordovaPlugin {
                                 dialog.dismiss();
                                 try {
                                     result.put("buttonIndex",3);
-                                    result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
+                                    result.put("input1", promptInput.getText().toString().trim().isEmpty() ? defaultText : promptInput.getText());
                                 } catch (JSONException e) {
                                     LOG.d(LOG_TAG,"JSONException on third button.", e);
                                 }
@@ -365,7 +365,7 @@ public class Notification extends CordovaPlugin {
                 dialog.dismiss();
                 try {
                     result.put("buttonIndex",0);
-                    result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
+                    result.put("input1", promptInput.getText().toString().trim().isEmpty() ? defaultText : promptInput.getText());
                 } catch (JSONException e) { e.printStackTrace(); }
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
             });
