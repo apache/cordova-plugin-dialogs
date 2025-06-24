@@ -68,7 +68,7 @@ public class Notification extends CordovaPlugin {
     private static final long BEEP_TIMEOUT   = 5000;
     private static final long BEEP_WAIT_TINE = 100;
 
-    private ArrayList<AlertDialog> dialogs = new ArrayList<AlertDialog>();
+    private ArrayList<AlertDialog> dialogs = new ArrayList<>();
 
     public int confirmResult = -1;
     public ProgressDialog spinnerDialog = null;
@@ -397,7 +397,7 @@ public class Notification extends CordovaPlugin {
             for(AlertDialog dialog: dialogs){
                 dialog.dismiss();
             }
-            dialogs = new ArrayList<AlertDialog>();
+            dialogs = new ArrayList<>();
             callbackContext.success();
         }else{
             callbackContext.error("No previously opened dialogs to dismiss");
@@ -516,7 +516,7 @@ public class Notification extends CordovaPlugin {
         AlertDialog dialog = dlg.show();
         dialogs.add(dialog);
         if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            TextView messageview = (TextView)dialog.findViewById(android.R.id.message);
+            TextView messageview = dialog.findViewById(android.R.id.message);
             messageview.setTextDirection(android.view.View.TEXT_DIRECTION_LOCALE);
         }
     }
