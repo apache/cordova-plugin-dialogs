@@ -22,7 +22,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
