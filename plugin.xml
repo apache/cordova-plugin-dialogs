@@ -70,13 +70,4 @@
         <resource-file src="src/ios/CDVNotification.bundle" />
         <framework src="AudioToolbox.framework" weak="true" />
     </platform>
-
-    <!-- windows -->
-    <platform name="windows">
-        <js-module src="src/windows/NotificationProxy.js" name="NotificationProxy">
-            <runs />
-        </js-module>
-
-        <asset src="www/windows/notification.css" target="css/notification.css" />
-    </platform>
 </plugin>

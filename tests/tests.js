@@ -215,13 +215,10 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         'alert'
     );
 
-    // WP8.1 detection is necessary since it doesn't support confirm dialogs with more than 2 buttons
-    var isRunningOnWP81 = cordova.platformId === 'windows' && navigator.userAgent.indexOf('Windows Phone') > -1;
-
     createActionButton(
         'Confirm Dialog - Deprecated',
         function () {
-            var buttons = isRunningOnWP81 ? 'Yes,No' : 'Yes,No,Maybe';
+            var buttons = 'Yes,No,Maybe';
             confirmDialogA('You pressed confirm.', 'Confirm Dialog', buttons);
         },
         'confirm_deprecated'
@@ -230,7 +227,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     createActionButton(
         'Confirm Dialog',
         function () {
-            var buttons = isRunningOnWP81 ? ['Yes', 'Actually, No'] : ['Yes', 'No', 'Maybe, Not Sure'];
+            var buttons = ['Yes', 'No', 'Maybe, Not Sure'];
             confirmDialogB('You pressed confirm.', 'Confirm Dialog', buttons);
         },
         'confirm'
