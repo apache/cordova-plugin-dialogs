@@ -149,14 +149,26 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 }
 
 -(UIViewController *)getTopPresentedViewController {
+    UIWindow *keyWindow = nil;
+
+    // Get the first active window scene
+    for (UIWindowScene *windowScene in [UIApplication sharedApplication].connectedScenes) {
+        if (windowScene.activationState == UISceneActivationStateForegroundActive) {
+            keyWindow = windowScene.windows.firstObject;
+            break;
+        }
+    }
+    
     UIViewController *presentingViewController = self.viewController;
-    if (presentingViewController.view.window != [UIApplication sharedApplication].keyWindow){
-        presentingViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+
+    if (presentingViewController.view.window != keyWindow) {
+        presentingViewController = keyWindow.rootViewController;
     }
 
     while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
         presentingViewController = presentingViewController.presentedViewController;
     }
+    
     return presentingViewController;
 }
 
