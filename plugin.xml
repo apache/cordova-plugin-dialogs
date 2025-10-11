@@ -29,6 +29,10 @@
     <repo>https://github.com/apache/cordova-plugin-dialogs</repo>
     <issue>https://github.com/apache/cordova-plugin-dialogs/issues</issue>
 
+    <engines>
+            <engine name="cordova-ios" version=">=4.0.0" />
+    </engines>
+
     <js-module src="www/notification.js" name="notification">
         <merges target="navigator.notification" />
     </js-module>
