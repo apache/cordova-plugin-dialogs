@@ -165,7 +165,7 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
             }
         }
     } else {
-        // Fallback for iOS 11-12
+        // Fallback for older iOS versions
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         keyWindow = [UIApplication sharedApplication].keyWindow;
