@@ -149,14 +149,39 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 }
 
 -(UIViewController *)getTopPresentedViewController {
+    UIWindow *keyWindow = nil;
+
+    if (@available(iOS 13.0, *)) {
+        // iOS 13+ approach - get the first active window scene
+        // Since iOS 13, Apple introduced UIScene and multiple window support.
+        // The deprecated keyWindow property doesn't work reliably with multiple scenes
+        // as it returns a key window across all connected scenes, which can be from
+        // different app instances or windows. We need to find the active foreground
+        // scene to get the correct window for presenting our alert.
+        for (UIWindowScene *windowScene in [UIApplication sharedApplication].connectedScenes) {
+            if (windowScene.activationState == UISceneActivationStateForegroundActive) {
+                keyWindow = windowScene.windows.firstObject;
+                break;
+            }
+        }
+    } else {
+        // Fallback for older iOS versions
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        keyWindow = [UIApplication sharedApplication].keyWindow;
+        #pragma clang diagnostic pop
+    }
+    
     UIViewController *presentingViewController = self.viewController;
-    if (presentingViewController.view.window != [UIApplication sharedApplication].keyWindow){
-        presentingViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+
+    if (presentingViewController.view.window != keyWindow) {
+        presentingViewController = keyWindow.rootViewController;
     }
 
     while (presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed]){
         presentingViewController = presentingViewController.presentedViewController;
     }
+    
     return presentingViewController;
 }
 
