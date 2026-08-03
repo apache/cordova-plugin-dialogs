@@ -127,12 +127,12 @@ static void playBeep(int count) {
     #else
         AudioServicesCreateSystemSoundID((CFURLRef)audioPath, &completeSound);
     #endif
-    AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void*)(cbDataCount-1));
+    AudioServicesAddSystemSoundCompletion(completeSound, NULL, NULL, soundCompletionCallback, (void *)(intptr_t)(cbDataCount - 1));
     AudioServicesPlaySystemSound(completeSound);
 }
 
 static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
-    int count = (int)data;
+    int count = (int)(intptr_t)data;
     AudioServicesRemoveSystemSoundCompletion (ssid);
     AudioServicesDisposeSystemSoundID(ssid);
     if (count > 0) {
