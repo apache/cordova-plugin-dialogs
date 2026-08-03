@@ -165,6 +165,7 @@ public class Notification extends CordovaPlugin {
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
+                        notification.stop();
                     }
                 }
             }
